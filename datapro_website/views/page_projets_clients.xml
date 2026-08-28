@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════
+         PAGE PROJETS CLIENTS
+         URL : /projets-clients
+    ══════════════════════════════════════════════════ -->
+    <template id="page_projets_clients" name="Data Pro — Projets Clients">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'projets-clients'"/>
+
+            <div class="dp-page">
+
+                <!-- ─── TOPBAR ─── -->
+                <div class="dp-topbar">
+                    <span>🏆 <strong>Projets livrés en production</strong> · 50+ références</span>
+                    <button class="dp-tb-cta" onclick="window.location='/contact'">Discuter de mon projet →</button>
+                </div>
+
+                <!-- ─── HEADER ─── -->
+                <header class="dp-header">
+                    <a href="/datapro-home" class="dp-logo">
+                        <t t-call="datapro_website.dp_logo_img"/>
+                    </a>
+                    <nav class="dp-hnav">
+                        <a class="dp-hn-link" href="/datapro-home">Accueil</a>
+                        <a class="dp-hn-link" href="/services">Services</a>
+                        <a class="dp-hn-link" href="/odoo-consultant">Odoo</a>
+                        <a class="dp-hn-link" href="/ia-automation">IA &amp; Auto</a>
+                        <a class="dp-hn-link" href="/developpement">Dev</a>
+                        <a class="dp-hn-link" href="/sites-web">Sites Web</a>
+                        <a class="dp-hn-link active" href="/projets-clients">Projets</a>
+                        <a class="dp-hn-link" href="/recrutement">Recrutement</a>
+                        <!-- ─────────────────────────────────────
+                             SÉLECTEUR DE LANGUE (FR / EN / AR)
+                             Convention Odoo website_multilang : la langue par
+                             défaut (fr) n'a pas de préfixe d'URL, les autres
+                             langues sont préfixées par leur url_code (/en/…, /ar/…).
+                             Ces liens ne basculeront réellement de langue qu'une
+                             fois en_US et ar activées et assignées au site dans
+                             Réglages > Traductions.
+                        ───────────────────────────────────── -->
+                        <t t-set="dp_lang_current" t-value="request.env.context.get('lang', 'fr_FR')"/>
+                        <t t-set="dp_lang_path" t-value="request.httprequest.path"/>
+                        <t t-set="dp_lang_base" t-value="dp_lang_path"/>
+                        <t t-foreach="['en', 'ar']" t-as="dp_pref">
+                            <t t-if="dp_lang_path == '/%s' % dp_pref">
+                                <t t-set="dp_lang_base" t-value="'/'"/>
+                            </t>
+                            <t t-elif="dp_lang_path.startswith('/%s/' % dp_pref)">
+                                <t t-set="dp_lang_base" t-value="dp_lang_path[len(dp_pref) + 1:]"/>
+                            </t>
+                        </t>
+                        <div class="dp-lang-switch" role="group" aria-label="Sélecteur de langue">
+                            <a t-att-href="dp_lang_base"
+                               hreflang="fr"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('fr') else ''}">FR</a>
+                            <a t-att-href="'/en' + dp_lang_base"
+                               hreflang="en"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('en') else ''}">EN</a>
+                            <a t-att-href="'/ar' + dp_lang_base"
+                               hreflang="ar"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('ar') else ''}">AR</a>
+                        </div>
+
+                    </nav>
+                </header>
+
+                <!-- ─── BARRE FLOTTANTE — WhatsApp + Devis gratuit ─── -->
+                <div class="dp-float-bar">
+                    <button class="dp-float-wa" onclick="window.open('https://wa.me/21698631289','_blank')">
+                        <span>💬</span> WhatsApp
+                    </button>
+                    <button class="dp-float-cta" onclick="window.location='/contact'">
+                        <span>🚀</span> Devis gratuit
+                    </button>
+                </div>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 1 — HERO PROJETS
+                ══════════════════════════════════════ -->
+                <section class="proj-hero">
+                    <div class="dp-inner proj-hero-inner">
+                        <div class="proj-hero-left">
+                            <div class="dp-eyebrow">Références clients</div>
+                            <h1 class="proj-hero-title">
+                                Des projets réels,<br/>
+                                <span class="proj-em-teal">livrés en production.</span>
+                            </h1>
+                            <p class="proj-hero-sub">
+                                Pas de maquettes fictives. Chaque projet présenté ici est
+                                actuellement en production chez un client réel.
+                            </p>
+                        </div>
+                        <div class="proj-hero-right">
+                            <div class="proj-stats-row">
+                                <div class="proj-stat"><div class="proj-stat-v">50+</div><div class="proj-stat-l">Projets livrés</div></div>
+                                <div class="proj-stat-sep"/>
+                                <div class="proj-stat"><div class="proj-stat-v">10</div><div class="proj-stat-l">Ans d'expertise</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 2 — FILTRE
+                ══════════════════════════════════════ -->
+                <div class="proj-filter">
+                    <button class="proj-ftab proj-on" data-pfilter="all">Tous les projets</button>
+                    <button class="proj-ftab" data-pfilter="odoo">🧩 Odoo</button>
+                    <button class="proj-ftab" data-pfilter="ia">🤖 IA &amp; Automation</button>
+                    <button class="proj-ftab" data-pfilter="web">🌐 Web &amp; E-commerce</button>
+                    <button class="proj-ftab" data-pfilter="dev">💻 Développement</button>
+                    <button class="proj-ftab" data-pfilter="audit">🔍 Audit &amp; Migration</button>
+                </div>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 3 — PROJETS
+                ══════════════════════════════════════ -->
+                <section class="proj-list">
+                    <div class="dp-inner">
+
+                        <!-- ─── Metal 2000 ─── -->
+                        <!-- ─── Projet CRM & GMAO Industrie ─── -->
+                        <div class="proj-card dp-reveal" data-pcat="odoo ia">
+                            <div class="proj-card-stripe proj-ps-teal"/>
+                            <div class="proj-card-head">
+                                <div class="proj-card-ico">🏗</div>
+                                <div>
+                                    <div class="proj-card-client">CRM &amp; GMAO Industrie Métallurgique</div>
+                                    <div class="proj-card-sector">Industrie métallurgique · Odoo 18</div>
+                                </div>
+                                <span class="proj-card-status proj-s-active">✅ Actif</span>
+                            </div>
+                            <div class="proj-card-desc">
+                                CRM Odoo 18 entièrement personnalisé avec automatisations Ringover → Zapier → Odoo,
+                                module GMAO maintenance request, e-invoicing Factur-X et pipeline de leads automatisé.
+                            </div>
+                            <div class="proj-card-items">
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>CRM custom : étapes auto, coloration Kanban, champs métier (grade, région, famille article)</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Module GMAO : contrats maintenance, PDF CGV 12 articles + Annexe 1</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Pipeline Ringover → Zapier → Google Sheets → Odoo CRM (5 formats téléphone)</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Configuration Factur-X / Peppol + checklist déploiement</div>
+                            </div>
+                            <div class="proj-card-tags">
+                                <span class="proj-ptag">Odoo 18</span>
+                                <span class="proj-ptag">CRM</span>
+                                <span class="proj-ptag">GMAO</span>
+                                <span class="proj-ptag">Zapier</span>
+                                <span class="proj-ptag">Factur-X</span>
+                                <span class="proj-ptag">Odoo.sh</span>
+                            </div>
+                        </div>
+
+                        <!-- ─── Projet Audit & Analytique E-commerce ─── -->
+                        <div class="proj-card dp-reveal" data-pcat="odoo ia web audit">
+                            <div class="proj-card-stripe proj-ps-violet"/>
+                            <div class="proj-card-head">
+                                <div class="proj-card-ico">🖨</div>
+                                <div>
+                                    <div class="proj-card-client">Audit &amp; Refonte E-commerce</div>
+                                    <div class="proj-card-sector">E-commerce consommables · Odoo 17/18</div>
+                                </div>
+                                <span class="proj-card-status proj-s-active">✅ Actif</span>
+                            </div>
+                            <div class="proj-card-desc">
+                                Audit complet de 27 modules custom, 107 anomalies critiques corrigées,
+                                pipeline analytique BigQuery + Looker Studio, refonte site web Odoo et
+                                intégration Stripe + Sellermania. Projet IA Vente (6 sprints, 56 tickets) en cours.
+                            </div>
+                            <div class="proj-card-items">
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Audit 27 modules : 107 critiques · 140 majeures · 150 mineures corrigées</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>n8n → BigQuery streaming : pipeline 1.15M requêtes/jour optimisé</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Design system CMJN : QWeb + SCSS + Swiper.js + Brevo newsletter</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Checkout controller custom + paiement Stripe + déduplication partenaires</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>RFM Segmentation IA (Gold/Silver/Medium/Welcome/Inactif) — n8n nightly</div>
+                            </div>
+                            <div class="proj-card-tags">
+                                <span class="proj-ptag">Odoo 17/18</span>
+                                <span class="proj-ptag">Audit</span>
+                                <span class="proj-ptag">BigQuery</span>
+                                <span class="proj-ptag">n8n</span>
+                                <span class="proj-ptag">E-commerce</span>
+                                <span class="proj-ptag">Stripe</span>
+                                <span class="proj-ptag">Claude API</span>
+                            </div>
+                        </div>
+
+                        <!-- ─── Projet API Bidirectionnelle Industrie ─── -->
+                        <div class="proj-card dp-reveal" data-pcat="dev odoo">
+                            <div class="proj-card-stripe proj-ps-blue"/>
+                            <div class="proj-card-head">
+                                <div class="proj-card-ico">🔗</div>
+                                <div>
+                                    <div class="proj-card-client">API Bidirectionnelle Industrie</div>
+                                    <div class="proj-card-sector">Industrie · Odoo 12 · API bidirectionnelle</div>
+                                </div>
+                                <span class="proj-card-status proj-s-done">✅ Livré</span>
+                            </div>
+                            <div class="proj-card-desc">
+                                API REST complète pour synchroniser produits et commandes d'achat
+                                entre Odoo 12 et le système SOMATRAL, avec gestion des erreurs,
+                                retry automatique et logs d'audit complets.
+                            </div>
+                            <div class="proj-card-items">
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>API REST bidirectionnelle Odoo 12 ↔ SOMATRAL</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Sync automatique catalogue produits + prix fournisseur</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Création automatique de commandes d'achat</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Gestion erreurs · retry · logs d'audit complets</div>
+                            </div>
+                            <div class="proj-card-tags">
+                                <span class="proj-ptag">Odoo 12</span>
+                                <span class="proj-ptag">REST API</span>
+                                <span class="proj-ptag">JSON-RPC</span>
+                                <span class="proj-ptag">Python</span>
+                                <span class="proj-ptag">PostgreSQL</span>
+                            </div>
+                        </div>
+
+                        <!-- ─── Projet Système d'Évaluation RH ─── -->
+                        <div class="proj-card dp-reveal" data-pcat="odoo dev">
+                            <div class="proj-card-stripe proj-ps-green"/>
+                            <div class="proj-card-head">
+                                <div class="proj-card-ico">🏢</div>
+                                <div>
+                                    <div class="proj-card-client">Système d'Évaluation &amp; Primes RH</div>
+                                    <div class="proj-card-sector">Conseil RH · Tunisie · Odoo 18</div>
+                                </div>
+                                <span class="proj-card-status proj-s-ongoing">🔄 En cours</span>
+                            </div>
+                            <div class="proj-card-desc">
+                                Module Odoo d'évaluation et de primes sur système 1000 points,
+                                3 axes de performance, workflow multi-niveaux avec validation
+                                Employé → Manager → RH → Direction.
+                            </div>
+                            <div class="proj-card-items">
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Système 1000 points · 3 axes (Projets 50%, Commercial 25%, Interne 25%)</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Workflow multi-niveaux : Employé → Manager → RH → Direction</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Calcul automatique des primes (0–4 mois de salaire, seuil 600 pts)</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Budget 7 500 TND HT · Durée 8 semaines</div>
+                            </div>
+                            <div class="proj-card-tags">
+                                <span class="proj-ptag">Odoo 18</span>
+                                <span class="proj-ptag">RH</span>
+                                <span class="proj-ptag">Workflow</span>
+                                <span class="proj-ptag">Python</span>
+                                <span class="proj-ptag">Tunisie</span>
+                            </div>
+                        </div>
+
+                        <!-- ─── Projet Infrastructure BI ─── -->
+                        <div class="proj-card dp-reveal" data-pcat="ia dev">
+                            <div class="proj-card-stripe proj-ps-orange"/>
+                            <div class="proj-card-head">
+                                <div class="proj-card-ico">📊</div>
+                                <div>
+                                    <div class="proj-card-client">Infrastructure BI &amp; Analytics</div>
+                                    <div class="proj-card-sector">Analytics · n8n · BigQuery · Looker Studio</div>
+                                </div>
+                                <span class="proj-card-status proj-s-active">✅ Actif</span>
+                            </div>
+                            <div class="proj-card-desc">
+                                Pipeline analytique complet Odoo → n8n → BigQuery → Looker Studio.
+                                Tableaux de bord commerciaux en temps réel. Infrastructure self-hosted
+                                sur VPS OVH avec Nginx + Let's Encrypt SSL.
+                            </div>
+                            <div class="proj-card-items">
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>n8n self-hosted sur VPS OVH Ubuntu 25 (systemd + PostgreSQL backend)</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>GCP BigQuery dataset odoo_data.sale_orders · OAuth2 authentifié</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Réduction cron_compute_all : de 5 min à nightly (−85% charge CPU)</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Looker Studio dashboards direction + commerciaux temps réel</div>
+                            </div>
+                            <div class="proj-card-tags">
+                                <span class="proj-ptag">n8n</span>
+                                <span class="proj-ptag">BigQuery</span>
+                                <span class="proj-ptag">GCP</span>
+                                <span class="proj-ptag">Looker Studio</span>
+                                <span class="proj-ptag">OVH VPS</span>
+                                <span class="proj-ptag">Nginx</span>
+                            </div>
+                        </div>
+
+                        <!-- ─── Projet Architecture E-invoicing ─── -->
+                        <div class="proj-card dp-reveal" data-pcat="dev odoo">
+                            <div class="proj-card-stripe proj-ps-purple"/>
+                            <div class="proj-card-head">
+                                <div class="proj-card-ico">🧾</div>
+                                <div>
+                                    <div class="proj-card-client">Architecture E-invoicing Tunisie</div>
+                                    <div class="proj-card-sector">Facturation électronique · TEIF v1.8.8 · Odoo</div>
+                                </div>
+                                <span class="proj-card-status proj-s-done">📐 Architecture</span>
+                            </div>
+                            <div class="proj-card-desc">
+                                Architecture complète d'intégration e-invoicing tunisienne (TEIF v1.8.8)
+                                dans Odoo. Format XML, signatures XAdES-B, SFTP/SOAP, ANCE.
+                                Estimation 500h / 4–5 mois.
+                            </div>
+                            <div class="proj-card-items">
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Format XML TEIF v1.8.8 complet · mapping champs Odoo</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Signature électronique XAdES-B · intégration ANCE</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Transmission SFTP + web services SOAP</div>
+                                <div class="proj-ci"><span class="proj-pi-check">✓</span>Documentation architecture 100+ pages</div>
+                            </div>
+                            <div class="proj-card-tags">
+                                <span class="proj-ptag">TEIF v1.8.8</span>
+                                <span class="proj-ptag">XAdES-B</span>
+                                <span class="proj-ptag">SFTP</span>
+                                <span class="proj-ptag">Tunisie</span>
+                                <span class="proj-ptag">Odoo</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ═══ CTA FINAL ═══ -->
+                <section class="proj-cta-final">
+                    <div class="dp-inner proj-cta-inner">
+                        <h2 class="proj-cta-title">
+                            Votre projet rejoint<br/>
+                            <span class="proj-cta-em">nos références ?</span>
+                        </h2>
+                        <p class="proj-cta-sub">Audit gratuit · Devis sous 24h · Expertise prouvée</p>
+                        <div class="proj-cta-btns">
+                            <button class="proj-cta-btn-p" onclick="window.location='/contact'">🚀 Démarrer mon projet</button>
+                            <button class="proj-cta-btn-g" onclick="window.open('https://wa.me/21698631289','_blank')">💬 WhatsApp direct</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─── FOOTER ─── -->
+                <t t-call="datapro_website.dp_footer"/>
+
+            </div><!-- /.dp-page -->
+        </t>
+    </template>
+
+    <record id="website_page_projets_clients" model="website.page">
+        <field name="name">Data Pro — Projets Clients &amp; Références</field>
+        <field name="url">/projets-clients</field>
+        <field name="view_id" ref="datapro_website.page_projets_clients"/>
+        <field name="website_indexed" eval="True"/>
+        <field name="is_published" eval="True"/>
+    </record>
+
+</odoo>

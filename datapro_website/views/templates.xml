@@ -1,0 +1,794 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════
+         INJECTION GOOGLE FONTS dans le <head>
+         DM Serif Display · DM Sans
+    ══════════════════════════════════════════════════ -->
+    <template id="assets_frontend_fonts"
+              inherit_id="website.layout"
+              name="Data Pro — Google Fonts">
+        <xpath expr="//head" position="inside">
+            <link rel="preconnect" href="https://fonts.googleapis.com"/>
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+            <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=DM+Sans:wght@300;400;500;600;700&amp;display=swap"
+                  rel="stylesheet"/>
+        </xpath>
+    </template>
+
+
+    <!-- ══════════════════════════════════════════════════
+         LOGO SOCIÉTÉ — champ "Logo" de la configuration
+         Réglages > Utilisateurs & Sociétés > Sociétés
+         Réutilisé dans tous les headers + le footer.
+    ══════════════════════════════════════════════════ -->
+    <template id="dp_logo_img" name="Data Pro — Logo (société)">
+        <img t-attf-src="/web/image/res.company/#{website.company_id.id}/logo"
+             t-att-alt="website.company_id.name"
+             class="dp-logo-img"/>
+    </template>
+
+
+    <!-- ══════════════════════════════════════════════════
+         FOOTER RÉUTILISABLE — thème Teal/Violet/Navy
+         Appelé via t-call="datapro_website.dp_footer" depuis
+         toutes les pages du site.
+    ══════════════════════════════════════════════════ -->
+    <template id="dp_footer" name="Data Pro — Footer">
+        <footer class="dp-footer-full">
+            <div class="dp-inner dp-footer-grid">
+
+                <div class="dp-footer-col dp-footer-brand">
+                    <div class="dp-footer-logo">
+                        <t t-call="datapro_website.dp_logo_img"/>
+                    </div>
+                    <p class="dp-footer-tagline">
+                        Expertise Odoo &amp; développement sur mesure, depuis la Tunisie.
+                    </p>
+                </div>
+
+                <div class="dp-footer-col">
+                    <div class="dp-footer-col-title">Services</div>
+                    <a href="/odoo-consultant">🧩 ERP &amp; Odoo</a>
+                    <a href="/ia-automation">🤖 IA &amp; Automation</a>
+                    <a href="/developpement">💻 Dev Sur Mesure</a>
+                    <a href="/sites-web">🌐 Web &amp; Apps</a>
+                </div>
+
+                <div class="dp-footer-col">
+                    <div class="dp-footer-col-title">Entreprise</div>
+                    <a href="/a-propos">À propos</a>
+                    <a href="/projets-clients">Nos projets</a>
+                    <a href="/recrutement">Recrutement</a>
+                    <a href="/services">Tous nos services</a>
+                    <a href="/contact">Contact</a>
+                </div>
+
+                <div class="dp-footer-col">
+                    <div class="dp-footer-col-title">Contact</div>
+                    <a href="tel:+21625470222">📞 +216 25 470 222</a>
+                    <a href="mailto:direction.datapro@gmail.com">✉️ direction.datapro@gmail.com</a>
+                    <a class="dp-footer-loc" href="https://maps.app.goo.gl/CbrojVPQBkS6kUzCA" target="_blank">📍 Avenue Abou Hamed Al Ghazali, Sousse 4000</a>
+                </div>
+
+            </div>
+
+            <div class="dp-footer-bottom">
+                <span class="dp-footer-copy">© 2026 Data Pro Technologie — Tous droits réservés</span>
+            </div>
+        </footer>
+    </template>
+
+
+    <!-- ══════════════════════════════════════════════════
+         PAGE ACCUEIL
+         URL : /datapro-home
+    ══════════════════════════════════════════════════ -->
+    <template id="page_accueil" name="Data Pro — Accueil">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'datapro-home'"/>
+
+            <div class="dp-page">
+
+                <!-- ─────────────────────────────────────
+                     HEADER
+                ───────────────────────────────────── -->
+                <header class="dp-header">
+                    <a href="/datapro-home" class="dp-logo">
+                        <t t-call="datapro_website.dp_logo_img"/>
+                    </a>
+                    <nav class="dp-hnav">
+                        <a class="dp-hn-link active" href="/datapro-home">Accueil</a>
+                        <a class="dp-hn-link" href="/services">Services</a>
+                        <a class="dp-hn-link" href="/odoo-consultant">Odoo</a>
+                        <a class="dp-hn-link" href="/ia-automation">IA &amp; Auto</a>
+                        <a class="dp-hn-link" href="/projets-clients">Projets</a>
+                        <a class="dp-hn-link" href="/recrutement">Recrutement</a>
+                        <!-- ─────────────────────────────────────
+                             SÉLECTEUR DE LANGUE (FR / EN / AR)
+                             Convention Odoo website_multilang : la langue par
+                             défaut (fr) n'a pas de préfixe d'URL, les autres
+                             langues sont préfixées par leur url_code (/en/…, /ar/…).
+                             Ces liens ne basculeront réellement de langue qu'une
+                             fois en_US et ar activées et assignées au site dans
+                             Réglages > Traductions.
+                        ───────────────────────────────────── -->
+                        <t t-set="dp_lang_current" t-value="request.env.context.get('lang', 'fr_FR')"/>
+                        <t t-set="dp_lang_path" t-value="request.httprequest.path"/>
+                        <t t-set="dp_lang_base" t-value="dp_lang_path"/>
+                        <t t-foreach="['en', 'ar']" t-as="dp_pref">
+                            <t t-if="dp_lang_path == '/%s' % dp_pref">
+                                <t t-set="dp_lang_base" t-value="'/'"/>
+                            </t>
+                            <t t-elif="dp_lang_path.startswith('/%s/' % dp_pref)">
+                                <t t-set="dp_lang_base" t-value="dp_lang_path[len(dp_pref) + 1:]"/>
+                            </t>
+                        </t>
+                        <div class="dp-lang-switch" role="group" aria-label="Sélecteur de langue">
+                            <a t-att-href="dp_lang_base"
+                               hreflang="fr"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('fr') else ''}">FR</a>
+                            <a t-att-href="'/en' + dp_lang_base"
+                               hreflang="en"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('en') else ''}">EN</a>
+                            <a t-att-href="'/ar' + dp_lang_base"
+                               hreflang="ar"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('ar') else ''}">AR</a>
+                        </div>
+
+                    </nav>
+                </header>
+
+                <!-- ─────────────────────────────────────
+                     BARRE FLOTTANTE — WhatsApp + Devis gratuit
+                     Reste visible en permanence, se déplace au scroll
+                ───────────────────────────────────── -->
+                <div class="dp-float-bar">
+                    <button class="dp-float-wa" onclick="window.open('https://wa.me/21698631289','_blank')">
+                        <span>💬</span> WhatsApp
+                    </button>
+                    <button class="dp-float-cta" onclick="window.location='/contact'">
+                        <span>🚀</span> Devis gratuit
+                    </button>
+                </div>
+
+                <!-- ─────────────────────────────────────
+                     SUBNAV
+                ───────────────────────────────────── -->
+                <nav class="dp-subnav">
+                    <a class="dp-subnav-item active" href="/odoo-consultant">
+                        🧩 ERP &amp; Odoo
+                    </a>
+                    <a class="dp-subnav-item" href="/ia-automation">
+                        🤖 IA &amp; Automation
+                        <span class="dp-subnav-badge">Nouveau</span>
+                    </a>
+                    <a class="dp-subnav-item" href="/developpement">💻 Dev Sur Mesure</a>
+                    <a class="dp-subnav-item" href="/sites-web">🌐 Web &amp; Apps</a>
+                    <div class="dp-subnav-spacer"/>
+                    <a class="dp-subnav-link" href="/a-propos">À propos</a>
+                    <a class="dp-subnav-link" href="/contact">Contact</a>
+                </nav>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 1 — HERO BANNER + PANEL CONTACT
+                ══════════════════════════════════════ -->
+                <section class="dp-hero">
+                    <div class="dp-inner">
+                        <div class="dp-hero-grid">
+
+                            <!-- Colonne gauche : slider + tabs -->
+                            <div class="dp-hero-left">
+
+                                <!-- Slider -->
+                                <div class="dp-banner">
+                                    <div class="dp-slides">
+
+                                        <!-- Slide 1 — Odoo ERP -->
+                                        <div class="dp-slide dp-slide-1 dp-on" id="dpSlide1">
+                                            <div class="dp-sl-pattern"/>
+                                            <div class="dp-sl-glow" style="background:#00C2A8;"/>
+                                            <span class="dp-sl-eyebrow">⚡ Livraison garantie</span>
+                                            <h1 class="dp-sl-title">
+                                                Odoo <span class="em-teal">sur mesure</span><br/>
+                                                de v12 à v19.<br/>
+                                                Expertise prouvée.
+                                            </h1>
+                                            <p class="dp-sl-sub">
+                                                Implantation, migration, développement de modules custom, audit —
+                                                nous maîtrisons Odoo dans toutes ses versions.
+                                            </p>
+                                            <div class="dp-sl-ctas">
+                                                <a class="dp-sl-cta-p" href="/projets-clients">🚀 Voir nos projets Odoo</a>
+                                                <a class="dp-sl-cta-g" href="/contact">📋 Audit gratuit</a>
+                                            </div>
+                                        </div>
+
+                                        <!-- Slide 2 — IA & Automation -->
+                                        <div class="dp-slide dp-slide-2" id="dpSlide2">
+                                            <div class="dp-sl-pattern"/>
+                                            <div class="dp-sl-glow" style="background:#5B5BF5;"/>
+                                            <span class="dp-sl-eyebrow">🤖 n8n · Zapier · Agents IA</span>
+                                            <h1 class="dp-sl-title">
+                                                Automatisez vos<br/>
+                                                <span class="em-violet">process métier</span><br/>
+                                                avec l'IA.
+                                            </h1>
+                                            <p class="dp-sl-sub">
+                                                Vos tâches répétitives gérées par des agents IA.
+                                                Vos données en temps réel dans BigQuery et Looker Studio.
+                                                Votre équipe libérée pour l'essentiel.
+                                            </p>
+                                            <div class="dp-sl-ctas">
+                                                <a class="dp-sl-cta-p" href="/ia-automation">🤖 Découvrir nos solutions IA</a>
+                                                <a class="dp-sl-cta-g" href="/contact">💬 Parler à un expert</a>
+                                            </div>
+                                        </div>
+
+                                    </div><!-- /.dp-slides -->
+
+                                    <!-- Barre de progression -->
+                                    <div class="dp-sl-progress">
+                                        <div class="dp-sl-bar"/>
+                                    </div>
+
+                                    <!-- Dots navigation -->
+                                    <div class="dp-sl-dots">
+                                        <div class="dp-sl-dot dp-on"/>
+                                        <div class="dp-sl-dot"/>
+                                    </div>
+
+                                </div><!-- /.dp-banner -->
+
+                                <!-- Hero tabs -->
+                                <div class="dp-hero-tabs">
+                                    <div class="dp-htab t1 dp-on">
+                                        <span class="dp-htab-icon">🧩</span>
+                                        <div>
+                                            <div class="dp-htab-label">Odoo ERP</div>
+                                            <div class="dp-htab-sub">v12 → v19 · Modules custom</div>
+                                        </div>
+                                    </div>
+                                    <div class="dp-htab t2">
+                                        <span class="dp-htab-icon">🤖</span>
+                                        <div>
+                                            <div class="dp-htab-label">IA &amp; Automation</div>
+                                            <div class="dp-htab-sub">n8n · Zapier · BigQuery</div>
+                                        </div>
+                                    </div>
+                                    <div class="dp-htab t3">
+                                        <span class="dp-htab-icon">💻</span>
+                                        <div>
+                                            <div class="dp-htab-label">Dev Sur Mesure</div>
+                                            <div class="dp-htab-sub">Python · API REST · Web</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div><!-- /.dp-hero-left -->
+
+                            <!-- Colonne droite : panel contact -->
+                            <div class="dp-hero-panel">
+                                <div class="dp-hp-hd">
+                                    <div class="dp-hp-icon">🚀</div>
+                                    <div>
+                                        <div class="dp-hp-title">Demande de devis</div>
+                                        <div class="dp-hp-sub">
+                                            <span class="dp-hp-dot"/>
+                                            Réponse sous 24h garantie
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <form class="dp-contact-form" action="#" method="post">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                    <div class="dp-hp-field">
+                                        <div class="dp-hp-lbl">Service souhaité *</div>
+                                        <select class="dp-hp-sel" name="service">
+                                            <option value="">— Choisir un service —</option>
+                                            <option>🧩 Implémentation Odoo</option>
+                                            <option>🔧 Développement modules custom</option>
+                                            <option>📊 Migration Odoo (version)</option>
+                                            <option>🤖 Automatisation &amp; IA</option>
+                                            <option>💻 Application sur mesure</option>
+                                            <option>🔍 Audit de l'existant</option>
+                                            <option>🌐 Site web / E-commerce</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="dp-hp-field">
+                                        <div class="dp-hp-lbl">Secteur d'activité</div>
+                                        <select class="dp-hp-sel" name="secteur">
+                                            <option value="">— Votre secteur —</option>
+                                            <option>🛒 Commerce &amp; Distribution</option>
+                                            <option>🏭 Industrie &amp; Manufacturing</option>
+                                            <option>🚚 Transport &amp; Logistique</option>
+                                            <option>🔧 Services &amp; Consulting</option>
+                                            <option>🏗 BTP &amp; Construction</option>
+                                            <option>🌾 Agroalimentaire</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="dp-hp-field">
+                                        <div class="dp-hp-lbl">Email *</div>
+                                        <input class="dp-hp-inp"
+                                               type="email"
+                                               name="email"
+                                               placeholder="prenom.nom@entreprise.com"
+                                               autocomplete="email"/>
+                                        <div class="dp-hp-err" data-err-for="email"/>
+                                    </div>
+
+                                    <div class="dp-hp-field">
+                                        <div class="dp-hp-lbl">Téléphone *</div>
+                                        <input class="dp-hp-inp"
+                                               type="tel"
+                                               name="phone"
+                                               placeholder="+33 6 XX XX XX XX"
+                                               autocomplete="tel"/>
+                                        <div class="dp-hp-err" data-err-for="phone"/>
+                                    </div>
+
+                                    <div class="dp-hp-spacer"/>
+
+                                    <button class="dp-hp-btn" data-action="dp-submit" type="button">
+                                        🚀 Envoyer ma demande
+                                    </button>
+                                    <div class="dp-hp-hint">🔒 Gratuit · Confidentiel · Sans engagement</div>
+                                </form>
+                            </div>
+
+                        </div><!-- /.dp-hero-grid -->
+                    </div><!-- /.dp-inner -->
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 2 — RÉASSURANCE (fond navy)
+                ══════════════════════════════════════ -->
+                <div class="dp-rea">
+                    <div class="dp-rea-inner">
+                        <div class="dp-rea-item">
+                            <div class="dp-rea-ico">🏆</div>
+                            <div>
+                                <div class="dp-rea-title">+10 ans d'expérience</div>
+                                <div class="dp-rea-sub">ERP &amp; développement métier</div>
+                            </div>
+                        </div>
+                        <div class="dp-rea-item">
+                            <div class="dp-rea-ico">🔧</div>
+                            <div>
+                                <div class="dp-rea-title">Odoo v12 → v19</div>
+                                <div class="dp-rea-sub">Toutes versions maîtrisées</div>
+                            </div>
+                        </div>
+                        <div class="dp-rea-item">
+                            <div class="dp-rea-ico">🤖</div>
+                            <div>
+                                <div class="dp-rea-title">IA &amp; Automation</div>
+                                <div class="dp-rea-sub">n8n · Zapier · Agents IA</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 3 — CHIFFRES CLÉS
+                ══════════════════════════════════════ -->
+                <section class="dp-stats">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">En chiffres</div>
+                        <div class="dp-sec-title">Data Pro en quelques chiffres</div>
+                        <div class="dp-sec-sub">Des résultats mesurables pour nos clients.</div>
+                        <div class="dp-stats-grid dp-reveal">
+                            <div class="dp-stat-card">
+                                <div class="dp-stat-card-num" data-target="50" data-suffix="+">50+</div>
+                                <div class="dp-stat-card-label">Projets livrés</div>
+                                <div class="dp-stat-card-sub">ERP, Web, IA, Odoo</div>
+                            </div>
+                            <div class="dp-stat-card">
+                                <div class="dp-stat-card-num" data-target="10" data-suffix=" ans">10 ans</div>
+                                <div class="dp-stat-card-label">D'expertise</div>
+                                <div class="dp-stat-card-sub">Odoo v12 à v19</div>
+                            </div>
+                            <div class="dp-stat-card">
+                                <div class="dp-stat-card-num" data-target="95" data-suffix="%">95%</div>
+                                <div class="dp-stat-card-label">Clients satisfaits</div>
+                                <div class="dp-stat-card-sub">Note moyenne 4.9/5</div>
+                            </div>
+                            <div class="dp-stat-card">
+                                <div class="dp-stat-card-num" data-target="24" data-suffix="h">24h</div>
+                                <div class="dp-stat-card-label">Délai de réponse</div>
+                                <div class="dp-stat-card-sub">Support garanti</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 4 — SERVICES
+                ══════════════════════════════════════ -->
+                <section class="dp-svc">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Nos services</div>
+                        <div class="dp-sec-title">Ce que nous faisons concrètement</div>
+                        <div class="dp-sec-sub">
+                            Des solutions digitales qui résolvent de vrais problèmes business —
+                            pas du digital pour faire du digital.
+                        </div>
+                        <div class="dp-svc-grid">
+                            <div class="dp-svc-card c1 dp-reveal">
+                                <div class="dp-svc-card-ico">🧩</div>
+                                <div class="dp-svc-card-title">ERP Personnalisé</div>
+                                <div class="dp-svc-card-desc">
+                                    Un ERP pensé pour votre métier, pas un logiciel générique. Finance, CRM,
+                                    RH, GPAO, GMAO — chaque module est adapté à vos vrais processus.
+                                </div>
+                                <a class="dp-svc-card-link" href="/odoo-consultant">En savoir plus →</a>
+                                <div class="dp-svc-card-tags">
+                                    <span class="dp-svc-card-tag">Sur mesure</span>
+                                    <span class="dp-svc-card-tag">Intégration</span>
+                                    <span class="dp-svc-card-tag">Formation</span>
+                                </div>
+                            </div>
+                            <div class="dp-svc-card c2 dp-reveal">
+                                <div class="dp-svc-card-ico">🔧</div>
+                                <div class="dp-svc-card-title">Consultant Odoo Expert</div>
+                                <div class="dp-svc-card-desc">
+                                    Maîtrise complète d'Odoo v12 à v19 — audit de l'existant, paramétrage,
+                                    modules custom, migration sans perte de données et support continu.
+                                </div>
+                                <a class="dp-svc-card-link" href="/odoo-consultant">En savoir plus →</a>
+                                <div class="dp-svc-card-tags">
+                                    <span class="dp-svc-card-tag">Odoo 18/17</span>
+                                    <span class="dp-svc-card-tag">Migration</span>
+                                    <span class="dp-svc-card-tag">Audit</span>
+                                </div>
+                            </div>
+                            <div class="dp-svc-card c3 dp-reveal">
+                                <div class="dp-svc-card-ico">🤖</div>
+                                <div class="dp-svc-card-title">IA &amp; Automatisation</div>
+                                <div class="dp-svc-card-desc">
+                                    Vos tâches répétitives gérées par des agents IA. Vos données
+                                    transformées en tableaux de bord en temps réel.
+                                </div>
+                                <a class="dp-svc-card-link" href="/ia-automation">En savoir plus →</a>
+                                <div class="dp-svc-card-tags">
+                                    <span class="dp-svc-card-tag">n8n</span>
+                                    <span class="dp-svc-card-tag">BigQuery</span>
+                                    <span class="dp-svc-card-tag">Agents IA</span>
+                                </div>
+                            </div>
+                            <div class="dp-svc-card c4 dp-reveal">
+                                <div class="dp-svc-card-ico">💻</div>
+                                <div class="dp-svc-card-title">Développement Spécifique</div>
+                                <div class="dp-svc-card-desc">
+                                    Applications sur mesure, APIs REST, connecteurs entre systèmes —
+                                    quand aucun logiciel du marché ne répond à votre besoin.
+                                </div>
+                                <a class="dp-svc-card-link" href="/developpement">En savoir plus →</a>
+                                <div class="dp-svc-card-tags">
+                                    <span class="dp-svc-card-tag">Python</span>
+                                    <span class="dp-svc-card-tag">API REST</span>
+                                    <span class="dp-svc-card-tag">Modules</span>
+                                </div>
+                            </div>
+                            <div class="dp-svc-card c5 dp-reveal">
+                                <div class="dp-svc-card-ico">📱</div>
+                                <div class="dp-svc-card-title">Applications de Gestion</div>
+                                <div class="dp-svc-card-desc">
+                                    Logiciels métiers web et mobile pour optimiser vos processus internes.
+                                    Facile à prendre en main, performant et évolutif.
+                                </div>
+                                <a class="dp-svc-card-link" href="/developpement">En savoir plus →</a>
+                                <div class="dp-svc-card-tags">
+                                    <span class="dp-svc-card-tag">Web App</span>
+                                    <span class="dp-svc-card-tag">Mobile</span>
+                                    <span class="dp-svc-card-tag">Dashboard</span>
+                                </div>
+                            </div>
+                            <div class="dp-svc-card c6 dp-reveal">
+                                <div class="dp-svc-card-ico">🌐</div>
+                                <div class="dp-svc-card-title">Sites Web Professionnels</div>
+                                <div class="dp-svc-card-desc">
+                                    Vitrine, e-commerce ou plateforme SaaS — des sites modernes,
+                                    rapides et optimisés SEO qui convertissent vos visiteurs.
+                                </div>
+                                <a class="dp-svc-card-link" href="/sites-web">En savoir plus →</a>
+                                <div class="dp-svc-card-tags">
+                                    <span class="dp-svc-card-tag">E-commerce</span>
+                                    <span class="dp-svc-card-tag">SEO</span>
+                                    <span class="dp-svc-card-tag">Performance</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 5 — POURQUOI NOUS
+                ══════════════════════════════════════ -->
+                <section class="dp-why">
+                    <div class="dp-why-inner">
+                        <div class="dp-reveal">
+                            <div class="dp-eyebrow">Pourquoi Data Pro ?</div>
+                            <div class="dp-sec-title">Ce qui nous différencie vraiment</div>
+                            <div class="dp-sec-sub">
+                                Pas de promesses génériques. Voici concrètement pourquoi nos clients reviennent.
+                            </div>
+                            <div class="dp-why-points">
+                                <div class="dp-why-point">
+                                    <div class="dp-why-point-icon i1">🎯</div>
+                                    <div>
+                                        <div class="dp-why-point-title">Solutions 100% personnalisées</div>
+                                        <div class="dp-why-point-sub">Aucun module standard imposé. Tout est adapté à vos processus réels, pas l'inverse.</div>
+                                    </div>
+                                </div>
+                                <div class="dp-why-point">
+                                    <div class="dp-why-point-icon i2">⚡</div>
+                                    <div>
+                                        <div class="dp-why-point-title">Expertise technique profonde</div>
+                                        <div class="dp-why-point-sub">Odoo v12→v19, Python, n8n, BigQuery, IA — nous maîtrisons les outils que nous préconisons.</div>
+                                    </div>
+                                </div>
+                                <div class="dp-why-point">
+                                    <div class="dp-why-point-icon i3">🤝</div>
+                                    <div>
+                                        <div class="dp-why-point-title">Accompagnement de A à Z</div>
+                                        <div class="dp-why-point-sub">Analyse, développement, déploiement, formation, support — vous n'êtes jamais seuls.</div>
+                                    </div>
+                                </div>
+                                <div class="dp-why-point">
+                                    <div class="dp-why-point-icon i4">📊</div>
+                                    <div>
+                                        <div class="dp-why-point-title">Approche orientée ROI</div>
+                                        <div class="dp-why-point-sub">Chaque solution est conçue pour avoir un impact mesurable sur votre productivité et CA.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dp-method-box dp-reveal">
+                            <div class="dp-method-box-title">Notre méthode en 5 étapes</div>
+                            <div class="dp-method-box-steps">
+                                <div class="dp-mstep">
+                                    <div class="dp-mstep-num">1</div>
+                                    <div>
+                                        <div class="dp-mstep-title">🔍 Analyse de vos besoins</div>
+                                        <div class="dp-mstep-sub">Audit gratuit · compréhension métier</div>
+                                    </div>
+                                </div>
+                                <div class="dp-mstep">
+                                    <div class="dp-mstep-num">2</div>
+                                    <div>
+                                        <div class="dp-mstep-title">🗂 Conception &amp; validation</div>
+                                        <div class="dp-mstep-sub">Maquettes · architecture · devis clair</div>
+                                    </div>
+                                </div>
+                                <div class="dp-mstep">
+                                    <div class="dp-mstep-num">3</div>
+                                    <div>
+                                        <div class="dp-mstep-title">⚙️ Développement agile</div>
+                                        <div class="dp-mstep-sub">Cycles courts · recette client régulière</div>
+                                    </div>
+                                </div>
+                                <div class="dp-mstep">
+                                    <div class="dp-mstep-num">4</div>
+                                    <div>
+                                        <div class="dp-mstep-title">🚀 Déploiement &amp; migration</div>
+                                        <div class="dp-mstep-sub">Mise en production sans interruption</div>
+                                    </div>
+                                </div>
+                                <div class="dp-mstep">
+                                    <div class="dp-mstep-num">5</div>
+                                    <div>
+                                        <div class="dp-mstep-title">🎓 Formation &amp; support</div>
+                                        <div class="dp-mstep-sub">Équipes autonomes · support continu</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 5bis — NOS SERVICES EN DÉTAIL
+                     Cartes illustrées, animées au survol
+                ══════════════════════════════════════ -->
+                <section class="dp-svcshow">
+                    <div class="dp-inner">
+                        <div class="dp-reveal">
+                            <div class="dp-eyebrow">Nos expertises</div>
+                            <div class="dp-sec-title">Un service dédié pour chaque besoin</div>
+                            <div class="dp-sec-sub">
+                                Six services, une seule équipe. Survolez une carte pour en découvrir le détail.
+                            </div>
+                        </div>
+
+                        <div class="dp-svcshow-grid dp-reveal">
+
+                            <!-- 1. ERP Personnalisé -->
+                            <a class="dp-svcshow-card sc1" href="/odoo-consultant">
+                                <div class="dp-svcshow-visual">
+                                    <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="200" height="140" fill="url(#gradSc1)"/>
+                                        <circle cx="150" cy="30" r="55" fill="rgba(255,255,255,.08)"/>
+                                        <rect x="40" y="45" width="60" height="60" rx="10" fill="rgba(255,255,255,.18)"/>
+                                        <rect x="95" y="65" width="45" height="40" rx="8" fill="rgba(255,255,255,.28)"/>
+                                        <circle cx="70" cy="75" r="12" fill="#fff"/>
+                                        <defs>
+                                            <linearGradient id="gradSc1" x1="0" y1="0" x2="1" y2="1">
+                                                <stop offset="0" stop-color="#00C2A8"/>
+                                                <stop offset="1" stop-color="#009E88"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <div class="dp-svcshow-body">
+                                    <span class="dp-svcshow-ico">🧩</span>
+                                    <div class="dp-svcshow-title">ERP Personnalisé</div>
+                                    <div class="dp-svcshow-sub">Un ERP pensé pour votre métier — Finance, CRM, RH, GPAO, GMAO.</div>
+                                    <span class="dp-svcshow-link">Découvrir →</span>
+                                </div>
+                            </a>
+
+                            <!-- 2. Consultant Odoo Expert -->
+                            <a class="dp-svcshow-card sc2" href="/odoo-consultant">
+                                <div class="dp-svcshow-visual">
+                                    <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="200" height="140" fill="url(#gradSc2)"/>
+                                        <circle cx="20" cy="115" r="55" fill="rgba(255,255,255,.08)"/>
+                                        <circle cx="100" cy="70" r="28" fill="none" stroke="#fff" stroke-width="6"/>
+                                        <circle cx="100" cy="70" r="9" fill="#fff"/>
+                                        <rect x="96" y="26" width="8" height="16" rx="3" fill="#fff"/>
+                                        <rect x="96" y="98" width="8" height="16" rx="3" fill="#fff"/>
+                                        <rect x="58" y="66" width="16" height="8" rx="3" fill="#fff"/>
+                                        <rect x="126" y="66" width="16" height="8" rx="3" fill="#fff"/>
+                                        <defs>
+                                            <linearGradient id="gradSc2" x1="0" y1="0" x2="1" y2="1">
+                                                <stop offset="0" stop-color="#5B5BF5"/>
+                                                <stop offset="1" stop-color="#3A3AC4"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <div class="dp-svcshow-body">
+                                    <span class="dp-svcshow-ico">🔧</span>
+                                    <div class="dp-svcshow-title">Consultant Odoo Expert</div>
+                                    <div class="dp-svcshow-sub">Audit, paramétrage, migration v12 → v19 et support continu.</div>
+                                    <span class="dp-svcshow-link">Découvrir →</span>
+                                </div>
+                            </a>
+
+                            <!-- 3. IA & Automatisation -->
+                            <a class="dp-svcshow-card sc3" href="/ia-automation">
+                                <div class="dp-svcshow-visual">
+                                    <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="200" height="140" fill="url(#gradSc3)"/>
+                                        <circle cx="30" cy="110" r="60" fill="rgba(255,255,255,.08)"/>
+                                        <circle cx="70" cy="60" r="8" fill="#fff"/>
+                                        <circle cx="120" cy="45" r="8" fill="#fff"/>
+                                        <circle cx="140" cy="90" r="8" fill="#fff"/>
+                                        <line x1="70" y1="60" x2="120" y2="45" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+                                        <line x1="120" y1="45" x2="140" y2="90" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+                                        <line x1="70" y1="60" x2="140" y2="90" stroke="rgba(255,255,255,.5)" stroke-width="2"/>
+                                        <defs>
+                                            <linearGradient id="gradSc3" x1="0" y1="0" x2="1" y2="1">
+                                                <stop offset="0" stop-color="#00A8D4"/>
+                                                <stop offset="1" stop-color="#0077A0"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <div class="dp-svcshow-body">
+                                    <span class="dp-svcshow-ico">🤖</span>
+                                    <div class="dp-svcshow-title">IA &amp; Automatisation</div>
+                                    <div class="dp-svcshow-sub">Agents IA, n8n, Zapier et tableaux de bord en temps réel.</div>
+                                    <span class="dp-svcshow-link">Découvrir →</span>
+                                </div>
+                            </a>
+
+                            <!-- 4. Développement Spécifique -->
+                            <a class="dp-svcshow-card sc4" href="/developpement">
+                                <div class="dp-svcshow-visual">
+                                    <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="200" height="140" fill="url(#gradSc4)"/>
+                                        <circle cx="170" cy="20" r="50" fill="rgba(255,255,255,.08)"/>
+                                        <path d="M60 50 L35 70 L60 90" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M120 50 L145 70 L120 90" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <line x1="95" y1="40" x2="80" y2="100" stroke="rgba(255,255,255,.6)" stroke-width="6" stroke-linecap="round"/>
+                                        <defs>
+                                            <linearGradient id="gradSc4" x1="0" y1="0" x2="1" y2="1">
+                                                <stop offset="0" stop-color="#E07B00"/>
+                                                <stop offset="1" stop-color="#B86400"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <div class="dp-svcshow-body">
+                                    <span class="dp-svcshow-ico">💻</span>
+                                    <div class="dp-svcshow-title">Développement Spécifique</div>
+                                    <div class="dp-svcshow-sub">Applications sur mesure, APIs REST, connecteurs entre systèmes.</div>
+                                    <span class="dp-svcshow-link">Découvrir →</span>
+                                </div>
+                            </a>
+
+                            <!-- 5. Applications de Gestion -->
+                            <a class="dp-svcshow-card sc5" href="/developpement">
+                                <div class="dp-svcshow-visual">
+                                    <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="200" height="140" fill="url(#gradSc5)"/>
+                                        <circle cx="175" cy="115" r="50" fill="rgba(255,255,255,.08)"/>
+                                        <rect x="35" y="30" width="50" height="50" rx="8" fill="rgba(255,255,255,.28)"/>
+                                        <rect x="95" y="30" width="50" height="50" rx="8" fill="rgba(255,255,255,.18)"/>
+                                        <rect x="35" y="90" width="50" height="20" rx="6" fill="rgba(255,255,255,.18)"/>
+                                        <rect x="95" y="90" width="50" height="20" rx="6" fill="rgba(255,255,255,.28)"/>
+                                        <defs>
+                                            <linearGradient id="gradSc5" x1="0" y1="0" x2="1" y2="1">
+                                                <stop offset="0" stop-color="#1A8A4A"/>
+                                                <stop offset="1" stop-color="#106B38"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <div class="dp-svcshow-body">
+                                    <span class="dp-svcshow-ico">📱</span>
+                                    <div class="dp-svcshow-title">Applications de Gestion</div>
+                                    <div class="dp-svcshow-sub">Logiciels métiers web et mobile pour vos processus internes.</div>
+                                    <span class="dp-svcshow-link">Découvrir →</span>
+                                </div>
+                            </a>
+
+                            <!-- 6. Sites Web Professionnels -->
+                            <a class="dp-svcshow-card sc6" href="/sites-web">
+                                <div class="dp-svcshow-visual">
+                                    <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+                                        <rect width="200" height="140" fill="url(#gradSc6)"/>
+                                        <circle cx="20" cy="20" r="45" fill="rgba(255,255,255,.08)"/>
+                                        <rect x="45" y="35" width="110" height="75" rx="8" fill="rgba(255,255,255,.15)"/>
+                                        <rect x="45" y="35" width="110" height="18" rx="8" fill="rgba(255,255,255,.3)"/>
+                                        <circle cx="55" cy="44" r="3" fill="#fff"/>
+                                        <circle cx="65" cy="44" r="3" fill="#fff"/>
+                                        <rect x="58" y="68" width="70" height="8" rx="4" fill="rgba(255,255,255,.5)"/>
+                                        <rect x="58" y="84" width="45" height="8" rx="4" fill="rgba(255,255,255,.35)"/>
+                                        <defs>
+                                            <linearGradient id="gradSc6" x1="0" y1="0" x2="1" y2="1">
+                                                <stop offset="0" stop-color="#C026D3"/>
+                                                <stop offset="1" stop-color="#94179F"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                                <div class="dp-svcshow-body">
+                                    <span class="dp-svcshow-ico">🌐</span>
+                                    <div class="dp-svcshow-title">Sites Web Professionnels</div>
+                                    <div class="dp-svcshow-sub">Vitrine, e-commerce ou plateforme SaaS optimisés SEO.</div>
+                                    <span class="dp-svcshow-link">Découvrir →</span>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─────────────────────────────────────
+                     FOOTER
+                ───────────────────────────────────── -->
+                <t t-call="datapro_website.dp_footer"/>
+
+            </div><!-- /.dp-page -->
+        </t>
+    </template>
+
+    <!-- ══════════════════════════════════════════════════
+         WEBSITE.PAGE — même fichier que le template
+    ══════════════════════════════════════════════════ -->
+    <record id="website_page_datapro_home" model="website.page">
+        <field name="name">Data Pro Technologie — Accueil</field>
+        <field name="url">/datapro-home</field>
+        <field name="view_id" ref="datapro_website.page_accueil"/>
+        <field name="website_indexed" eval="True"/>
+        <field name="is_published" eval="True"/>
+    </record>
+
+</odoo>

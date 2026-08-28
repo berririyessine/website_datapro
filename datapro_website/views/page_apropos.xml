@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════
+         PAGE À PROPOS
+         URL : /a-propos
+    ══════════════════════════════════════════════════ -->
+    <template id="page_apropos" name="Data Pro — À propos">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'a-propos'"/>
+
+            <div class="dp-page">
+
+                <!-- ─── TOPBAR ─── -->
+                <div class="dp-topbar">
+                    <span>🇹🇳 <strong>Basé à Sousse</strong></span>
+                    <button class="dp-tb-cta" onclick="window.location='/contact'">Nous contacter →</button>
+                </div>
+
+                <!-- ─── HEADER ─── -->
+                <header class="dp-header">
+                    <a href="/datapro-home" class="dp-logo">
+                        <t t-call="datapro_website.dp_logo_img"/>
+                    </a>
+                    <nav class="dp-hnav">
+                        <a class="dp-hn-link" href="/datapro-home">Accueil</a>
+                        <a class="dp-hn-link" href="/services">Services</a>
+                        <a class="dp-hn-link" href="/odoo-consultant">Odoo</a>
+                        <a class="dp-hn-link" href="/ia-automation">IA &amp; Auto</a>
+                        <a class="dp-hn-link" href="/developpement">Dev</a>
+                        <a class="dp-hn-link" href="/sites-web">Sites Web</a>
+                        <a class="dp-hn-link" href="/projets-clients">Projets</a>
+                        <a class="dp-hn-link" href="/recrutement">Recrutement</a>
+                        <!-- ─────────────────────────────────────
+                             SÉLECTEUR DE LANGUE (FR / EN / AR)
+                             Convention Odoo website_multilang : la langue par
+                             défaut (fr) n'a pas de préfixe d'URL, les autres
+                             langues sont préfixées par leur url_code (/en/…, /ar/…).
+                             Ces liens ne basculeront réellement de langue qu'une
+                             fois en_US et ar activées et assignées au site dans
+                             Réglages > Traductions.
+                        ───────────────────────────────────── -->
+                        <t t-set="dp_lang_current" t-value="request.env.context.get('lang', 'fr_FR')"/>
+                        <t t-set="dp_lang_path" t-value="request.httprequest.path"/>
+                        <t t-set="dp_lang_base" t-value="dp_lang_path"/>
+                        <t t-foreach="['en', 'ar']" t-as="dp_pref">
+                            <t t-if="dp_lang_path == '/%s' % dp_pref">
+                                <t t-set="dp_lang_base" t-value="'/'"/>
+                            </t>
+                            <t t-elif="dp_lang_path.startswith('/%s/' % dp_pref)">
+                                <t t-set="dp_lang_base" t-value="dp_lang_path[len(dp_pref) + 1:]"/>
+                            </t>
+                        </t>
+                        <div class="dp-lang-switch" role="group" aria-label="Sélecteur de langue">
+                            <a t-att-href="dp_lang_base"
+                               hreflang="fr"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('fr') else ''}">FR</a>
+                            <a t-att-href="'/en' + dp_lang_base"
+                               hreflang="en"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('en') else ''}">EN</a>
+                            <a t-att-href="'/ar' + dp_lang_base"
+                               hreflang="ar"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('ar') else ''}">AR</a>
+                        </div>
+
+                    </nav>
+                </header>
+
+                <!-- ─── BARRE FLOTTANTE ─── -->
+                <div class="dp-float-bar">
+                    <button class="dp-float-wa" onclick="window.open('https://wa.me/21698631289','_blank')">
+                        <span>💬</span> WhatsApp
+                    </button>
+                    <button class="dp-float-cta" onclick="window.location='/contact'">
+                        <span>🚀</span> Devis gratuit
+                    </button>
+                </div>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 1 — HERO
+                ══════════════════════════════════════ -->
+                <section class="ap-hero">
+                    <div class="dp-inner ap-hero-inner">
+                        <div class="dp-eyebrow">À propos de Data Pro</div>
+                        <h1 class="ap-hero-title">
+                            Votre partenaire en transformation digitale<br/>
+                            <span class="ap-em-teal">et solutions ERP sur mesure.</span>
+                        </h1>
+                        <p class="ap-hero-sub">
+                            Chez Data Pro Technologie, nous accompagnons les entreprises dans leur transformation
+                            digitale en concevant des solutions technologiques sur mesure, performantes,
+                            sécurisées et évolutives.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 2 — NOTRE VISION
+                ══════════════════════════════════════ -->
+                <section class="ap-story">
+                    <div class="dp-inner ap-story-grid">
+                        <div class="ap-story-text">
+                            <div class="dp-eyebrow">Notre vision</div>
+                            <div class="dp-sec-title">Un système d'information à la hauteur de vos ambitions</div>
+                            <p class="ap-story-p">
+                                Nous sommes convaincus que chaque entreprise mérite un système d'information à la
+                                hauteur de ses ambitions. C'est pourquoi nous transformons les défis opérationnels
+                                en véritables opportunités de croissance grâce à des solutions ERP, des applications
+                                de gestion et des outils d'automatisation intelligents qui créent une réelle valeur
+                                ajoutée.
+                            </p>
+                            <p class="ap-story-p">
+                                Notre équipe d'experts allie maîtrise technologique avancée et compréhension
+                                approfondie des métiers pour développer des systèmes adaptés à la réalité du
+                                terrain et capables d'accompagner durablement le développement de nos clients.
+                            </p>
+                        </div>
+                        <div class="ap-story-stats">
+                            <div class="ap-stat">
+                                <div class="ap-stat-n">50+</div>
+                                <div class="ap-stat-s">Projets livrés</div>
+                            </div>
+                            <div class="ap-stat">
+                                <div class="ap-stat-n">v12→v19</div>
+                                <div class="ap-stat-s">Versions Odoo maîtrisées</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 3 — NOTRE MISSION
+                ══════════════════════════════════════ -->
+                <section class="ap-mission">
+                    <div class="dp-inner ap-mission-inner">
+                        <div class="dp-eyebrow">Notre mission</div>
+                        <div class="dp-sec-title">Transformer votre vision en réalité digitale</div>
+                        <p class="ap-mission-p">
+                            Nous aidons les entreprises à moderniser leur gestion, optimiser leurs opérations et
+                            prendre de meilleures décisions grâce à des solutions ERP performantes, des outils
+                            digitaux innovants et un accompagnement stratégique personnalisé.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 4 — EXPÉRIENCES DIGITALES
+                ══════════════════════════════════════ -->
+                <section class="ap-exp">
+                    <div class="dp-inner ap-exp-inner">
+                        <div class="dp-eyebrow">Notre approche</div>
+                        <div class="dp-sec-title">Des expériences digitales qui font la différence</div>
+                        <p class="ap-story-p">
+                            Chez Data Pro Technologie, nous ne livrons pas simplement des logiciels — nous créons
+                            des expériences digitales qui transforment le quotidien professionnel. Notre approche
+                            centrée sur l'utilisateur garantit :
+                        </p>
+                        <ul class="ap-exp-list">
+                            <li class="ap-exp-item"><span class="ap-exp-check">✓</span>Des interfaces simples et intuitives</li>
+                            <li class="ap-exp-item"><span class="ap-exp-check">✓</span>Des processus métiers fluides et optimisés</li>
+                            <li class="ap-exp-item"><span class="ap-exp-check">✓</span>Une adoption rapide par vos équipes</li>
+                            <li class="ap-exp-item"><span class="ap-exp-check">✓</span>Des outils pensés pour améliorer la productivité</li>
+                        </ul>
+                        <p class="ap-story-p">
+                            De l'analyse de vos besoins jusqu'au déploiement, à la formation et au support continu,
+                            nous restons à vos côtés à chaque étape pour assurer la réussite de vos projets digitaux.
+                            Notre objectif est clair : vous offrir des solutions pratiques, efficaces et immédiatement
+                            utiles qui facilitent la prise de décision et accélèrent la performance de votre entreprise.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 5 — DOMAINES D'EXPERTISE
+                ══════════════════════════════════════ -->
+                <section class="ap-domains">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Nos domaines d'expertise</div>
+                        <div class="dp-sec-title">Nous intervenons sur l'ensemble de votre écosystème digital</div>
+
+                        <div class="ap-values-grid dp-reveal">
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">🧩</div>
+                                <div class="ap-value-title">Implémentation et personnalisation ERP</div>
+                                <div class="ap-value-sub">Spécialistes certifiés Odoo, nous adaptons votre ERP à vos processus métiers pour une gestion intégrée et performante.</div>
+                            </div>
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">🤖</div>
+                                <div class="ap-value-title">Automatisation des processus &amp; IA</div>
+                                <div class="ap-value-sub">Nous automatisons les tâches répétitives et intégrons des technologies intelligentes pour améliorer la productivité et réduire les erreurs.</div>
+                            </div>
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">💻</div>
+                                <div class="ap-value-title">Développement sur mesure</div>
+                                <div class="ap-value-sub">Nous concevons des logiciels et applications web adaptés à vos besoins spécifiques, évolutifs et parfaitement alignés avec votre activité.</div>
+                            </div>
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">🔗</div>
+                                <div class="ap-value-title">Intégration de systèmes tiers</div>
+                                <div class="ap-value-sub">Connexion avec vos outils existants (comptabilité, e-commerce, CRM, BI…) pour un système d'information unifié.</div>
+                            </div>
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">🛠️</div>
+                                <div class="ap-value-title">Maintenance, support &amp; optimisation</div>
+                                <div class="ap-value-sub">Nous assurons le suivi, l'amélioration continue et la performance de vos systèmes sur le long terme.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 6 — NOS VALEURS
+                ══════════════════════════════════════ -->
+                <section class="ap-values">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Nos valeurs fondamentales</div>
+                        <div class="dp-sec-title">Ce qui guide chacun de nos projets</div>
+
+                        <div class="ap-values-grid dp-reveal">
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">🚀</div>
+                                <div class="ap-value-title">Innovation continue</div>
+                                <div class="ap-value-sub">Nous intégrons les technologies les plus récentes — ERP avancés, cloud, automatisation, intelligence artificielle — pour garder votre entreprise toujours en avance.</div>
+                            </div>
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">🤝</div>
+                                <div class="ap-value-title">Engagement client</div>
+                                <div class="ap-value-sub">Votre réussite est notre priorité. Nous nous impliquons pleinement dans chaque projet avec une vision long terme.</div>
+                            </div>
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">🛡️</div>
+                                <div class="ap-value-title">Qualité &amp; fiabilité</div>
+                                <div class="ap-value-sub">Nous développons des systèmes robustes, sécurisés et évolutifs, conformes aux meilleures pratiques du secteur.</div>
+                            </div>
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">🔍</div>
+                                <div class="ap-value-title">Transparence &amp; intégrité</div>
+                                <div class="ap-value-sub">Communication claire, conseils honnêtes et relation de confiance sont au cœur de notre approche.</div>
+                            </div>
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">📈</div>
+                                <div class="ap-value-title">Amélioration continue</div>
+                                <div class="ap-value-sub">Nous optimisons en permanence nos méthodes et vos outils pour garantir performance et durabilité.</div>
+                            </div>
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">🎯</div>
+                                <div class="ap-value-title">Orientation résultats</div>
+                                <div class="ap-value-sub">Nous concevons des solutions qui dépassent la technologie : notre priorité, des résultats concrets et mesurables pour votre entreprise.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 7 — CE QUI NOUS DISTINGUE
+                ══════════════════════════════════════ -->
+                <section class="ap-distinct">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Ce qui nous distingue</div>
+                        <div class="dp-sec-title">Pourquoi choisir Data Pro Technologie</div>
+
+                        <div class="ap-values-grid dp-reveal">
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">🎯</div>
+                                <div class="ap-value-title">Des solutions 100% sur mesure</div>
+                                <div class="ap-value-sub">Chaque projet est conçu selon vos processus, votre secteur d'activité et vos objectifs de croissance.</div>
+                            </div>
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">🏆</div>
+                                <div class="ap-value-title">Une expertise ERP reconnue</div>
+                                <div class="ap-value-sub">Experts Odoo, nous intervenons de l'analyse des besoins jusqu'au déploiement, la formation et le support.</div>
+                            </div>
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">🤝</div>
+                                <div class="ap-value-title">Un partenariat sur le long terme</div>
+                                <div class="ap-value-sub">Nous construisons des relations durables et accompagnons l'évolution de vos systèmes au rythme de votre développement.</div>
+                            </div>
+                            <div class="ap-value-card">
+                                <div class="ap-value-ico">🌍</div>
+                                <div class="ap-value-title">Une proximité locale, une vision internationale</div>
+                                <div class="ap-value-sub">Nous comprenons les réalités du marché tunisien et international tout en appliquant les standards internationaux de qualité.</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 8 — CTA FINAL
+                ══════════════════════════════════════ -->
+                <section class="ap-cta-final">
+                    <div class="dp-inner ap-cta-inner">
+                        <div class="ap-cta-title">Envie d'en discuter ?</div>
+                        <div class="ap-cta-sub">Parlons de votre projet ou rejoignez l'équipe.</div>
+                        <div class="ap-cta-btns">
+                            <a class="ap-cta-btn-p" href="/contact">📋 Nous contacter</a>
+                            <a class="ap-cta-btn-g" href="/recrutement">💼 Voir les postes ouverts</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─── FOOTER ─── -->
+                <t t-call="datapro_website.dp_footer"/>
+
+            </div><!-- /.dp-page -->
+        </t>
+    </template>
+
+    <record id="website_page_apropos" model="website.page">
+        <field name="name">Data Pro — À propos</field>
+        <field name="url">/a-propos</field>
+        <field name="view_id" ref="datapro_website.page_apropos"/>
+        <field name="website_indexed" eval="True"/>
+        <field name="is_published" eval="True"/>
+    </record>
+
+</odoo>

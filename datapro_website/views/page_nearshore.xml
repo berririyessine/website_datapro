@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════
+         PAGE NEARSHORE TUNISIE (hors menu)
+         URL : /nearshore-tunisie
+         Accès : page autonome, non liée depuis le menu principal.
+    ══════════════════════════════════════════════════ -->
+    <template id="page_nearshore" name="Data Pro — Nearshore Tunisie">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'nearshore-tunisie'"/>
+
+            <div class="dp-page">
+
+                <!-- ─── HEADER ─── (pas de topbar sur cette page hors-menu) -->
+                <header class="dp-header">
+                    <a href="/datapro-home" class="dp-logo">
+                        <t t-call="datapro_website.dp_logo_img"/>
+                    </a>
+                    <nav class="dp-hnav">
+                        <a class="dp-hn-link" href="/datapro-home">Accueil</a>
+                        <a class="dp-hn-link" href="/services">Services</a>
+                        <a class="dp-hn-link" href="/odoo-consultant">Odoo</a>
+                        <a class="dp-hn-link" href="/ia-automation">IA &amp; Auto</a>
+                        <a class="dp-hn-link" href="/projets-clients">Projets</a>
+                        <!-- ─────────────────────────────────────
+                             SÉLECTEUR DE LANGUE (FR / EN / AR)
+                             Convention Odoo website_multilang : la langue par
+                             défaut (fr) n'a pas de préfixe d'URL, les autres
+                             langues sont préfixées par leur url_code (/en/…, /ar/…).
+                             Ces liens ne basculeront réellement de langue qu'une
+                             fois en_US et ar activées et assignées au site dans
+                             Réglages > Traductions.
+                        ───────────────────────────────────── -->
+                        <t t-set="dp_lang_current" t-value="request.env.context.get('lang', 'fr_FR')"/>
+                        <t t-set="dp_lang_path" t-value="request.httprequest.path"/>
+                        <t t-set="dp_lang_base" t-value="dp_lang_path"/>
+                        <t t-foreach="['en', 'ar']" t-as="dp_pref">
+                            <t t-if="dp_lang_path == '/%s' % dp_pref">
+                                <t t-set="dp_lang_base" t-value="'/'"/>
+                            </t>
+                            <t t-elif="dp_lang_path.startswith('/%s/' % dp_pref)">
+                                <t t-set="dp_lang_base" t-value="dp_lang_path[len(dp_pref) + 1:]"/>
+                            </t>
+                        </t>
+                        <div class="dp-lang-switch" role="group" aria-label="Sélecteur de langue">
+                            <a t-att-href="dp_lang_base"
+                               hreflang="fr"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('fr') else ''}">FR</a>
+                            <a t-att-href="'/en' + dp_lang_base"
+                               hreflang="en"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('en') else ''}">EN</a>
+                            <a t-att-href="'/ar' + dp_lang_base"
+                               hreflang="ar"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('ar') else ''}">AR</a>
+                        </div>
+
+                    </nav>
+                </header>
+
+                <!-- ─── BARRE FLOTTANTE ─── -->
+                <div class="dp-float-bar">
+                    <button class="dp-float-wa" onclick="window.open('https://wa.me/21698631289','_blank')">
+                        <span>💬</span> WhatsApp
+                    </button>
+                    <button class="dp-float-cta" onclick="window.location='/contact'">
+                        <span>🚀</span> Devis gratuit
+                    </button>
+                </div>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 1 — HERO
+                ══════════════════════════════════════ -->
+                <section class="nsd-hero">
+                    <div class="dp-inner nsd-hero-inner">
+                        <div class="dp-eyebrow">Modèle Nearshore</div>
+                        <h1 class="nsd-hero-title">
+                            Basé en Tunisie.<br/>
+                            <span class="nsd-em-teal">Pensé pour l'international.</span>
+                        </h1>
+                        <p class="nsd-hero-sub">
+                            La combinaison gagnante pour les entreprises qui veulent une expertise
+                            technique de haut niveau à un coût maîtrisé — sans les contraintes de l'offshore lointain.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 2 — POURQUOI LE NEARSHORE TUNISIEN
+                ══════════════════════════════════════ -->
+                <section class="nsd-values">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Pourquoi nous</div>
+                        <div class="dp-sec-title">Le nearshore, sans les inconvénients de l'offshore</div>
+                        <div class="dp-sec-sub">
+                            Six raisons concrètes pour lesquelles nos clients nous choisissent plutôt
+                            qu'un prestataire local ou un prestataire offshore lointain.
+                        </div>
+
+                        <div class="nsd-values-grid dp-reveal">
+                            <div class="nsd-value-card">
+                                <div class="nsd-value-ico">💶</div>
+                                <div class="nsd-value-title">Jusqu'à 60% moins cher</div>
+                                <div class="nsd-value-sub">
+                                    Des tarifs journaliers nearshore, sans compromis sur la qualité ni sur les compétences.
+                                    Pas de frais cachés, pas de sous-traitance en cascade.
+                                </div>
+                            </div>
+                            <div class="nsd-value-card">
+                                <div class="nsd-value-ico">🕐</div>
+                                <div class="nsd-value-title">Même fuseau horaire</div>
+                                <div class="nsd-value-sub">
+                                    UTC+1/+2. Réunions en temps réel, réponses immédiates,
+                                    aucune contrainte de décalage horaire dans la collaboration.
+                                </div>
+                            </div>
+                            <div class="nsd-value-card">
+                                <div class="nsd-value-ico">🌐</div>
+                                <div class="nsd-value-title">Communication fluide</div>
+                                <div class="nsd-value-sub">
+                                    Livrables, documentation et échanges clairs, dans la langue de votre choix.
+                                    Une vraie proximité qui facilite la compréhension des besoins métier.
+                                </div>
+                            </div>
+                            <div class="nsd-value-card">
+                                <div class="nsd-value-ico">🎓</div>
+                                <div class="nsd-value-title">Expertise technique reconnue</div>
+                                <div class="nsd-value-sub">
+                                    Consultants certifiés, maîtrise d'Odoo v12 à v19, Python, IA et automatisation —
+                                    le même niveau d'exigence que les meilleurs cabinets du secteur.
+                                </div>
+                            </div>
+                            <div class="nsd-value-card">
+                                <div class="nsd-value-ico">✈️</div>
+                                <div class="nsd-value-title">Intervention sur site possible</div>
+                                <div class="nsd-value-sub">
+                                    Nous nous déplaçons sur site pour les phases clés
+                                    du projet : cadrage, ateliers, formation des équipes.
+                                </div>
+                            </div>
+                            <div class="nsd-value-card">
+                                <div class="nsd-value-ico">🤝</div>
+                                <div class="nsd-value-title">Cadre contractuel simple</div>
+                                <div class="nsd-value-sub">
+                                    Facturation en euros, devis clair par sprint, aucune surprise. Une relation
+                                    directe avec l'équipe qui réalise le travail.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 3 — COMMENT ÇA SE PASSE
+                ══════════════════════════════════════ -->
+                <section class="svc-method">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Concrètement</div>
+                        <div class="dp-sec-title">Comment démarre une collaboration nearshore</div>
+                        <div class="svc-method-row dp-reveal">
+                            <div class="svc-mstep">
+                                <div class="svc-ms-ico">📞</div>
+                                <div class="svc-ms-t">Premier échange</div>
+                                <div class="svc-ms-s">Appel de cadrage gratuit, sans engagement</div>
+                            </div>
+                            <div class="svc-ms-arrow">→</div>
+                            <div class="svc-mstep">
+                                <div class="svc-ms-ico">📋</div>
+                                <div class="svc-ms-t">Devis détaillé</div>
+                                <div class="svc-ms-s">Chiffrage par sprint sous 24h</div>
+                            </div>
+                            <div class="svc-ms-arrow">→</div>
+                            <div class="svc-mstep">
+                                <div class="svc-ms-ico">🤝</div>
+                                <div class="svc-ms-t">Kick-off</div>
+                                <div class="svc-ms-s">Présentation de l'équipe dédiée</div>
+                            </div>
+                            <div class="svc-ms-arrow">→</div>
+                            <div class="svc-mstep">
+                                <div class="svc-ms-ico">⚙️</div>
+                                <div class="svc-ms-t">Sprints réguliers</div>
+                                <div class="svc-ms-s">Points d'avancement en temps réel</div>
+                            </div>
+                            <div class="svc-ms-arrow">→</div>
+                            <div class="svc-mstep">
+                                <div class="svc-ms-ico">🚀</div>
+                                <div class="svc-ms-t">Livraison &amp; support</div>
+                                <div class="svc-ms-s">Mise en prod et accompagnement continu</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 4 — RÉASSURANCE CHIFFRÉE
+                ══════════════════════════════════════ -->
+                <div class="dp-rea">
+                    <div class="dp-rea-inner">
+                        <div class="dp-rea-item">
+                            <div class="dp-rea-ico">💶</div>
+                            <div>
+                                <div class="dp-rea-title">-60%</div>
+                                <div class="dp-rea-sub">vs les tarifs du marché</div>
+                            </div>
+                        </div>
+                        <div class="dp-rea-item">
+                            <div class="dp-rea-ico">🕐</div>
+                            <div>
+                                <div class="dp-rea-title">UTC+1/+2</div>
+                                <div class="dp-rea-sub">Collaboration en temps réel</div>
+                            </div>
+                        </div>
+                        <div class="dp-rea-item">
+                            <div class="dp-rea-ico">✈️</div>
+                            <div>
+                                <div class="dp-rea-title">Sur site</div>
+                                <div class="dp-rea-sub">Intervention possible pour les phases clés</div>
+                            </div>
+                        </div>
+                        <div class="dp-rea-item">
+                            <div class="dp-rea-ico">🏆</div>
+                            <div>
+                                <div class="dp-rea-title">50+ projets</div>
+                                <div class="dp-rea-sub">Livrés en production</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 5 — CTA FINAL
+                ══════════════════════════════════════ -->
+                <section class="nsd-cta-final">
+                    <div class="dp-inner nsd-cta-inner">
+                        <div class="nsd-cta-title">Prêt à essayer le nearshore tunisien ?</div>
+                        <div class="nsd-cta-sub">Échangeons 20 minutes sur votre projet — sans engagement.</div>
+                        <div class="nsd-cta-btns">
+                            <a class="nsd-cta-btn-p" href="/contact">📋 Demander un devis gratuit</a>
+                            <a class="nsd-cta-btn-g" href="https://wa.me/21698631289" target="_blank">💬 Discuter sur WhatsApp</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─── FOOTER ─── -->
+                <t t-call="datapro_website.dp_footer"/>
+
+            </div><!-- /.dp-page -->
+        </t>
+    </template>
+
+    <record id="website_page_nearshore" model="website.page">
+        <field name="name">Data Pro — Nearshore Tunisie</field>
+        <field name="url">/nearshore-tunisie</field>
+        <field name="view_id" ref="datapro_website.page_nearshore"/>
+        <field name="website_indexed" eval="True"/>
+        <field name="is_published" eval="True"/>
+    </record>
+
+</odoo>

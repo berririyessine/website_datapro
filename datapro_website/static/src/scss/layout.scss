@@ -1,0 +1,581 @@
+// ═══════════════════════════════════════════════════════
+//  LAYOUT GLOBAL — Data Pro Technologie
+// ═══════════════════════════════════════════════════════
+
+// ── Reset ciblé (n'écrase pas Bootstrap Odoo) ─────────
+.dp-page {
+    font-family: var(--dp-font-sans);
+    color: var(--dp-dark);
+    background: var(--dp-white);
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    // ── Conteneur centré ──────────────────────────────
+    .dp-inner {
+        max-width: 1300px;
+        margin: 0 auto;
+    }
+
+    // ── Section labels ────────────────────────────────
+    .dp-eyebrow {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--dp-teal);
+        text-transform: uppercase;
+        letter-spacing: .09em;
+        margin-bottom: 8px;
+    }
+
+    .dp-sec-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--dp-navy);
+        margin-bottom: 6px;
+        line-height: 1.2;
+    }
+
+    .dp-sec-sub {
+        font-size: 14px;
+        color: var(--dp-mid);
+        line-height: 1.65;
+        max-width: 540px;
+    }
+
+    // ── Animations reveal ─────────────────────────────
+    .dp-reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity .6s ease, transform .6s ease;
+
+        &.dp-visible {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    // ── Topbar ────────────────────────────────────────
+    .dp-topbar {
+        background: var(--dp-navy);
+        color: rgba(255, 255, 255, .65);
+        text-align: center;
+        font-size: 12px;
+        padding: 8px 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+
+        strong { color: white; }
+
+        .dp-tb-cta {
+            background: var(--dp-teal);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 3px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: var(--dp-font-sans);
+        }
+    }
+
+    .dp-topbar-nav {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+
+        a {
+            color: rgba(255, 255, 255, .75);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color .15s;
+            white-space: nowrap;
+
+            &:hover { color: var(--dp-teal); }
+        }
+
+        .dp-topbar-sep {
+            color: rgba(255, 255, 255, .25);
+        }
+    }
+
+    // ── Header ────────────────────────────────────────
+    .dp-header {
+        background: var(--dp-white);
+        border-bottom: 1px solid var(--dp-border);
+        height: 68px;
+        display: flex;
+        align-items: center;
+        padding: 0 40px;
+        gap: 20px;
+        box-shadow: 0 2px 12px rgba(15, 30, 60, .07);
+        position: sticky;
+        top: 0;
+        z-index: 200;
+    }
+
+    .dp-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        flex-shrink: 0;
+
+        &-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--dp-navy), var(--dp-teal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        &-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dp-navy);
+            letter-spacing: -.025em;
+
+            span { color: var(--dp-teal); font-weight: 400; }
+        }
+
+        &-img {
+            height: 40px;
+            width: auto;
+            max-width: 180px;
+            object-fit: contain;
+        }
+    }
+
+    .dp-hnav {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-left: auto;
+    }
+
+    .dp-hn-link {
+        padding: 8px 14px;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--dp-dark);
+        text-decoration: none;
+        border-radius: 6px;
+        transition: all .15s;
+        cursor: pointer;
+
+        &:hover, &.active {
+            background: var(--dp-slate);
+            color: var(--dp-navy);
+        }
+    }
+
+    .dp-hn-wa {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        background: var(--dp-whatsapp);
+        color: white;
+        border: none;
+        border-radius: 7px;
+        padding: 9px 16px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: var(--dp-font-sans);
+    }
+
+    .dp-hn-cta {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        background: var(--dp-teal);
+        color: white;
+        border: none;
+        border-radius: 7px;
+        padding: 9px 18px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        font-family: var(--dp-font-sans);
+        transition: background .15s;
+
+        &:hover { background: var(--dp-teal-d); }
+    }
+
+    // ── Bouton Se connecter / Mon compte (mauve) ───────
+    .dp-hn-account {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--dp-violet);
+        color: white;
+        border: none;
+        border-radius: 7px;
+        padding: 9px 18px;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+        font-family: var(--dp-font-sans);
+        transition: background .15s, transform .15s;
+        margin-left: 6px;
+
+        &:hover {
+            background: var(--dp-violet-d);
+            transform: translateY(-1px);
+        }
+    }
+
+    // ── Sélecteur de langue (FR / EN / AR) ────────────
+    .dp-lang-switch {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        background: var(--dp-slate);
+        border: 1px solid var(--dp-border);
+        border-radius: 8px;
+        padding: 3px;
+        flex-shrink: 0;
+        margin-left: 6px;
+    }
+
+    .dp-lang-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 30px;
+        height: 26px;
+        padding: 0 8px;
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .03em;
+        color: var(--dp-mid);
+        text-decoration: none;
+        font-family: var(--dp-font-sans);
+        transition: all .15s;
+
+        &:hover {
+            color: var(--dp-navy);
+            background: rgba(255, 255, 255, .8);
+        }
+
+        &.dp-lang-active {
+            background: var(--dp-teal);
+            color: white;
+
+            &:hover { background: var(--dp-teal-d); color: white; }
+        }
+    }
+
+    // ── Barre flottante WhatsApp / Devis gratuit ───────
+    //    Fixe en bas de l'écran, reste visible au scroll
+    .dp-float-bar {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        z-index: 500;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transition: transform .25s ease;
+
+        button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 20px;
+            font-size: 13px;
+            font-weight: 700;
+            font-family: var(--dp-font-sans);
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(15, 30, 60, .18);
+            transition: transform .15s, box-shadow .15s;
+
+            &:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 26px rgba(15, 30, 60, .24);
+            }
+        }
+    }
+
+    .dp-float-wa {
+        background: var(--dp-whatsapp);
+        color: white;
+    }
+
+    .dp-float-cta {
+        background: var(--dp-teal);
+        color: white;
+
+        &:hover { background: var(--dp-teal-d); }
+    }
+
+    // Version compacte (icône seule) une fois qu'on a bien scrollé
+    .dp-float-bar-compact button span:first-child {
+        font-size: 16px;
+    }
+
+    // ── Footer (ancien, minimal — conservé pour les pages
+    //    qui ne sont pas encore migrées vers dp-footer-full) ──
+    .dp-footer {
+        background: var(--dp-navy-deep);
+        padding: 20px 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 0;
+
+        &-copy {
+            font-size: 11px;
+            color: rgba(255, 255, 255, .2);
+        }
+
+        &-logo {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            span { color: var(--dp-teal); }
+        }
+    }
+
+    // ── Footer riche (thème complet) ───────────────────
+    .dp-footer-full {
+        background: var(--dp-navy-deep);
+        padding: 56px 40px 0;
+    }
+
+    .dp-footer-grid {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 1fr 1fr;
+        gap: 40px;
+        padding-bottom: 40px;
+        border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .dp-footer-col {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        a {
+            color: rgba(255, 255, 255, .55);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color .15s;
+
+            &:hover { color: var(--dp-teal); }
+        }
+
+        &-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            margin-bottom: 4px;
+        }
+    }
+
+    .dp-footer-brand {
+        gap: 14px;
+    }
+
+    .dp-footer-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .dp-logo-img {
+            height: 36px;
+            width: auto;
+            max-width: 160px;
+            object-fit: contain;
+            background: rgba(255, 255, 255, .92);
+            border-radius: 8px;
+            padding: 4px 8px;
+        }
+    }
+
+    .dp-footer-tagline {
+        font-size: 13px;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, .45);
+        max-width: 280px;
+        margin: 0;
+    }
+
+    .dp-footer-flags {
+        font-size: 20px;
+    }
+
+    .dp-footer-loc {
+        font-size: 13px;
+        color: rgba(255, 255, 255, .55);
+    }
+
+    .dp-footer-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 0;
+        flex-wrap: wrap;
+        gap: 12px;
+
+        .dp-footer-copy {
+            font-size: 12px;
+            color: rgba(255, 255, 255, .35);
+        }
+
+        .dp-footer-cta {
+            color: var(--dp-teal);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: color .15s;
+
+            &:hover { color: white; }
+        }
+    }
+
+    // ═══════════════════════════════════════════════════
+    //  RESPONSIVE — Tablette (≤ 968px)
+    // ═══════════════════════════════════════════════════
+    @media (max-width: 968px) {
+        .dp-inner {
+            padding: 0 20px;
+        }
+
+        .dp-header {
+            padding: 0 20px;
+            gap: 12px;
+        }
+
+        .dp-topbar {
+            padding: 8px 16px;
+            gap: 10px;
+            overflow-x: auto;
+            white-space: nowrap;
+            justify-content: flex-start;
+
+            &::-webkit-scrollbar { display: none; }
+        }
+
+        .dp-footer-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    // ═══════════════════════════════════════════════════
+    //  RESPONSIVE — Mobile (≤ 640px)
+    // ═══════════════════════════════════════════════════
+    @media (max-width: 640px) {
+        // La nav complète ne peut pas tenir sur mobile.
+        // On masque les liens texte et on ne garde que
+        // logo + actions essentielles (WhatsApp / Devis).
+        // ⚠️ Pour un vrai menu burger, il faut ajouter un
+        // bouton toggle dans templates.xml + JS associé.
+        .dp-header {
+            height: auto;
+            min-height: 60px;
+            padding: 10px 16px;
+            flex-wrap: wrap;
+        }
+
+        .dp-hnav {
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-left: 0;
+            justify-content: flex-end;
+        }
+
+        .dp-hn-link {
+            display: none;
+        }
+
+        .dp-hn-wa,
+        .dp-hn-cta {
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+
+        .dp-lang-switch {
+            margin-left: 0;
+        }
+
+        .dp-lang-btn {
+            min-width: 26px;
+            height: 24px;
+            padding: 0 6px;
+            font-size: 10px;
+        }
+
+        .dp-topbar {
+            font-size: 11px;
+            padding: 6px 12px;
+
+            span { white-space: nowrap; }
+        }
+
+        .dp-sec-title {
+            font-size: 22px;
+        }
+
+        .dp-sec-sub {
+            max-width: 100%;
+        }
+
+        .dp-footer {
+            flex-direction: column;
+            gap: 10px;
+            padding: 20px 16px;
+            text-align: center;
+        }
+
+        .dp-topbar-nav {
+            gap: 10px;
+            font-size: 11px;
+        }
+
+        .dp-float-bar {
+            right: 16px;
+            bottom: 16px;
+
+            button {
+                padding: 10px 14px;
+                font-size: 12px;
+            }
+        }
+
+        .dp-footer-full {
+            padding: 40px 16px 0;
+        }
+
+        .dp-footer-grid {
+            grid-template-columns: 1fr;
+            gap: 28px;
+            text-align: center;
+        }
+
+        .dp-footer-brand {
+            align-items: center;
+        }
+
+        .dp-footer-tagline {
+            max-width: 100%;
+        }
+
+        .dp-footer-bottom {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+}

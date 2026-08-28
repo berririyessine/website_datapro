@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════
+         PAGE RECRUTEMENT
+         URL : /recrutement
+    ══════════════════════════════════════════════════ -->
+    <template id="page_recrutement" name="Data Pro — Recrutement">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'recrutement'"/>
+
+            <div class="dp-page">
+
+                <!-- ─── TOPBAR ─── -->
+                <div class="dp-topbar">
+                    <span>🚀 <strong>Une équipe qui grandit</strong> · Télétravail possible · Évolution rapide</span>
+                    <button class="dp-tb-cta" onclick="document.querySelector('.rec-form-section').scrollIntoView({behavior:'smooth'})">
+                        Postuler →
+                    </button>
+                </div>
+
+                <!-- ─── HEADER ─── -->
+                <header class="dp-header">
+                    <a href="/datapro-home" class="dp-logo">
+                        <t t-call="datapro_website.dp_logo_img"/>
+                    </a>
+                    <nav class="dp-hnav">
+                        <a class="dp-hn-link" href="/datapro-home">Accueil</a>
+                        <a class="dp-hn-link" href="/services">Services</a>
+                        <a class="dp-hn-link" href="/odoo-consultant">Odoo</a>
+                        <a class="dp-hn-link" href="/ia-automation">IA &amp; Auto</a>
+                        <a class="dp-hn-link" href="/developpement">Dev</a>
+                        <a class="dp-hn-link" href="/sites-web">Sites Web</a>
+                        <a class="dp-hn-link" href="/projets-clients">Projets</a>
+                        <a class="dp-hn-link active" href="/recrutement">Recrutement</a>
+                        <!-- ─────────────────────────────────────
+                             SÉLECTEUR DE LANGUE (FR / EN / AR)
+                             Convention Odoo website_multilang : la langue par
+                             défaut (fr) n'a pas de préfixe d'URL, les autres
+                             langues sont préfixées par leur url_code (/en/…, /ar/…).
+                             Ces liens ne basculeront réellement de langue qu'une
+                             fois en_US et ar activées et assignées au site dans
+                             Réglages > Traductions.
+                        ───────────────────────────────────── -->
+                        <t t-set="dp_lang_current" t-value="request.env.context.get('lang', 'fr_FR')"/>
+                        <t t-set="dp_lang_path" t-value="request.httprequest.path"/>
+                        <t t-set="dp_lang_base" t-value="dp_lang_path"/>
+                        <t t-foreach="['en', 'ar']" t-as="dp_pref">
+                            <t t-if="dp_lang_path == '/%s' % dp_pref">
+                                <t t-set="dp_lang_base" t-value="'/'"/>
+                            </t>
+                            <t t-elif="dp_lang_path.startswith('/%s/' % dp_pref)">
+                                <t t-set="dp_lang_base" t-value="dp_lang_path[len(dp_pref) + 1:]"/>
+                            </t>
+                        </t>
+                        <div class="dp-lang-switch" role="group" aria-label="Sélecteur de langue">
+                            <a t-att-href="dp_lang_base"
+                               hreflang="fr"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('fr') else ''}">FR</a>
+                            <a t-att-href="'/en' + dp_lang_base"
+                               hreflang="en"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('en') else ''}">EN</a>
+                            <a t-att-href="'/ar' + dp_lang_base"
+                               hreflang="ar"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('ar') else ''}">AR</a>
+                        </div>
+
+                    </nav>
+                </header>
+
+                <!-- ─── BARRE FLOTTANTE ─── -->
+                <div class="dp-float-bar">
+                    <button class="dp-float-wa" onclick="window.open('https://wa.me/21698631289','_blank')">
+                        <span>💬</span> WhatsApp
+                    </button>
+                    <button class="dp-float-cta" onclick="document.querySelector('.rec-form-section').scrollIntoView({behavior:'smooth'})">
+                        <span>📋</span> Postuler
+                    </button>
+                </div>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 1 — HERO RECRUTEMENT
+                ══════════════════════════════════════ -->
+                <section class="rec-hero">
+                    <div class="dp-inner rec-hero-inner">
+                        <div class="dp-eyebrow">Rejoignez-nous</div>
+                        <h1 class="rec-hero-title">
+                            Construisez votre carrière<br/>
+                            <span class="rec-em-teal">avec Data Pro.</span>
+                        </h1>
+                        <p class="rec-hero-sub">
+                            Une équipe à taille humaine, des projets Odoo &amp; IA variés,
+                            et une vraie progression technique. Découvrez nos postes ouverts ci-dessous.
+                        </p>
+                        <div class="rec-hero-trust">
+                            <span>✅ Télétravail hybride</span>
+                            <span>✅ Montée en compétences continue</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 2 — POSTES OUVERTS
+                ══════════════════════════════════════ -->
+                <section class="rec-jobs">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Postes ouverts</div>
+                        <div class="dp-sec-title">Les profils que nous recherchons</div>
+                        <div class="dp-sec-sub">
+                            Cliquez sur "Postuler" pour pré-remplir le formulaire ci-dessous.
+                        </div>
+
+                        <div class="rec-jobs-grid dp-reveal">
+
+                            <div class="rec-job-card rj-teal">
+                                <div class="rec-job-ico">🧩</div>
+                                <div class="rec-job-title">Consultant Odoo Senior</div>
+                                <div class="rec-job-desc">
+                                    Paramétrage, audit et accompagnement client sur des projets Odoo v16 à v19.
+                                </div>
+                                <div class="rec-job-tags">
+                                    <span class="rec-job-tag">CDI</span>
+                                    <span class="rec-job-tag">3+ ans</span>
+                                    <span class="rec-job-tag">Sousse / Remote</span>
+                                </div>
+                                <button class="rec-job-apply" data-poste="Consultant Odoo Senior">Postuler →</button>
+                            </div>
+
+                            <div class="rec-job-card rj-violet">
+                                <div class="rec-job-ico">🔧</div>
+                                <div class="rec-job-title">Développeur Python / Odoo</div>
+                                <div class="rec-job-desc">
+                                    Développement de modules custom, migrations et intégrations API sur des projets clients.
+                                </div>
+                                <div class="rec-job-tags">
+                                    <span class="rec-job-tag">CDI</span>
+                                    <span class="rec-job-tag">2+ ans</span>
+                                    <span class="rec-job-tag">Sousse / Remote</span>
+                                </div>
+                                <button class="rec-job-apply" data-poste="Développeur Python / Odoo">Postuler →</button>
+                            </div>
+
+                            <div class="rec-job-card rj-blue">
+                                <div class="rec-job-ico">🤖</div>
+                                <div class="rec-job-title">Ingénieur IA &amp; Automation</div>
+                                <div class="rec-job-desc">
+                                    Conception d'agents IA, workflows n8n/Zapier et pipelines de données BigQuery.
+                                </div>
+                                <div class="rec-job-tags">
+                                    <span class="rec-job-tag">CDI</span>
+                                    <span class="rec-job-tag">1+ an</span>
+                                    <span class="rec-job-tag">Remote</span>
+                                </div>
+                                <button class="rec-job-apply" data-poste="Ingénieur IA &amp; Automation">Postuler →</button>
+                            </div>
+
+                            <div class="rec-job-card rj-orange">
+                                <div class="rec-job-ico">💻</div>
+                                <div class="rec-job-title">Développeur Web Full-Stack</div>
+                                <div class="rec-job-desc">
+                                    Sites vitrine, e-commerce et applications web sur mesure pour nos clients.
+                                </div>
+                                <div class="rec-job-tags">
+                                    <span class="rec-job-tag">CDI / Freelance</span>
+                                    <span class="rec-job-tag">2+ ans</span>
+                                    <span class="rec-job-tag">Remote</span>
+                                </div>
+                                <button class="rec-job-apply" data-poste="Développeur Web Full-Stack">Postuler →</button>
+                            </div>
+
+                            <div class="rec-job-card rj-green">
+                                <div class="rec-job-ico">📋</div>
+                                <div class="rec-job-title">Chef de Projet ERP</div>
+                                <div class="rec-job-desc">
+                                    Pilotage de projets Odoo de bout en bout : cadrage, planning, coordination équipe.
+                                </div>
+                                <div class="rec-job-tags">
+                                    <span class="rec-job-tag">CDI</span>
+                                    <span class="rec-job-tag">4+ ans</span>
+                                    <span class="rec-job-tag">Sousse</span>
+                                </div>
+                                <button class="rec-job-apply" data-poste="Chef de Projet ERP">Postuler →</button>
+                            </div>
+
+                            <div class="rec-job-card rj-purple">
+                                <div class="rec-job-ico">✨</div>
+                                <div class="rec-job-title">Candidature spontanée</div>
+                                <div class="rec-job-desc">
+                                    Vous ne trouvez pas le poste idéal mais voulez rejoindre l'équipe ? Écrivez-nous.
+                                </div>
+                                <div class="rec-job-tags">
+                                    <span class="rec-job-tag">Tous profils</span>
+                                </div>
+                                <button class="rec-job-apply" data-poste="Candidature spontanée">Postuler →</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 3 — FORMULAIRE DE CANDIDATURE
+                ══════════════════════════════════════ -->
+                <section class="rec-form-section ct-form-section">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Candidature</div>
+                        <div class="dp-sec-title">Postulez en 2 minutes</div>
+                        <div class="dp-sec-sub">
+                            Nous répondons à toutes les candidatures, même en l'absence de poste immédiat.
+                        </div>
+
+                        <div class="ct-form-wrap">
+                            <form class="ct-form dp-recruit-form" action="#" method="post">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                <div class="ct-form-row">
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Prénom &amp; Nom *</label>
+                                        <input class="ct-inp" name="full_name" placeholder="Jean Dupont" autocomplete="name"/>
+                                        <div class="ct-err" data-err-for="full_name"/>
+                                    </div>
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Email *</label>
+                                        <input class="ct-inp" name="email" type="email" placeholder="jean@email.com"/>
+                                        <div class="ct-err" data-err-for="email"/>
+                                    </div>
+                                </div>
+
+                                <div class="ct-form-row">
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Téléphone / WhatsApp</label>
+                                        <input class="ct-inp" name="phone" placeholder="+216 XX XXX XXX"/>
+                                        <div class="ct-err" data-err-for="phone"/>
+                                    </div>
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Poste souhaité *</label>
+                                        <select class="ct-sel" name="poste">
+                                            <option value="">— Choisir un poste —</option>
+                                            <option>Consultant Odoo Senior</option>
+                                            <option>Développeur Python / Odoo</option>
+                                            <option>Ingénieur IA &amp; Automation</option>
+                                            <option>Développeur Web Full-Stack</option>
+                                            <option>Chef de Projet ERP</option>
+                                            <option>Candidature spontanée</option>
+                                        </select>
+                                        <div class="ct-err" data-err-for="poste"/>
+                                    </div>
+                                </div>
+
+                                <div class="ct-form-row ct-row-half">
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">CV (PDF, DOC, DOCX) *</label>
+                                        <input class="ct-inp ct-file" type="file" name="cv_file"
+                                               accept=".pdf,.doc,.docx" required="required"/>
+                                        <div class="ct-file-hint">Format PDF ou Word — 5 Mo maximum.</div>
+                                        <div class="ct-err" data-err-for="cv_file"/>
+                                    </div>
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Lien Portfolio / LinkedIn (optionnel)</label>
+                                        <input class="ct-inp" name="cv_link" placeholder="https://..."/>
+                                    </div>
+                                </div>
+
+                                <div class="ct-form-row ct-row-full">
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Message de motivation</label>
+                                        <textarea class="ct-textarea" name="message" rows="5"
+                                                  placeholder="Parlez-nous de votre parcours et de ce qui vous motive à rejoindre Data Pro..."/>
+                                    </div>
+                                </div>
+
+                                <div class="ct-form-footer">
+                                    <div class="ct-rgpd">
+                                        🔒 Vos données sont confidentielles et utilisées uniquement pour le recrutement.
+                                    </div>
+                                    <button class="ct-submit-btn" data-action="dp-recruit-submit" type="button">
+                                        📤 Envoyer ma candidature
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─── FOOTER ─── -->
+                <t t-call="datapro_website.dp_footer"/>
+
+            </div><!-- /.dp-page -->
+        </t>
+    </template>
+
+    <record id="website_page_recrutement" model="website.page">
+        <field name="name">Data Pro — Recrutement</field>
+        <field name="url">/recrutement</field>
+        <field name="view_id" ref="datapro_website.page_recrutement"/>
+        <field name="website_indexed" eval="True"/>
+        <field name="is_published" eval="True"/>
+    </record>
+
+</odoo>

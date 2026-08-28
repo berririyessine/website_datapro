@@ -1,0 +1,45 @@
+// ═══════════════════════════════════════════════════════
+//  DESIGN TOKENS — Data Pro Technologie v3
+//  Palette : Teal · Violet · Navy · Blue
+//  Usage   : tous les fichiers SCSS du module
+// ═══════════════════════════════════════════════════════
+
+:root {
+    // ── Primaire : Teal ───────────────────────────────
+    --dp-teal:        #00C2A8;
+    --dp-teal-d:      #009E88;
+    --dp-teal-l:      #E0FAF6;
+    --dp-teal-rgb:    0, 194, 168;
+
+    // ── Accent : Violet ───────────────────────────────
+    --dp-violet:      #5B5BF5;
+    --dp-violet-d:    #3A3AC4;
+    --dp-violet-l:    #EEEEFF;
+
+    // ── Accent 2 : Blue ───────────────────────────────
+    --dp-blue:        #00A8D4;
+    --dp-blue-l:      #E0F7FD;
+
+    // ── Structure : Navy ──────────────────────────────
+    --dp-navy:        #0F1E3C;
+    --dp-navy-deep:   #07080F;
+    --dp-navy-mid:    #163258;
+
+    // ── Neutres ───────────────────────────────────────
+    --dp-slate:       #F7F9FC;
+    --dp-border:      #E4EAF2;
+    --dp-mid:         #8A9BB0;
+    --dp-dark:        #1E2D45;
+    --dp-white:       #FFFFFF;
+
+    // ── Sémantiques ───────────────────────────────────
+    --dp-success:     #1A8A4A;
+    --dp-success-bg:  #E8F8EF;
+    --dp-warn:        #E07B00;
+    --dp-warn-bg:     #FFF3E0;
+    --dp-whatsapp:    #25D366;
+
+    // ── Typographie ───────────────────────────────────
+    --dp-font-display: 'DM Serif Display', 'Georgia', serif;
+    --dp-font-sans:    'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}

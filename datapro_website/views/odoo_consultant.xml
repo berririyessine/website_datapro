@@ -1,0 +1,782 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════
+         PAGE ODOO CONSULTANT
+         URL : /odoo-consultant
+         Sections :
+           1 · Hero + KPIs + badges certif
+           2 · Expertise par version (v12 → v19)
+           3 · Modules spécialisés par domaine
+           4 · Projets clients réels
+           5 · Méthodologie 5 étapes
+           6 · Stack technique
+           7 · Témoignages
+           8 · CTA final
+    ══════════════════════════════════════════════════ -->
+    <template id="page_odoo_consultant" name="Data Pro — Odoo Consultant">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'odoo-consultant'"/>
+
+            <div class="dp-page">
+
+                <!-- ─────────────────────────────────────
+                     TOPBAR
+                ───────────────────────────────────── -->
+                <div class="dp-topbar">
+                    <span><strong>Odoo v12→v19</strong> · Certifié · Réponse sous 24h</span>
+                    <button class="dp-tb-cta" onclick="window.location='/contact'">Audit gratuit →</button>
+                </div>
+
+                <!-- ─────────────────────────────────────
+                     HEADER
+                ───────────────────────────────────── -->
+                <header class="dp-header">
+                    <a href="/datapro-home" class="dp-logo">
+                        <t t-call="datapro_website.dp_logo_img"/>
+                    </a>
+                    <nav class="dp-hnav">
+                        <a class="dp-hn-link" href="/datapro-home">Accueil</a>
+                        <a class="dp-hn-link" href="/services">Services</a>
+                        <a class="dp-hn-link active" href="/odoo-consultant">Odoo</a>
+                        <a class="dp-hn-link" href="/ia-automation">IA &amp; Auto</a>
+                        <a class="dp-hn-link" href="/projets-clients">Projets</a>
+                        <a class="dp-hn-link" href="/recrutement">Recrutement</a>
+                        <!-- ─────────────────────────────────────
+                             SÉLECTEUR DE LANGUE (FR / EN / AR)
+                             Convention Odoo website_multilang : la langue par
+                             défaut (fr) n'a pas de préfixe d'URL, les autres
+                             langues sont préfixées par leur url_code (/en/…, /ar/…).
+                             Ces liens ne basculeront réellement de langue qu'une
+                             fois en_US et ar activées et assignées au site dans
+                             Réglages > Traductions.
+                        ───────────────────────────────────── -->
+                        <t t-set="dp_lang_current" t-value="request.env.context.get('lang', 'fr_FR')"/>
+                        <t t-set="dp_lang_path" t-value="request.httprequest.path"/>
+                        <t t-set="dp_lang_base" t-value="dp_lang_path"/>
+                        <t t-foreach="['en', 'ar']" t-as="dp_pref">
+                            <t t-if="dp_lang_path == '/%s' % dp_pref">
+                                <t t-set="dp_lang_base" t-value="'/'"/>
+                            </t>
+                            <t t-elif="dp_lang_path.startswith('/%s/' % dp_pref)">
+                                <t t-set="dp_lang_base" t-value="dp_lang_path[len(dp_pref) + 1:]"/>
+                            </t>
+                        </t>
+                        <div class="dp-lang-switch" role="group" aria-label="Sélecteur de langue">
+                            <a t-att-href="dp_lang_base"
+                               hreflang="fr"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('fr') else ''}">FR</a>
+                            <a t-att-href="'/en' + dp_lang_base"
+                               hreflang="en"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('en') else ''}">EN</a>
+                            <a t-att-href="'/ar' + dp_lang_base"
+                               hreflang="ar"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('ar') else ''}">AR</a>
+                        </div>
+
+                    </nav>
+                </header>
+
+                <!-- ─── BARRE FLOTTANTE — WhatsApp + Devis gratuit ─── -->
+                <div class="dp-float-bar">
+                    <button class="dp-float-wa" onclick="window.open('https://wa.me/21698631289','_blank')">
+                        <span>💬</span> WhatsApp
+                    </button>
+                    <button class="dp-float-cta" onclick="window.location='/contact'">
+                        <span>🚀</span> Devis gratuit
+                    </button>
+                </div>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 1 — HERO
+                ══════════════════════════════════════ -->
+                <section class="oc-hero">
+                    <div class="oc-hero-bg"/>
+                    <div class="oc-hero-glow"/>
+                    <div class="dp-inner oc-hero-inner">
+
+                        <div class="oc-hero-left">
+                            <div class="oc-hero-badge">
+                                <span class="oc-hb-dot"/>
+                                Consultant Odoo certifié
+                            </div>
+                            <h1 class="oc-hero-title">
+                                Expert <span class="oc-em-teal">Odoo</span><br/>
+                                v12 → v19.<br/>
+                                <span class="oc-em-light">Implémentation, modules<br/>custom &amp; migration.</span>
+                            </h1>
+                            <p class="oc-hero-sub">
+                                +10 ans de projets Odoo en Tunisie. Nous ne configurons pas —
+                                nous développons, migrons et maintenons des ERP métiers qui performent vraiment.
+                            </p>
+                            <div class="oc-hero-ctas">
+                                <button class="oc-cta-p" onclick="window.location='/contact'">📋 Audit gratuit de votre Odoo</button>
+                                <button class="oc-cta-g" onclick="window.location='/contact'">💬 Parler à un expert</button>
+                            </div>
+                            <div class="oc-hero-trust">
+                                <span class="oc-trust-item">✅ PMP Certifié</span>
+                                <span class="oc-trust-item">✅ Odoo.sh maîtrisé</span>
+                                <span class="oc-trust-item">✅ Odoo 18 en production</span>
+                                <span class="oc-trust-item">✅ Réponse 24h</span>
+                            </div>
+                        </div>
+
+                        <div class="oc-hero-right">
+                            <!-- KPI cards -->
+                            <div class="oc-kpi-grid">
+                                <div class="oc-kpi">
+                                    <div class="oc-kpi-val">8</div>
+                                    <div class="oc-kpi-label">Versions Odoo</div>
+                                    <div class="oc-kpi-sub">v12 · v13 · v14 · v15 · v16 · v17 · v18 · v19</div>
+                                </div>
+                                <div class="oc-kpi">
+                                    <div class="oc-kpi-val">50+</div>
+                                    <div class="oc-kpi-label">Projets livrés</div>
+                                    <div class="oc-kpi-sub">Impl. · Migration · Modules · Audit</div>
+                                </div>
+                                <div class="oc-kpi">
+                                    <div class="oc-kpi-val">107</div>
+                                    <div class="oc-kpi-label">Anomalies corrigées</div>
+                                    <div class="oc-kpi-sub">Sur 27 modules Alfa Print (audit 2024)</div>
+                                </div>
+                                <div class="oc-kpi">
+                                    <div class="oc-kpi-val">24h</div>
+                                    <div class="oc-kpi-label">Délai de réponse</div>
+                                    <div class="oc-kpi-sub">Support garanti · Même fuseau FR</div>
+                                </div>
+                            </div>
+                            <!-- Certifications -->
+                            <div class="oc-certif-row">
+                                <div class="oc-certif">
+                                    <span class="oc-certif-ico">🏆</span>
+                                    <div>
+                                        <div class="oc-certif-name">PMP</div>
+                                        <div class="oc-certif-org">PMI · Project Mgmt</div>
+                                    </div>
+                                </div>
+                                <div class="oc-certif">
+                                    <span class="oc-certif-ico">🟣</span>
+                                    <div>
+                                        <div class="oc-certif-name">Odoo Partner</div>
+                                        <div class="oc-certif-org">Certified Developer</div>
+                                    </div>
+                                </div>
+                                <div class="oc-certif">
+                                    <span class="oc-certif-ico">☁️</span>
+                                    <div>
+                                        <div class="oc-certif-name">Odoo.sh</div>
+                                        <div class="oc-certif-org">Cloud deployment</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 2 — EXPERTISE PAR VERSION
+                ══════════════════════════════════════ -->
+                <section class="oc-versions">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Expertise versions</div>
+                        <div class="dp-sec-title">Toutes les versions Odoo maîtrisées</div>
+                        <div class="dp-sec-sub">
+                            Du legacy v12 encore en production jusqu'à v19 — nous intervenons
+                            sur chaque version sans repartir de zéro.
+                        </div>
+
+                        <div class="oc-ver-grid dp-reveal">
+
+                            <div class="oc-ver-card oc-ver-active">
+                                <div class="oc-ver-top">
+                                    <span class="oc-ver-badge oc-vb-hot">🔥 Actuel</span>
+                                    <span class="oc-ver-num">18</span>
+                                </div>
+                                <div class="oc-ver-title">Odoo 18</div>
+                                <div class="oc-ver-sub">OWL complet · Nouvelle API · Perf. améliorées</div>
+                                <ul class="oc-ver-list">
+                                    <li>Modules custom OWL + publicWidget</li>
+                                    <li>Migration depuis v16/v17</li>
+                                    <li>CRM, Vente, GMAO, Site Web</li>
+                                    <li>Odoo.sh · Docker · Ubuntu 24</li>
+                                </ul>
+                                <div class="oc-ver-tag oc-vt-teal">Production chez Metal 2000 &amp; Alfa Print</div>
+                            </div>
+
+                            <div class="oc-ver-card oc-ver-active">
+                                <div class="oc-ver-top">
+                                    <span class="oc-ver-badge oc-vb-ok">✅ Stable</span>
+                                    <span class="oc-ver-num">17</span>
+                                </div>
+                                <div class="oc-ver-title">Odoo 17</div>
+                                <div class="oc-ver-sub">LTS · Déploiements Odoo.sh · n8n pipelines</div>
+                                <ul class="oc-ver-list">
+                                    <li>Audit 27 modules (Alfa Print)</li>
+                                    <li>Pipeline BigQuery + Looker Studio</li>
+                                    <li>E-invoicing Factur-X / Peppol</li>
+                                    <li>Checkout &amp; paiement Stripe</li>
+                                </ul>
+                                <div class="oc-ver-tag oc-vt-teal">+15 projets livrés</div>
+                            </div>
+
+                            <div class="oc-ver-card oc-ver-active">
+                                <div class="oc-ver-top">
+                                    <span class="oc-ver-badge oc-vb-ok">✅ Stable</span>
+                                    <span class="oc-ver-num">16</span>
+                                </div>
+                                <div class="oc-ver-title">Odoo 16</div>
+                                <div class="oc-ver-sub">Migration v15→v16 · Modules métier</div>
+                                <ul class="oc-ver-list">
+                                    <li>Migration de données complexes</li>
+                                    <li>Modules RH, Achats, Inventaire</li>
+                                    <li>Rapports QWeb personnalisés</li>
+                                    <li>Multi-société / multi-devise</li>
+                                </ul>
+                                <div class="oc-ver-tag oc-vt-violet">Migrations réussies</div>
+                            </div>
+
+                            <div class="oc-ver-card">
+                                <div class="oc-ver-top">
+                                    <span class="oc-ver-badge oc-vb-leg">⚙️ Legacy</span>
+                                    <span class="oc-ver-num">15</span>
+                                </div>
+                                <div class="oc-ver-title">Odoo 15</div>
+                                <div class="oc-ver-sub">Support &amp; maintenance · Plan de migration</div>
+                                <ul class="oc-ver-list">
+                                    <li>Audit &amp; correction de modules</li>
+                                    <li>Support correctif</li>
+                                    <li>Plan de migration vers v17/v18</li>
+                                </ul>
+                                <div class="oc-ver-tag oc-vt-mid">Migration recommandée</div>
+                            </div>
+
+                            <div class="oc-ver-card">
+                                <div class="oc-ver-top">
+                                    <span class="oc-ver-badge oc-vb-leg">⚙️ Legacy</span>
+                                    <span class="oc-ver-num">14</span>
+                                </div>
+                                <div class="oc-ver-title">Odoo 14</div>
+                                <div class="oc-ver-sub">Maintenance · Correction critique</div>
+                                <ul class="oc-ver-list">
+                                    <li>Débogage modules OCA</li>
+                                    <li>Correctifs sécurité urgents</li>
+                                    <li>Plan de migration structuré</li>
+                                </ul>
+                                <div class="oc-ver-tag oc-vt-mid">EOL — migration urgente</div>
+                            </div>
+
+                            <div class="oc-ver-card">
+                                <div class="oc-ver-top">
+                                    <span class="oc-ver-badge oc-vb-leg">⚙️ Legacy</span>
+                                    <span class="oc-ver-num">12</span>
+                                </div>
+                                <div class="oc-ver-title">Odoo 12</div>
+                                <div class="oc-ver-sub">Projets industriels · API REST sur mesure</div>
+                                <ul class="oc-ver-list">
+                                    <li>API REST SOMATRAL (ref. client)</li>
+                                    <li>Sync bidirectionnelle produits/commandes</li>
+                                    <li>Migration v12 → v18 possible</li>
+                                </ul>
+                                <div class="oc-ver-tag oc-vt-mid">Migration v18 disponible</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 3 — MODULES PAR DOMAINE
+                ══════════════════════════════════════ -->
+                <section class="oc-modules">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Modules spécialisés</div>
+                        <div class="dp-sec-title">Expertise par domaine fonctionnel</div>
+                        <div class="dp-sec-sub">Chaque domaine ci-dessous correspond à des projets réels livrés en production.</div>
+
+                        <div class="oc-mod-grid dp-reveal">
+
+                            <div class="oc-mod-card">
+                                <div class="oc-mod-head oc-mh-teal">
+                                    <span class="oc-mod-ico">📊</span>
+                                    <span class="oc-mod-domain">CRM &amp; Vente</span>
+                                </div>
+                                <ul class="oc-mod-list">
+                                    <li>CRM custom avec étapes automatisées</li>
+                                    <li>Coloration leads par score/région</li>
+                                    <li>Sync Ringover → Zapier → Odoo CRM</li>
+                                    <li>Champs custom : grade, famille article</li>
+                                    <li>Tableau de bord commercial en temps réel</li>
+                                </ul>
+                                <div class="oc-mod-ref">Réf : Metal 2000 · Odoo 18</div>
+                            </div>
+
+                            <div class="oc-mod-card">
+                                <div class="oc-mod-head oc-mh-violet">
+                                    <span class="oc-mod-ico">🔧</span>
+                                    <span class="oc-mod-domain">GMAO &amp; Maintenance</span>
+                                </div>
+                                <ul class="oc-mod-list">
+                                    <li>Module sale_maintenance_request custom</li>
+                                    <li>Contrats de maintenance avec CGV + annexes</li>
+                                    <li>Rapport PDF QWeb professionnel</li>
+                                    <li>Workflow devis → contrat → intervention</li>
+                                    <li>Déploiement Odoo.sh (branche staging/prod)</li>
+                                </ul>
+                                <div class="oc-mod-ref">Réf : Metal 2000 · Odoo 18</div>
+                            </div>
+
+                            <div class="oc-mod-card">
+                                <div class="oc-mod-head oc-mh-blue">
+                                    <span class="oc-mod-ico">🛒</span>
+                                    <span class="oc-mod-domain">E-commerce &amp; Site Web</span>
+                                </div>
+                                <ul class="oc-mod-list">
+                                    <li>Design system custom (QWeb + SCSS)</li>
+                                    <li>Configurateur imprimante → consommable</li>
+                                    <li>Checkout controller sur mesure</li>
+                                    <li>Intégration Stripe, Brevo newsletter</li>
+                                    <li>SEO, Swiper.js, scroll-snap</li>
+                                </ul>
+                                <div class="oc-mod-ref">Réf : Alfa Print · Odoo 17/18</div>
+                            </div>
+
+                            <div class="oc-mod-card">
+                                <div class="oc-mod-head oc-mh-orange">
+                                    <span class="oc-mod-ico">📦</span>
+                                    <span class="oc-mod-domain">Achats &amp; Inventaire</span>
+                                </div>
+                                <ul class="oc-mod-list">
+                                    <li>Picking → Purchase Order automatique</li>
+                                    <li>Multi-fournisseur avec règles de réappro</li>
+                                    <li>Connecteurs fournisseurs (Ingram, Axro...)</li>
+                                    <li>Gestion lots/séries + traçabilité</li>
+                                    <li>Audit performance (N+1 queries)</li>
+                                </ul>
+                                <div class="oc-mod-ref">Réf : Alfa Print · Odoo 17</div>
+                            </div>
+
+                            <div class="oc-mod-card">
+                                <div class="oc-mod-head oc-mh-green">
+                                    <span class="oc-mod-ico">💰</span>
+                                    <span class="oc-mod-domain">Comptabilité &amp; Facturation</span>
+                                </div>
+                                <ul class="oc-mod-list">
+                                    <li>E-invoicing Factur-X / Peppol</li>
+                                    <li>Facture électronique Tunisie (TEIF v1.8.8)</li>
+                                    <li>XAdES-B · ANCE · SFTP/SOAP</li>
+                                    <li>Multi-devise &amp; multi-société</li>
+                                    <li>Reporting comptable sur mesure</li>
+                                </ul>
+                                <div class="oc-mod-ref">Réf : Metal 2000 · El Fatoora TN</div>
+                            </div>
+
+                            <div class="oc-mod-card">
+                                <div class="oc-mod-head oc-mh-purple">
+                                    <span class="oc-mod-ico">👥</span>
+                                    <span class="oc-mod-domain">RH &amp; Évaluation</span>
+                                </div>
+                                <ul class="oc-mod-list">
+                                    <li>Système d'évaluation 1000 points (3 axes)</li>
+                                    <li>Workflow multi-niveaux : emp → mgr → RH</li>
+                                    <li>Calcul automatique primes</li>
+                                    <li>Budget 7 500 TND · 8 semaines</li>
+                                    <li>Tableaux de bord direction</li>
+                                </ul>
+                                <div class="oc-mod-ref">Réf : Matine Consulting · Odoo 18</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 4 — PROJETS CLIENTS RÉELS
+                ══════════════════════════════════════ -->
+                <section class="oc-projects">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Références clients</div>
+                        <div class="dp-sec-title">Projets Odoo livrés en production</div>
+
+                        <div class="oc-proj-list dp-reveal">
+
+                            <!-- Projet 1 -->
+                            <div class="oc-proj-card">
+                                <div class="oc-proj-stripe oc-ps-teal"/>
+                                <div class="oc-proj-head">
+                                    <div class="oc-proj-ico">🏗</div>
+                                    <div>
+                                        <div class="oc-proj-client">Metal 2000</div>
+                                        <div class="oc-proj-sector">Industrie métallurgique · Odoo 18</div>
+                                    </div>
+                                    <span class="oc-proj-status">✅ Actif</span>
+                                </div>
+                                <div class="oc-proj-desc">
+                                    CRM Odoo 18 entièrement personnalisé avec automatisations Ringover → Zapier → Odoo,
+                                    module GMAO maintenance request, e-invoicing Factur-X et pipeline de leads automatisé.
+                                </div>
+                                <div class="oc-proj-items">
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>CRM custom : étapes auto, coloration, champs métier (grade, région, famille)</div>
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>Module GMAO : contrats maintenance, PDF CGV 12 articles + Annexe 1</div>
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>Pipeline Ringover → Zapier → Google Sheets → Odoo CRM</div>
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>Configuration Factur-X / Peppol + checklist déploiement</div>
+                                </div>
+                                <div class="oc-proj-tags">
+                                    <span class="oc-ptag">Odoo 18</span>
+                                    <span class="oc-ptag">CRM</span>
+                                    <span class="oc-ptag">GMAO</span>
+                                    <span class="oc-ptag">Zapier</span>
+                                    <span class="oc-ptag">Factur-X</span>
+                                    <span class="oc-ptag">Odoo.sh</span>
+                                </div>
+                            </div>
+
+                            <!-- Projet 2 -->
+                            <div class="oc-proj-card">
+                                <div class="oc-proj-stripe oc-ps-violet"/>
+                                <div class="oc-proj-head">
+                                    <div class="oc-proj-ico">🖨</div>
+                                    <div>
+                                        <div class="oc-proj-client">Alfa Print</div>
+                                        <div class="oc-proj-sector">E-commerce consommables · Odoo 17/18</div>
+                                    </div>
+                                    <span class="oc-proj-status">✅ Actif</span>
+                                </div>
+                                <div class="oc-proj-desc">
+                                    Audit complet de 27 modules custom, 107 anomalies critiques corrigées,
+                                    pipeline analytique BigQuery + Looker Studio, refonte site web Odoo et
+                                    intégration Stripe + Sellermania.
+                                </div>
+                                <div class="oc-proj-items">
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>Audit 27 modules : 107 critiques · 140 majeures · 150 mineures</div>
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>n8n → BigQuery streaming : 1,15M requêtes/jour réduites</div>
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>Design system CMJN : QWeb + SCSS + Swiper.js + Brevo</div>
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>Checkout controller custom + paiement Stripe</div>
+                                </div>
+                                <div class="oc-proj-tags">
+                                    <span class="oc-ptag">Odoo 17/18</span>
+                                    <span class="oc-ptag">Audit</span>
+                                    <span class="oc-ptag">BigQuery</span>
+                                    <span class="oc-ptag">n8n</span>
+                                    <span class="oc-ptag">E-commerce</span>
+                                    <span class="oc-ptag">Stripe</span>
+                                </div>
+                            </div>
+
+                            <!-- Projet 3 -->
+                            <div class="oc-proj-card">
+                                <div class="oc-proj-stripe oc-ps-blue"/>
+                                <div class="oc-proj-head">
+                                    <div class="oc-proj-ico">🔗</div>
+                                    <div>
+                                        <div class="oc-proj-client">SOMATRAL</div>
+                                        <div class="oc-proj-sector">Industrie · Odoo 12 · API bidirectionnelle</div>
+                                    </div>
+                                    <span class="oc-proj-status">✅ Livré</span>
+                                </div>
+                                <div class="oc-proj-desc">
+                                    API REST complète pour synchroniser produits et commandes d'achat
+                                    entre Odoo 12 et le système SOMATRAL, avec gestion des erreurs,
+                                    retry automatique et logs d'audit complets.
+                                </div>
+                                <div class="oc-proj-items">
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>API REST bidirectionnelle Odoo 12 ↔ SOMATRAL</div>
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>Sync automatique catalogue produits + prix fournisseur</div>
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>Création automatique de commandes d'achat</div>
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>Gestion erreurs · retry · logs d'audit</div>
+                                </div>
+                                <div class="oc-proj-tags">
+                                    <span class="oc-ptag">Odoo 12</span>
+                                    <span class="oc-ptag">REST API</span>
+                                    <span class="oc-ptag">JSON-RPC</span>
+                                    <span class="oc-ptag">Python</span>
+                                    <span class="oc-ptag">PostgreSQL</span>
+                                </div>
+                            </div>
+
+                            <!-- Projet 4 -->
+                            <div class="oc-proj-card">
+                                <div class="oc-proj-stripe oc-ps-green"/>
+                                <div class="oc-proj-head">
+                                    <div class="oc-proj-ico">🏢</div>
+                                    <div>
+                                        <div class="oc-proj-client">Matine Consulting</div>
+                                        <div class="oc-proj-sector">Conseil RH · Tunisie · Odoo 18</div>
+                                    </div>
+                                    <span class="oc-proj-status">🔄 En cours</span>
+                                </div>
+                                <div class="oc-proj-desc">
+                                    Module Odoo d'évaluation et de primes sur système 1000 points,
+                                    3 axes de performance, workflow multi-niveaux avec validation
+                                    RH et direction.
+                                </div>
+                                <div class="oc-proj-items">
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>Système 1000 points · 3 axes de performance</div>
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>Workflow : Employé → Manager → RH → Direction</div>
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>Calcul automatique des primes</div>
+                                    <div class="oc-proj-item"><span class="oc-pi-check">✓</span>Budget 7 500 TND · Durée 8 semaines</div>
+                                </div>
+                                <div class="oc-proj-tags">
+                                    <span class="oc-ptag">Odoo 18</span>
+                                    <span class="oc-ptag">RH</span>
+                                    <span class="oc-ptag">Workflow</span>
+                                    <span class="oc-ptag">Python</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 5 — MÉTHODOLOGIE
+                ══════════════════════════════════════ -->
+                <section class="oc-method">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Méthodologie</div>
+                        <div class="dp-sec-title">Comment nous travaillons</div>
+                        <div class="dp-sec-sub">Un processus éprouvé sur 50+ projets Odoo.</div>
+
+                        <div class="oc-meth-steps dp-reveal">
+                            <div class="oc-mstep">
+                                <div class="oc-mstep-num">01</div>
+                                <div class="oc-mstep-ico">🔍</div>
+                                <div class="oc-mstep-title">Audit &amp; cadrage</div>
+                                <div class="oc-mstep-desc">
+                                    Audit gratuit de votre Odoo existant. Analyse des processus métier,
+                                    identification des points de friction, cahier des charges technique.
+                                </div>
+                                <div class="oc-mstep-dur">⏱ J1–J5</div>
+                            </div>
+                            <div class="oc-mstep-arrow">→</div>
+                            <div class="oc-mstep">
+                                <div class="oc-mstep-num">02</div>
+                                <div class="oc-mstep-ico">🗂</div>
+                                <div class="oc-mstep-title">Architecture &amp; devis</div>
+                                <div class="oc-mstep-desc">
+                                    Conception technique, choix des modules, plan de migration,
+                                    chiffrage précis par sprint. Aucune surprise en cours de projet.
+                                </div>
+                                <div class="oc-mstep-dur">⏱ J5–J10</div>
+                            </div>
+                            <div class="oc-mstep-arrow">→</div>
+                            <div class="oc-mstep">
+                                <div class="oc-mstep-num">03</div>
+                                <div class="oc-mstep-ico">⚙️</div>
+                                <div class="oc-mstep-title">Développement agile</div>
+                                <div class="oc-mstep-desc">
+                                    Sprints de 2 semaines avec recette client à chaque itération.
+                                    Branche staging Odoo.sh pour validation avant prod.
+                                </div>
+                                <div class="oc-mstep-dur">⏱ Sprint 2S</div>
+                            </div>
+                            <div class="oc-mstep-arrow">→</div>
+                            <div class="oc-mstep">
+                                <div class="oc-mstep-num">04</div>
+                                <div class="oc-mstep-ico">🚀</div>
+                                <div class="oc-mstep-title">Déploiement &amp; migration</div>
+                                <div class="oc-mstep-desc">
+                                    Migration des données, mise en production sans interruption,
+                                    checklist de déploiement, rollback plan si nécessaire.
+                                </div>
+                                <div class="oc-mstep-dur">⏱ Go-live</div>
+                            </div>
+                            <div class="oc-mstep-arrow">→</div>
+                            <div class="oc-mstep">
+                                <div class="oc-mstep-num">05</div>
+                                <div class="oc-mstep-ico">🎓</div>
+                                <div class="oc-mstep-title">Formation &amp; support</div>
+                                <div class="oc-mstep-desc">
+                                    Formation des équipes, documentation technique,
+                                    support correctif garanti, contrat de maintenance disponible.
+                                </div>
+                                <div class="oc-mstep-dur">⏱ Post-prod</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 6 — STACK TECHNIQUE
+                ══════════════════════════════════════ -->
+                <section class="oc-stack">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Stack &amp; certifications</div>
+                        <div class="dp-sec-title">Technologies maîtrisées</div>
+
+                        <div class="oc-stack-grid dp-reveal">
+
+                            <div class="oc-stack-group">
+                                <div class="oc-sg-title">🟣 Odoo Core</div>
+                                <div class="oc-sg-tags">
+                                    <span class="oc-stag oc-st-odoo">Python / ORM</span>
+                                    <span class="oc-stag oc-st-odoo">QWeb Reports</span>
+                                    <span class="oc-stag oc-st-odoo">OWL Components</span>
+                                    <span class="oc-stag oc-st-odoo">publicWidget</span>
+                                    <span class="oc-stag oc-st-odoo">XML-RPC / JSON-RPC</span>
+                                    <span class="oc-stag oc-st-odoo">Odoo.sh</span>
+                                    <span class="oc-stag oc-st-odoo">SCSS / Bootstrap</span>
+                                    <span class="oc-stag oc-st-odoo">XPath / attrs</span>
+                                </div>
+                            </div>
+
+                            <div class="oc-stack-group">
+                                <div class="oc-sg-title">⚙️ Backend &amp; Infra</div>
+                                <div class="oc-sg-tags">
+                                    <span class="oc-stag oc-st-infra">PostgreSQL</span>
+                                    <span class="oc-stag oc-st-infra">Ubuntu 24 / Docker</span>
+                                    <span class="oc-stag oc-st-infra">Nginx + Let's Encrypt</span>
+                                    <span class="oc-stag oc-st-infra">Git / Odoo.sh branches</span>
+                                    <span class="oc-stag oc-st-infra">OVH VPS</span>
+                                    <span class="oc-stag oc-st-infra">systemd / venv</span>
+                                </div>
+                            </div>
+
+                            <div class="oc-stack-group">
+                                <div class="oc-sg-title">🤖 Intégrations &amp; IA</div>
+                                <div class="oc-sg-tags">
+                                    <span class="oc-stag oc-st-ai">n8n self-hosted</span>
+                                    <span class="oc-stag oc-st-ai">Zapier</span>
+                                    <span class="oc-stag oc-st-ai">Google BigQuery</span>
+                                    <span class="oc-stag oc-st-ai">Looker Studio</span>
+                                    <span class="oc-stag oc-st-ai">Claude API</span>
+                                    <span class="oc-stag oc-st-ai">Ringover / Empower</span>
+                                    <span class="oc-stag oc-st-ai">Brevo</span>
+                                    <span class="oc-stag oc-st-ai">Stripe</span>
+                                </div>
+                            </div>
+
+                            <div class="oc-stack-group">
+                                <div class="oc-sg-title">🏆 Certifications</div>
+                                <div class="oc-sg-tags">
+                                    <span class="oc-stag oc-st-cert">PMP · PMI</span>
+                                    <span class="oc-stag oc-st-cert">Odoo Certified Dev</span>
+                                    <span class="oc-stag oc-st-cert">Factur-X / Peppol</span>
+                                    <span class="oc-stag oc-st-cert">TEIF v1.8.8 (TN)</span>
+                                    <span class="oc-stag oc-st-cert">XAdES-B / ANCE</span>
+                                    <span class="oc-stag oc-st-cert">ISO 27001 aware</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 8 — TÉMOIGNAGES
+                ══════════════════════════════════════ -->
+                <section class="dp-proof">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Témoignages clients</div>
+                        <div class="dp-sec-title">Ce que disent nos clients Odoo</div>
+                        <div class="dp-proof-grid dp-reveal">
+
+                            <div class="dp-proof-card featured">
+                                <div class="dp-proof-card-header">
+                                    <div class="dp-proof-card-logo">🖨</div>
+                                    <div>
+                                        <div class="dp-proof-card-company">Alfa Print</div>
+                                        <div class="dp-proof-card-sector">E-commerce · Odoo 17/18</div>
+                                    </div>
+                                    <div class="dp-proof-card-stars">★★★★★</div>
+                                </div>
+                                <div class="dp-proof-card-quote">
+                                    "Data Pro a pris en charge l'audit complet de nos 27 modules Odoo, corrigé plus de
+                                    100 anomalies critiques, et mis en place toute l'infrastructure analytique BigQuery +
+                                    Looker Studio. L'équipe maîtrise vraiment Odoo en profondeur — pas seulement la
+                                    configuration, mais le développement Python et les architectures complexes. C'est rare."
+                                </div>
+                                <div class="dp-proof-card-footer">
+                                    <div class="dp-proof-card-avatar">DG</div>
+                                    <div>
+                                        <div class="dp-proof-card-name">Direction Générale</div>
+                                        <div class="dp-proof-card-role">Alfa Print</div>
+                                    </div>
+                                    <div class="dp-proof-card-tags">
+                                        <span class="dp-proof-card-tag">Odoo 17/18</span>
+                                        <span class="dp-proof-card-tag">Audit</span>
+                                        <span class="dp-proof-card-tag">BigQuery</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="dp-proof-card">
+                                <div class="dp-proof-card-header">
+                                    <div class="dp-proof-card-logo" style="background:linear-gradient(135deg,#1E3A5F,#2D6A8A);">🏗</div>
+                                    <div>
+                                        <div class="dp-proof-card-company">Metal 2000</div>
+                                        <div class="dp-proof-card-sector">Industrie métallurgique · Odoo 18</div>
+                                    </div>
+                                    <div class="dp-proof-card-stars">★★★★★</div>
+                                </div>
+                                <div class="dp-proof-card-quote">
+                                    "La mise en place du CRM Odoo 18 et les automatisations Google Sheets + Zapier ont
+                                    changé notre quotidien. Les leads entrent, se qualifient et se traitent en grande partie
+                                    automatiquement. Data Pro comprend nos contraintes industrielles et livre vite."
+                                </div>
+                                <div class="dp-proof-card-footer">
+                                    <div class="dp-proof-card-avatar" style="background:linear-gradient(135deg,#1E3A5F,#2D6A8A);">JL</div>
+                                    <div>
+                                        <div class="dp-proof-card-name">Direction commerciale</div>
+                                        <div class="dp-proof-card-role">Metal 2000</div>
+                                    </div>
+                                    <div class="dp-proof-card-tags">
+                                        <span class="dp-proof-card-tag">Odoo 18</span>
+                                        <span class="dp-proof-card-tag">CRM</span>
+                                        <span class="dp-proof-card-tag">Zapier</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 9 — CTA FINAL
+                ══════════════════════════════════════ -->
+                <section class="oc-cta-final">
+                    <div class="oc-cta-glow"/>
+                    <div class="dp-inner oc-cta-inner">
+                        <h2 class="oc-cta-title">
+                            Votre prochain projet Odoo ?<br/>
+                            <span class="oc-cta-em">On en parle.</span>
+                        </h2>
+                        <p class="oc-cta-sub">
+                            Audit gratuit · Devis sous 24h · Aucun engagement.
+                        </p>
+                        <div class="oc-cta-btns">
+                            <button class="oc-cta-btn-p" onclick="window.location='/contact'">📋 Audit Odoo gratuit</button>
+                            <button class="oc-cta-btn-g" onclick="window.open('https://wa.me/21698631289','_blank')">💬 WhatsApp direct</button>
+                        </div>
+                        <div class="oc-cta-hints">
+                            <span>✅ PMP Certifié</span>
+                            <span>✅ Réponse 24h</span>
+                            <span>✅ Odoo 18 en production</span>
+                            <span>✅ Même fuseau horaire FR</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─────────────────────────────────────
+                     FOOTER
+                ───────────────────────────────────── -->
+                <t t-call="datapro_website.dp_footer"/>
+
+            </div><!-- /.dp-page -->
+        </t>
+    </template>
+
+    <!-- ══════════════════════════════════════════════════
+         WEBSITE.PAGE — enregistré dans le même fichier
+         que son template pour garantir l'ordre de chargement
+    ══════════════════════════════════════════════════ -->
+    <record id="website_page_odoo_consultant" model="website.page">
+        <field name="name">Data Pro — Consultant Odoo Expert v12→v19</field>
+        <field name="url">/odoo-consultant</field>
+        <field name="view_id" ref="datapro_website.page_odoo_consultant"/>
+        <field name="website_indexed" eval="True"/>
+        <field name="is_published" eval="True"/>
+    </record>
+
+</odoo>

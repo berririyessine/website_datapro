@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════
+         PAGE IA & AUTOMATION
+         URL : /ia-automation
+    ══════════════════════════════════════════════════ -->
+    <template id="page_ia_automation" name="Data Pro — IA &amp; Automation">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'ia-automation'"/>
+
+            <div class="dp-page">
+
+                <!-- ─── TOPBAR ─── -->
+                <div class="dp-topbar">
+                    <span>🤖 <strong>IA &amp; Automation</strong> · n8n · Zapier · BigQuery · Claude API</span>
+                    <button class="dp-tb-cta" onclick="window.location='/contact'">Démo IA gratuite →</button>
+                </div>
+
+                <!-- ─── HEADER ─── -->
+                <header class="dp-header">
+                    <a href="/datapro-home" class="dp-logo">
+                        <t t-call="datapro_website.dp_logo_img"/>
+                    </a>
+                    <nav class="dp-hnav">
+                        <a class="dp-hn-link" href="/datapro-home">Accueil</a>
+                        <a class="dp-hn-link" href="/services">Services</a>
+                        <a class="dp-hn-link" href="/odoo-consultant">Odoo</a>
+                        <a class="dp-hn-link active" href="/ia-automation">IA &amp; Auto</a>
+                        <a class="dp-hn-link" href="/developpement">Dev</a>
+                        <a class="dp-hn-link" href="/sites-web">Sites Web</a>
+                        <a class="dp-hn-link" href="/projets-clients">Projets</a>
+                        <a class="dp-hn-link" href="/recrutement">Recrutement</a>
+                        <!-- ─────────────────────────────────────
+                             SÉLECTEUR DE LANGUE (FR / EN / AR)
+                             Convention Odoo website_multilang : la langue par
+                             défaut (fr) n'a pas de préfixe d'URL, les autres
+                             langues sont préfixées par leur url_code (/en/…, /ar/…).
+                             Ces liens ne basculeront réellement de langue qu'une
+                             fois en_US et ar activées et assignées au site dans
+                             Réglages > Traductions.
+                        ───────────────────────────────────── -->
+                        <t t-set="dp_lang_current" t-value="request.env.context.get('lang', 'fr_FR')"/>
+                        <t t-set="dp_lang_path" t-value="request.httprequest.path"/>
+                        <t t-set="dp_lang_base" t-value="dp_lang_path"/>
+                        <t t-foreach="['en', 'ar']" t-as="dp_pref">
+                            <t t-if="dp_lang_path == '/%s' % dp_pref">
+                                <t t-set="dp_lang_base" t-value="'/'"/>
+                            </t>
+                            <t t-elif="dp_lang_path.startswith('/%s/' % dp_pref)">
+                                <t t-set="dp_lang_base" t-value="dp_lang_path[len(dp_pref) + 1:]"/>
+                            </t>
+                        </t>
+                        <div class="dp-lang-switch" role="group" aria-label="Sélecteur de langue">
+                            <a t-att-href="dp_lang_base"
+                               hreflang="fr"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('fr') else ''}">FR</a>
+                            <a t-att-href="'/en' + dp_lang_base"
+                               hreflang="en"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('en') else ''}">EN</a>
+                            <a t-att-href="'/ar' + dp_lang_base"
+                               hreflang="ar"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('ar') else ''}">AR</a>
+                        </div>
+
+                    </nav>
+                </header>
+
+                <!-- ─── BARRE FLOTTANTE — WhatsApp + Devis gratuit ─── -->
+                <div class="dp-float-bar">
+                    <button class="dp-float-wa" onclick="window.open('https://wa.me/21698631289','_blank')">
+                        <span>💬</span> WhatsApp
+                    </button>
+                    <button class="dp-float-cta" onclick="window.location='/contact'">
+                        <span>🤖</span> Démo IA gratuite
+                    </button>
+                </div>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 1 — HERO IA
+                ══════════════════════════════════════ -->
+                <section class="ia-hero">
+                    <div class="ia-hero-bg"/>
+                    <div class="ia-hero-glow"/>
+                    <div class="dp-inner ia-hero-inner">
+                        <div class="ia-hero-left">
+                            <div class="ia-hero-badge">
+                                <span class="ia-hb-dot"/>
+                                Automation · IA · Data — Basé à Sousse
+                            </div>
+                            <h1 class="ia-hero-title">
+                                Vos process <span class="ia-em-teal">automatisés</span>.<br/>
+                                Vos données en temps<br/>
+                                <span class="ia-em-light">réel. Votre équipe libérée.</span>
+                            </h1>
+                            <p class="ia-hero-sub">
+                                n8n, Zapier, Claude API, BigQuery, Looker Studio — nous construisons
+                                des pipelines d'automatisation et d'intelligence artificielle qui
+                                fonctionnent vraiment en production.
+                            </p>
+                            <div class="ia-hero-ctas">
+                                <button class="ia-cta-p" onclick="window.location='/contact'">🤖 Démo IA gratuite</button>
+                                <button class="ia-cta-g" onclick="window.open('https://wa.me/21698631289','_blank')">💬 Parler à un expert</button>
+                            </div>
+                            <div class="ia-hero-trust">
+                                <span class="ia-trust-item">✅ n8n self-hosted maîtrisé</span>
+                                <span class="ia-trust-item">✅ Claude API en production</span>
+                                <span class="ia-trust-item">✅ BigQuery + Looker</span>
+                                <span class="ia-trust-item">✅ POC en 2 semaines</span>
+                            </div>
+                        </div>
+                        <div class="ia-hero-right">
+                            <div class="ia-kpi-grid">
+                                <div class="ia-kpi">
+                                    <div class="ia-kpi-val">1.15M</div>
+                                    <div class="ia-kpi-label">Requêtes/jour traitées</div>
+                                    <div class="ia-kpi-sub">Pipeline n8n → BigQuery · Alfa Print</div>
+                                </div>
+                                <div class="ia-kpi">
+                                    <div class="ia-kpi-val">24/7</div>
+                                    <div class="ia-kpi-label">Agents IA actifs</div>
+                                    <div class="ia-kpi-sub">Sans intervention humaine</div>
+                                </div>
+                                <div class="ia-kpi">
+                                    <div class="ia-kpi-val">−60%</div>
+                                    <div class="ia-kpi-label">Tâches manuelles</div>
+                                    <div class="ia-kpi-sub">Gain moyen constaté</div>
+                                </div>
+                                <div class="ia-kpi">
+                                    <div class="ia-kpi-val">2 sem</div>
+                                    <div class="ia-kpi-label">Délai POC</div>
+                                    <div class="ia-kpi-sub">ROI visible dès le 1er mois</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 2 — SOLUTIONS IA
+                ══════════════════════════════════════ -->
+                <section class="ia-solutions">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Nos solutions IA</div>
+                        <div class="dp-sec-title">Ce que nous automatisons concrètement</div>
+                        <div class="dp-sec-sub">Chaque solution ci-dessous a été livrée en production pour un client réel.</div>
+
+                        <div class="ia-sol-grid dp-reveal">
+
+                            <div class="ia-sol-card ia-sc-teal">
+                                <div class="ia-sc-ico">🔄</div>
+                                <div class="ia-sc-title">Workflows n8n sur mesure</div>
+                                <div class="ia-sc-desc">
+                                    Automatisations complexes multi-étapes : Odoo → Brevo, Ringover → CRM,
+                                    Shopify → BigQuery. N8n self-hosted sur VPS OVH avec SSL.
+                                </div>
+                                <div class="ia-sc-tags">
+                                    <span class="ia-stag">n8n</span>
+                                    <span class="ia-stag">Webhooks</span>
+                                    <span class="ia-stag">JSON-RPC</span>
+                                </div>
+                                <div class="ia-sc-ref">Réf : Alfa Print · Metal 2000</div>
+                            </div>
+
+                            <div class="ia-sol-card ia-sc-violet">
+                                <div class="ia-sc-ico">🤖</div>
+                                <div class="ia-sc-title">Agents IA métier</div>
+                                <div class="ia-sc-desc">
+                                    Agents Claude/GPT intégrés dans Odoo ou vos systèmes existants.
+                                    Segmentation client RFM, scoring commercial, génération de rapports IA.
+                                </div>
+                                <div class="ia-sc-tags">
+                                    <span class="ia-stag">Claude API</span>
+                                    <span class="ia-stag">Agents</span>
+                                    <span class="ia-stag">Odoo</span>
+                                </div>
+                                <div class="ia-sc-ref">Réf : Vente IA Alfa Print (en cours)</div>
+                            </div>
+
+                            <div class="ia-sol-card ia-sc-blue">
+                                <div class="ia-sc-ico">📊</div>
+                                <div class="ia-sc-title">Analytics BigQuery + Looker</div>
+                                <div class="ia-sc-desc">
+                                    Pipeline complet Odoo → n8n → BigQuery → Looker Studio.
+                                    Tableaux de bord en temps réel pour la direction et les commerciaux.
+                                </div>
+                                <div class="ia-sc-tags">
+                                    <span class="ia-stag">BigQuery</span>
+                                    <span class="ia-stag">Looker Studio</span>
+                                    <span class="ia-stag">GCP</span>
+                                </div>
+                                <div class="ia-sc-ref">Réf : Alfa Print · Odoo 17/18</div>
+                            </div>
+
+                            <div class="ia-sol-card ia-sc-green">
+                                <div class="ia-sc-ico">📞</div>
+                                <div class="ia-sc-title">Intégrations CRM automatisées</div>
+                                <div class="ia-sc-desc">
+                                    Ringover / Empower → Zapier → Odoo CRM. Création automatique de leads,
+                                    normalisation des numéros, qualification par IA, alertes commerciales.
+                                </div>
+                                <div class="ia-sc-tags">
+                                    <span class="ia-stag">Ringover</span>
+                                    <span class="ia-stag">Zapier</span>
+                                    <span class="ia-stag">Odoo CRM</span>
+                                </div>
+                                <div class="ia-sc-ref">Réf : Metal 2000 · Odoo 18</div>
+                            </div>
+
+                            <div class="ia-sol-card ia-sc-orange">
+                                <div class="ia-sc-ico">📧</div>
+                                <div class="ia-sc-title">Email &amp; communication IA</div>
+                                <div class="ia-sc-desc">
+                                    Campagnes Brevo automatisées basées sur la segmentation RFM.
+                                    Alertes intelligentes, newsletters personnalisées, séquences de réactivation.
+                                </div>
+                                <div class="ia-sc-tags">
+                                    <span class="ia-stag">Brevo</span>
+                                    <span class="ia-stag">RFM</span>
+                                    <span class="ia-stag">Segmentation</span>
+                                </div>
+                                <div class="ia-sc-ref">Réf : Vente IA Alfa Print</div>
+                            </div>
+
+                            <div class="ia-sol-card ia-sc-purple">
+                                <div class="ia-sc-ico">🗃</div>
+                                <div class="ia-sc-title">Sync données &amp; ETL</div>
+                                <div class="ia-sc-desc">
+                                    Synchronisation Odoo ↔ Google Sheets, BigQuery, Sage X3 et API tierces.
+                                    Pipelines ETL avec gestion des erreurs, retry et logs d'audit.
+                                </div>
+                                <div class="ia-sc-tags">
+                                    <span class="ia-stag">Google Sheets</span>
+                                    <span class="ia-stag">ETL</span>
+                                    <span class="ia-stag">API REST</span>
+                                </div>
+                                <div class="ia-sc-ref">Réf : Alfa Print · Metal 2000</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 3 — STACK IA
+                ══════════════════════════════════════ -->
+                <section class="ia-stack">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Stack &amp; outils</div>
+                        <div class="dp-sec-title">Technologies IA maîtrisées</div>
+                        <div class="ia-stack-grid dp-reveal">
+                            <div class="ia-stk"><div class="ia-stk-ico">⚙️</div><div class="ia-stk-n">n8n</div><div class="ia-stk-s">Self-hosted OVH</div></div>
+                            <div class="ia-stk"><div class="ia-stk-ico">⚡</div><div class="ia-stk-n">Zapier</div><div class="ia-stk-s">5000+ apps</div></div>
+                            <div class="ia-stk"><div class="ia-stk-ico">🤖</div><div class="ia-stk-n">Claude API</div><div class="ia-stk-s">Anthropic · Agents</div></div>
+                            <div class="ia-stk"><div class="ia-stk-ico">📊</div><div class="ia-stk-n">BigQuery</div><div class="ia-stk-s">GCP · SQL analytique</div></div>
+                            <div class="ia-stk"><div class="ia-stk-ico">📈</div><div class="ia-stk-n">Looker Studio</div><div class="ia-stk-s">Dashboards temps réel</div></div>
+                            <div class="ia-stk"><div class="ia-stk-ico">📧</div><div class="ia-stk-n">Brevo</div><div class="ia-stk-s">Email · SMS · API</div></div>
+                            <div class="ia-stk"><div class="ia-stk-ico">📞</div><div class="ia-stk-n">Ringover</div><div class="ia-stk-s">Telephonie + Empower</div></div>
+                            <div class="ia-stk"><div class="ia-stk-ico">🐍</div><div class="ia-stk-n">Python</div><div class="ia-stk-s">Scripts &amp; pipelines</div></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 4 — CTA IA
+                ══════════════════════════════════════ -->
+                <section class="ia-cta-final">
+                    <div class="ia-cta-glow"/>
+                    <div class="dp-inner ia-cta-inner">
+                        <h2 class="ia-cta-title">
+                            Prêt à automatiser<br/>
+                            <span class="ia-cta-em">votre prochain process ?</span>
+                        </h2>
+                        <p class="ia-cta-sub">
+                            POC gratuit · Résultats en 2 semaines · Aucun engagement.
+                        </p>
+                        <div class="ia-cta-btns">
+                            <button class="ia-cta-btn-p" onclick="window.location='/contact'">🤖 Démo IA gratuite</button>
+                            <button class="ia-cta-btn-g" onclick="window.open('https://wa.me/21698631289','_blank')">💬 WhatsApp direct</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─── FOOTER ─── -->
+                <t t-call="datapro_website.dp_footer"/>
+
+            </div><!-- /.dp-page -->
+        </t>
+    </template>
+
+    <record id="website_page_ia_automation" model="website.page">
+        <field name="name">Data Pro — IA &amp; Automation</field>
+        <field name="url">/ia-automation</field>
+        <field name="view_id" ref="datapro_website.page_ia_automation"/>
+        <field name="website_indexed" eval="True"/>
+        <field name="is_published" eval="True"/>
+    </record>
+
+</odoo>

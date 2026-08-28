@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════
+         PAGE DÉVELOPPEMENT SUR MESURE
+         URL : /developpement
+    ══════════════════════════════════════════════════ -->
+    <template id="page_developpement" name="Data Pro — Développement Sur Mesure">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'developpement'"/>
+
+            <div class="dp-page">
+
+                <!-- ─── TOPBAR ─── -->
+                <div class="dp-topbar">
+                    <span>💻 <strong>Développement sur mesure</strong> · Python · API REST · Modules Odoo</span>
+                    <button class="dp-tb-cta" onclick="window.location='/contact'">Devis dev gratuit →</button>
+                </div>
+
+                <!-- ─── HEADER ─── -->
+                <header class="dp-header">
+                    <a href="/datapro-home" class="dp-logo">
+                        <t t-call="datapro_website.dp_logo_img"/>
+                    </a>
+                    <nav class="dp-hnav">
+                        <a class="dp-hn-link" href="/datapro-home">Accueil</a>
+                        <a class="dp-hn-link" href="/services">Services</a>
+                        <a class="dp-hn-link" href="/odoo-consultant">Odoo</a>
+                        <a class="dp-hn-link" href="/ia-automation">IA &amp; Auto</a>
+                        <a class="dp-hn-link active" href="/developpement">Dev</a>
+                        <a class="dp-hn-link" href="/sites-web">Sites Web</a>
+                        <a class="dp-hn-link" href="/projets-clients">Projets</a>
+                        <a class="dp-hn-link" href="/recrutement">Recrutement</a>
+                        <!-- ─────────────────────────────────────
+                             SÉLECTEUR DE LANGUE (FR / EN / AR)
+                             Convention Odoo website_multilang : la langue par
+                             défaut (fr) n'a pas de préfixe d'URL, les autres
+                             langues sont préfixées par leur url_code (/en/…, /ar/…).
+                             Ces liens ne basculeront réellement de langue qu'une
+                             fois en_US et ar activées et assignées au site dans
+                             Réglages > Traductions.
+                        ───────────────────────────────────── -->
+                        <t t-set="dp_lang_current" t-value="request.env.context.get('lang', 'fr_FR')"/>
+                        <t t-set="dp_lang_path" t-value="request.httprequest.path"/>
+                        <t t-set="dp_lang_base" t-value="dp_lang_path"/>
+                        <t t-foreach="['en', 'ar']" t-as="dp_pref">
+                            <t t-if="dp_lang_path == '/%s' % dp_pref">
+                                <t t-set="dp_lang_base" t-value="'/'"/>
+                            </t>
+                            <t t-elif="dp_lang_path.startswith('/%s/' % dp_pref)">
+                                <t t-set="dp_lang_base" t-value="dp_lang_path[len(dp_pref) + 1:]"/>
+                            </t>
+                        </t>
+                        <div class="dp-lang-switch" role="group" aria-label="Sélecteur de langue">
+                            <a t-att-href="dp_lang_base"
+                               hreflang="fr"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('fr') else ''}">FR</a>
+                            <a t-att-href="'/en' + dp_lang_base"
+                               hreflang="en"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('en') else ''}">EN</a>
+                            <a t-att-href="'/ar' + dp_lang_base"
+                               hreflang="ar"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('ar') else ''}">AR</a>
+                        </div>
+
+                    </nav>
+                </header>
+
+                <!-- ─── BARRE FLOTTANTE — WhatsApp + Devis gratuit ─── -->
+                <div class="dp-float-bar">
+                    <button class="dp-float-wa" onclick="window.open('https://wa.me/21698631289','_blank')">
+                        <span>💬</span> WhatsApp
+                    </button>
+                    <button class="dp-float-cta" onclick="window.location='/contact'">
+                        <span>💻</span> Devis dev gratuit
+                    </button>
+                </div>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 1 — HERO DEV
+                ══════════════════════════════════════ -->
+                <section class="dev-hero">
+                    <div class="dev-hero-bg"/>
+                    <div class="dp-inner dev-hero-inner">
+                        <div class="dev-hero-left">
+                            <div class="dev-hero-badge">
+                                <span class="dev-hb-dot"/>
+                                Développement Python · Odoo · API REST · Apps Web
+                            </div>
+                            <h1 class="dev-hero-title">
+                                Votre projet n'entre<br/>
+                                dans <span class="dev-em-violet">aucune boîte</span> ?<br/>
+                                <span class="dev-em-light">On construit la solution.</span>
+                            </h1>
+                            <p class="dev-hero-sub">
+                                Applications sur mesure, modules Odoo custom, connecteurs API, scripts d'intégration —
+                                quand les logiciels du marché ne suffisent pas, nous codons exactement ce dont vous avez besoin.
+                            </p>
+                            <div class="dev-hero-ctas">
+                                <button class="dev-cta-p" onclick="window.location='/contact'">💻 Décrire mon projet</button>
+                                <button class="dev-cta-g" onclick="window.location='/projets-clients'">📂 Voir nos réalisations</button>
+                            </div>
+                            <div class="dev-hero-trust">
+                                <span class="dev-trust-item">✅ Python senior</span>
+                                <span class="dev-trust-item">✅ Modules Odoo custom</span>
+                                <span class="dev-trust-item">✅ APIs REST &amp; XML-RPC</span>
+                                <span class="dev-trust-item">✅ Livraison garantie</span>
+                            </div>
+                        </div>
+                        <div class="dev-hero-right">
+                            <div class="dev-code-block">
+                                <div class="dev-code-bar">
+                                    <span class="dev-cb-dot dev-cb-r"/>
+                                    <span class="dev-cb-dot dev-cb-y"/>
+                                    <span class="dev-cb-dot dev-cb-g"/>
+                                    <span class="dev-cb-title">custom_module.py</span>
+                                </div>
+                                <pre class="dev-code-pre"><code><span class="dev-c-kw">class</span> <span class="dev-c-cl">MaintenanceRequest</span>(<span class="dev-c-cl">models.Model</span>):
+    <span class="dev-c-st">_name</span> = <span class="dev-c-s">'sale.maintenance.request'</span>
+    <span class="dev-c-st">_inherit</span> = [<span class="dev-c-s">'mail.thread'</span>]
+
+    <span class="dev-c-fn">@api.model_create_multi</span>
+    <span class="dev-c-kw">def</span> <span class="dev-c-fn">create</span>(<span class="dev-c-v">self</span>, vals_list):
+        <span class="dev-c-kw">for</span> vals <span class="dev-c-kw">in</span> vals_list:
+            <span class="dev-c-v">vals</span>[<span class="dev-c-s">'name'</span>] = self.env[<span class="dev-c-s">'ir.sequence'</span>]\
+                .next_by_code(<span class="dev-c-s">'smr.sequence'</span>)
+        <span class="dev-c-kw">return super</span>().create(vals_list)
+</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 2 — EXPERTISES DEV
+                ══════════════════════════════════════ -->
+                <section class="dev-expertise">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Nos expertises</div>
+                        <div class="dp-sec-title">Ce que nous développons</div>
+                        <div class="dp-sec-sub">Projets livrés en production. Pas de théorie.</div>
+
+                        <div class="dev-exp-grid dp-reveal">
+
+                            <div class="dev-exp-card">
+                                <div class="dev-ec-head dev-eh-violet">
+                                    <span class="dev-ec-ico">🧩</span>
+                                    <span class="dev-ec-domain">Modules Odoo Custom</span>
+                                </div>
+                                <ul class="dev-ec-list">
+                                    <li>Modules métier de A à Z (GMAO, RH, CRM)</li>
+                                    <li>Extensions &amp; héritages complexes</li>
+                                    <li>Rapports QWeb personnalisés</li>
+                                    <li>Wizards, séquences, workflows</li>
+                                    <li>OWL Components (Odoo 16+)</li>
+                                </ul>
+                                <div class="dev-ec-ref">Réf : sale_maintenance_request · alfaprint_rfm</div>
+                            </div>
+
+                            <div class="dev-exp-card">
+                                <div class="dev-ec-head dev-eh-teal">
+                                    <span class="dev-ec-ico">🔌</span>
+                                    <span class="dev-ec-domain">APIs &amp; Connecteurs</span>
+                                </div>
+                                <ul class="dev-ec-list">
+                                    <li>REST API bidirectionnelle Odoo ↔ tiers</li>
+                                    <li>XML-RPC · JSON-RPC · OAuth2</li>
+                                    <li>Connecteurs fournisseurs (Ingram, Axro...)</li>
+                                    <li>Webhooks entrants/sortants</li>
+                                    <li>Normalisation &amp; transformation de données</li>
+                                </ul>
+                                <div class="dev-ec-ref">Réf : SOMATRAL · Ringover · crm_gsheet_sync</div>
+                            </div>
+
+                            <div class="dev-exp-card">
+                                <div class="dev-ec-head dev-eh-blue">
+                                    <span class="dev-ec-ico">📊</span>
+                                    <span class="dev-ec-domain">Pipelines Data</span>
+                                </div>
+                                <ul class="dev-ec-list">
+                                    <li>Odoo → n8n → BigQuery streaming</li>
+                                    <li>ETL avec gestion erreurs &amp; retry</li>
+                                    <li>Sync Google Sheets bidirectionnelle</li>
+                                    <li>Dashboards Looker Studio temps réel</li>
+                                    <li>PostgreSQL · SQL analytique</li>
+                                </ul>
+                                <div class="dev-ec-ref">Réf : alfa_bigquery_sync · Alfa Print</div>
+                            </div>
+
+                            <div class="dev-exp-card">
+                                <div class="dev-ec-head dev-eh-orange">
+                                    <span class="dev-ec-ico">🌐</span>
+                                    <span class="dev-ec-domain">Apps Web &amp; Backend</span>
+                                </div>
+                                <ul class="dev-ec-list">
+                                    <li>Applications Python Flask / FastAPI</li>
+                                    <li>Sites web Odoo (QWeb + SCSS + OWL)</li>
+                                    <li>Controllers HTTP custom</li>
+                                    <li>Authentification OAuth2 / JWT</li>
+                                    <li>Déploiement Docker · Nginx · Ubuntu</li>
+                                </ul>
+                                <div class="dev-ec-ref">Réf : alfa_website_design · datapro_website</div>
+                            </div>
+
+                            <div class="dev-exp-card">
+                                <div class="dev-ec-head dev-eh-green">
+                                    <span class="dev-ec-ico">🏭</span>
+                                    <span class="dev-ec-domain">Intégrations E-commerce</span>
+                                </div>
+                                <ul class="dev-ec-list">
+                                    <li>Stripe · PayPal · paiement en ligne</li>
+                                    <li>Sellermania (Amazon marketplace)</li>
+                                    <li>GLS · SendCloud · transport</li>
+                                    <li>Icecat API (catalogue produits)</li>
+                                    <li>Factur-X / Peppol / e-invoicing</li>
+                                </ul>
+                                <div class="dev-ec-ref">Réf : Alfa Print · Odoo 17/18</div>
+                            </div>
+
+                            <div class="dev-exp-card">
+                                <div class="dev-ec-head dev-eh-purple">
+                                    <span class="dev-ec-ico">🔒</span>
+                                    <span class="dev-ec-domain">Conformité &amp; Sécurité</span>
+                                </div>
+                                <ul class="dev-ec-list">
+                                    <li>E-invoicing Tunisie (TEIF v1.8.8)</li>
+                                    <li>XAdES-B · ANCE · signatures électroniques</li>
+                                    <li>SFTP · SOAP · web services sécurisés</li>
+                                    <li>Audit de code &amp; correction anomalies</li>
+                                    <li>Performance Odoo (N+1, flamegraph)</li>
+                                </ul>
+                                <div class="dev-ec-ref">Réf : El Fatoora TN · Audit Alfa Print</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 3 — PROCESS DEV
+                ══════════════════════════════════════ -->
+                <section class="dev-process">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Comment on travaille</div>
+                        <div class="dp-sec-title">Un process de dev rigoureux</div>
+                        <div class="dev-proc-grid dp-reveal">
+                            <div class="dev-proc-step">
+                                <div class="dev-ps-num">01</div>
+                                <div class="dev-ps-ico">📋</div>
+                                <div class="dev-ps-t">Spécification</div>
+                                <div class="dev-ps-s">Cahier des charges technique précis avant la première ligne de code</div>
+                            </div>
+                            <div class="dev-ps-arrow">→</div>
+                            <div class="dev-proc-step">
+                                <div class="dev-ps-num">02</div>
+                                <div class="dev-ps-ico">🌿</div>
+                                <div class="dev-ps-t">Branche staging</div>
+                                <div class="dev-ps-s">Développement isolé, tests sur Odoo.sh staging avant prod</div>
+                            </div>
+                            <div class="dev-ps-arrow">→</div>
+                            <div class="dev-proc-step">
+                                <div class="dev-ps-num">03</div>
+                                <div class="dev-ps-ico">✅</div>
+                                <div class="dev-ps-t">Recette client</div>
+                                <div class="dev-ps-s">Validation fonctionnelle à chaque sprint de 2 semaines</div>
+                            </div>
+                            <div class="dev-ps-arrow">→</div>
+                            <div class="dev-proc-step">
+                                <div class="dev-ps-num">04</div>
+                                <div class="dev-ps-ico">🚀</div>
+                                <div class="dev-ps-t">Mise en prod</div>
+                                <div class="dev-ps-s">Déploiement sans interruption + rollback plan</div>
+                            </div>
+                            <div class="dev-ps-arrow">→</div>
+                            <div class="dev-proc-step">
+                                <div class="dev-ps-num">05</div>
+                                <div class="dev-ps-ico">📚</div>
+                                <div class="dev-ps-t">Documentation</div>
+                                <div class="dev-ps-s">Doc technique complète + formation équipes</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ═══ CTA FINAL ═══ -->
+                <section class="dev-cta-final">
+                    <div class="dp-inner dev-cta-inner">
+                        <h2 class="dev-cta-title">
+                            Votre projet de développement ?<br/>
+                            <span class="dev-cta-em">On en parle.</span>
+                        </h2>
+                        <p class="dev-cta-sub">Devis sous 24h · Expertise senior</p>
+                        <div class="dev-cta-btns">
+                            <button class="dev-cta-btn-p" onclick="window.location='/contact'">💻 Décrire mon projet</button>
+                            <button class="dev-cta-btn-g" onclick="window.open('https://wa.me/21698631289','_blank')">💬 WhatsApp direct</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─── FOOTER ─── -->
+                <t t-call="datapro_website.dp_footer"/>
+
+            </div><!-- /.dp-page -->
+        </t>
+    </template>
+
+    <record id="website_page_developpement" model="website.page">
+        <field name="name">Data Pro — Développement Sur Mesure</field>
+        <field name="url">/developpement</field>
+        <field name="view_id" ref="datapro_website.page_developpement"/>
+        <field name="website_indexed" eval="True"/>
+        <field name="is_published" eval="True"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="website_page_datapro_home" model="website.page">
+        <field name="name">Data Pro Technologie — Accueil</field>
+        <field name="url">/datapro-home</field>
+        <field name="view_id" ref="datapro_website.page_accueil"/>
+        <field name="website_indexed" eval="True"/>
+        <field name="is_published" eval="True"/>
+    </record>
+</odoo>

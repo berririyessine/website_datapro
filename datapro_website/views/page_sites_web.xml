@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════
+         PAGE SITES WEB
+         URL : /sites-web
+    ══════════════════════════════════════════════════ -->
+    <template id="page_sites_web" name="Data Pro — Sites Web &amp; E-commerce">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'sites-web'"/>
+
+            <div class="dp-page">
+
+                <!-- ─── TOPBAR ─── -->
+                <div class="dp-topbar">
+                    <span>🌐 <strong>Sites Web &amp; E-commerce</strong> · Odoo Website · SEO · Conversion</span>
+                    <button class="dp-tb-cta" onclick="window.location='/contact'">Devis site gratuit →</button>
+                </div>
+
+                <!-- ─── HEADER ─── -->
+                <header class="dp-header">
+                    <a href="/datapro-home" class="dp-logo">
+                        <t t-call="datapro_website.dp_logo_img"/>
+                    </a>
+                    <nav class="dp-hnav">
+                        <a class="dp-hn-link" href="/datapro-home">Accueil</a>
+                        <a class="dp-hn-link" href="/services">Services</a>
+                        <a class="dp-hn-link" href="/odoo-consultant">Odoo</a>
+                        <a class="dp-hn-link" href="/ia-automation">IA &amp; Auto</a>
+                        <a class="dp-hn-link" href="/developpement">Dev</a>
+                        <a class="dp-hn-link active" href="/sites-web">Sites Web</a>
+                        <a class="dp-hn-link" href="/projets-clients">Projets</a>
+                        <a class="dp-hn-link" href="/recrutement">Recrutement</a>
+                        <!-- ─────────────────────────────────────
+                             SÉLECTEUR DE LANGUE (FR / EN / AR)
+                             Convention Odoo website_multilang : la langue par
+                             défaut (fr) n'a pas de préfixe d'URL, les autres
+                             langues sont préfixées par leur url_code (/en/…, /ar/…).
+                             Ces liens ne basculeront réellement de langue qu'une
+                             fois en_US et ar activées et assignées au site dans
+                             Réglages > Traductions.
+                        ───────────────────────────────────── -->
+                        <t t-set="dp_lang_current" t-value="request.env.context.get('lang', 'fr_FR')"/>
+                        <t t-set="dp_lang_path" t-value="request.httprequest.path"/>
+                        <t t-set="dp_lang_base" t-value="dp_lang_path"/>
+                        <t t-foreach="['en', 'ar']" t-as="dp_pref">
+                            <t t-if="dp_lang_path == '/%s' % dp_pref">
+                                <t t-set="dp_lang_base" t-value="'/'"/>
+                            </t>
+                            <t t-elif="dp_lang_path.startswith('/%s/' % dp_pref)">
+                                <t t-set="dp_lang_base" t-value="dp_lang_path[len(dp_pref) + 1:]"/>
+                            </t>
+                        </t>
+                        <div class="dp-lang-switch" role="group" aria-label="Sélecteur de langue">
+                            <a t-att-href="dp_lang_base"
+                               hreflang="fr"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('fr') else ''}">FR</a>
+                            <a t-att-href="'/en' + dp_lang_base"
+                               hreflang="en"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('en') else ''}">EN</a>
+                            <a t-att-href="'/ar' + dp_lang_base"
+                               hreflang="ar"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('ar') else ''}">AR</a>
+                        </div>
+
+                    </nav>
+                </header>
+
+                <!-- ─── BARRE FLOTTANTE — WhatsApp + Devis gratuit ─── -->
+                <div class="dp-float-bar">
+                    <button class="dp-float-wa" onclick="window.open('https://wa.me/21698631289','_blank')">
+                        <span>💬</span> WhatsApp
+                    </button>
+                    <button class="dp-float-cta" onclick="window.location='/contact'">
+                        <span>🌐</span> Devis site gratuit
+                    </button>
+                </div>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 1 — HERO WEB
+                ══════════════════════════════════════ -->
+                <section class="web-hero">
+                    <div class="web-hero-bg"/>
+                    <div class="web-hero-glow"/>
+                    <div class="dp-inner web-hero-inner">
+                        <div class="web-hero-left">
+                            <div class="web-hero-badge">
+                                🌐 Odoo Website · E-commerce · Vitrine · SEO
+                            </div>
+                            <h1 class="web-hero-title">
+                                Des sites web qui<br/>
+                                <span class="web-em-teal">convertissent</span>,<br/>
+                                pas juste qui existent.
+                            </h1>
+                            <p class="web-hero-sub">
+                                Sites vitrine, e-commerce Odoo, applications web — nous concevons des
+                                expériences digitales modernes, rapides et optimisées pour attirer
+                                vos clients et les convertir.
+                            </p>
+                            <div class="web-hero-ctas">
+                                <button class="web-cta-p" onclick="window.location='/contact'">🌐 Devis site gratuit</button>
+                                <button class="web-cta-g" onclick="window.location='/projets-clients'">👁 Voir nos réalisations</button>
+                            </div>
+                            <div class="web-hero-trust">
+                                <span class="web-trust-item">✅ Odoo Website maîtrisé</span>
+                                <span class="web-trust-item">✅ SEO technique</span>
+                                <span class="web-trust-item">✅ Paiement en ligne</span>
+                                <span class="web-trust-item">✅ Mobile-first</span>
+                            </div>
+                        </div>
+                        <div class="web-hero-right">
+                            <div class="web-kpi-grid">
+                                <div class="web-kpi">
+                                    <div class="web-kpi-val">8</div>
+                                    <div class="web-kpi-label">Sprints de livraison</div>
+                                    <div class="web-kpi-sub">Alfaprint.fr · Refonte complète</div>
+                                </div>
+                                <div class="web-kpi">
+                                    <div class="web-kpi-val">100%</div>
+                                    <div class="web-kpi-label">Custom design</div>
+                                    <div class="web-kpi-sub">Aucun template générique</div>
+                                </div>
+                                <div class="web-kpi">
+                                    <div class="web-kpi-val">Core Web</div>
+                                    <div class="web-kpi-label">Vitals optimisés</div>
+                                    <div class="web-kpi-sub">Performance &amp; SEO</div>
+                                </div>
+                                <div class="web-kpi">
+                                    <div class="web-kpi-val">FR + TN</div>
+                                    <div class="web-kpi-label">Marchés couverts</div>
+                                    <div class="web-kpi-sub">Bilingue FR / AR</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 2 — OFFRES WEB
+                ══════════════════════════════════════ -->
+                <section class="web-offers">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Nos offres web</div>
+                        <div class="dp-sec-title">Quel site vous correspond ?</div>
+
+                        <div class="web-off-grid dp-reveal">
+
+                            <div class="web-off-card web-oc-teal">
+                                <div class="web-oc-ico">🏢</div>
+                                <div class="web-oc-title">Site Vitrine Professionnel</div>
+                                <div class="web-oc-price">Dès 1 200 €</div>
+                                <div class="web-oc-desc">
+                                    Présentation de votre entreprise, équipe, services et contact.
+                                    Design sur mesure, SEO de base, formulaire de contact CRM.
+                                </div>
+                                <ul class="web-oc-list">
+                                    <li>✓ Design system personnalisé</li>
+                                    <li>✓ Intégration Odoo CRM leads</li>
+                                    <li>✓ SEO on-page optimisé</li>
+                                    <li>✓ Mobile-first responsive</li>
+                                    <li>✓ Livraison 3–4 semaines</li>
+                                </ul>
+                                <a class="web-oc-cta" href="/contact">Demander un devis →</a>
+                            </div>
+
+                            <div class="web-off-card web-oc-violet web-oc-featured">
+                                <div class="web-oc-badge">⭐ Recommandé</div>
+                                <div class="web-oc-ico">🛒</div>
+                                <div class="web-oc-title">E-commerce Odoo</div>
+                                <div class="web-oc-price">Dès 3 500 €</div>
+                                <div class="web-oc-desc">
+                                    Boutique en ligne complète sur Odoo Website. Catalogue, panier,
+                                    paiement Stripe, livraison GLS/SendCloud, espace client.
+                                </div>
+                                <ul class="web-oc-list">
+                                    <li>✓ Odoo Website custom (QWeb + SCSS)</li>
+                                    <li>✓ Stripe · PayPal · paiement sécurisé</li>
+                                    <li>✓ Configurateur produits sur mesure</li>
+                                    <li>✓ Espace client enrichi</li>
+                                    <li>✓ Brevo newsletter intégré</li>
+                                </ul>
+                                <a class="web-oc-cta web-oc-cta-featured" href="/contact">Devis e-commerce →</a>
+                            </div>
+
+                            <div class="web-off-card web-oc-blue">
+                                <div class="web-oc-ico">🚀</div>
+                                <div class="web-oc-title">Refonte &amp; Migration</div>
+                                <div class="web-oc-price">Sur devis</div>
+                                <div class="web-oc-desc">
+                                    Migration Odoo 16→18, refonte graphique, modernisation UX,
+                                    amélioration performance et SEO d'un site existant.
+                                </div>
+                                <ul class="web-oc-list">
+                                    <li>✓ Audit du site existant</li>
+                                    <li>✓ Migration de données</li>
+                                    <li>✓ Nouveau design system</li>
+                                    <li>✓ Optimisation Core Web Vitals</li>
+                                    <li>✓ Zéro interruption de service</li>
+                                </ul>
+                                <a class="web-oc-cta" href="/contact">Audit gratuit →</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 3 — TECHNOLOGIES WEB
+                ══════════════════════════════════════ -->
+                <section class="web-tech">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Stack technologique</div>
+                        <div class="dp-sec-title">Technologies web maîtrisées</div>
+                        <div class="web-tech-grid dp-reveal">
+                            <div class="web-tc"><div class="web-tc-ico">🧩</div><div class="web-tc-n">Odoo Website</div><div class="web-tc-s">v16 → v18</div></div>
+                            <div class="web-tc"><div class="web-tc-ico">📄</div><div class="web-tc-n">QWeb Templates</div><div class="web-tc-s">Moteur de vues</div></div>
+                            <div class="web-tc"><div class="web-tc-ico">🎨</div><div class="web-tc-n">SCSS Bootstrap</div><div class="web-tc-s">Design system</div></div>
+                            <div class="web-tc"><div class="web-tc-ico">⚡</div><div class="web-tc-n">OWL / JS</div><div class="web-tc-s">Composants Odoo 18</div></div>
+                            <div class="web-tc"><div class="web-tc-ico">💳</div><div class="web-tc-n">Stripe</div><div class="web-tc-s">Paiement en ligne</div></div>
+                            <div class="web-tc"><div class="web-tc-ico">📧</div><div class="web-tc-n">Brevo</div><div class="web-tc-s">Email marketing</div></div>
+                            <div class="web-tc"><div class="web-tc-ico">📦</div><div class="web-tc-n">SendCloud / GLS</div><div class="web-tc-s">Expédition</div></div>
+                            <div class="web-tc"><div class="web-tc-ico">☁️</div><div class="web-tc-n">Odoo.sh</div><div class="web-tc-s">Hébergement cloud</div></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 4 — RÉFÉRENCE ALFA PRINT
+                ══════════════════════════════════════ -->
+                <section class="web-case">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Référence client</div>
+                        <div class="dp-sec-title">Refonte alfaprint.fr — Odoo 17 → 18</div>
+                        <div class="web-case-inner dp-reveal">
+                            <div class="web-case-left">
+                                <div class="web-case-badge">🖨 Alfa Print · E-commerce consommables</div>
+                                <div class="web-case-desc">
+                                    Refonte complète du site e-commerce Alfa Print sur Odoo 18.
+                                    Nouveau design system CMJN (Cyan, Magenta, Yellow, Navy),
+                                    configurateur imprimante → consommable, checkout controller custom,
+                                    intégration Stripe + Brevo newsletter.
+                                </div>
+                                <div class="web-case-items">
+                                    <div class="web-ci"><span class="web-ci-check">✓</span>Module <code>alfa_website_design</code> : design system complet</div>
+                                    <div class="web-ci"><span class="web-ci-check">✓</span>Configurateur produit avec switch panier compatible</div>
+                                    <div class="web-ci"><span class="web-ci-check">✓</span>Checkout controller custom + déduplication partenaires</div>
+                                    <div class="web-ci"><span class="web-ci-check">✓</span>Paiement Stripe + espace client enrichi</div>
+                                    <div class="web-ci"><span class="web-ci-check">✓</span>8 sprints · 80–119 jours · Odoo.sh</div>
+                                </div>
+                                <div class="web-case-tags">
+                                    <span class="web-ctag">Odoo 18</span>
+                                    <span class="web-ctag">QWeb</span>
+                                    <span class="web-ctag">SCSS</span>
+                                    <span class="web-ctag">OWL</span>
+                                    <span class="web-ctag">Stripe</span>
+                                    <span class="web-ctag">Brevo</span>
+                                    <span class="web-ctag">Odoo.sh</span>
+                                </div>
+                            </div>
+                            <div class="web-case-right">
+                                <div class="web-case-palette">
+                                    <div class="web-cp-title">Design system CMJN</div>
+                                    <div class="web-cp-swatches">
+                                        <div class="web-cs" style="background:#00A8D4;"><span>Cyan</span></div>
+                                        <div class="web-cs" style="background:#E8155A;"><span>Magenta</span></div>
+                                        <div class="web-cs" style="background:#F5C800;color:#1A1A2E;"><span>Yellow</span></div>
+                                        <div class="web-cs" style="background:#1A1A2E;"><span>Navy</span></div>
+                                    </div>
+                                    <div class="web-cp-fonts">
+                                        <div class="web-cf-row"><span class="web-cf-label">Display</span><span class="web-cf-val">DM Serif Display</span></div>
+                                        <div class="web-cf-row"><span class="web-cf-label">Corps</span><span class="web-cf-val">DM Sans</span></div>
+                                        <div class="web-cf-row"><span class="web-cf-label">Code</span><span class="web-cf-val">JetBrains Mono</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 5 — GESTION DES ACHATS (module Odoo)
+                     Réutilise volontairement les classes de la
+                     Zone 2 (web-offers / web-off-card) : même
+                     grille à 3 cartes, même palette teal/violet/blue,
+                     donc aucun nouveau CSS n'est nécessaire.
+                ══════════════════════════════════════ -->
+                <section class="web-offers">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Développement Odoo sur mesure</div>
+                        <div class="dp-sec-title">Un site, c'est aussi les automatisations qui vont avec</div>
+
+                        <div class="web-off-grid dp-reveal">
+
+                            <div class="web-off-card web-oc-teal">
+                                <div class="web-oc-ico">⚠️</div>
+                                <div class="web-oc-title">Le Problème</div>
+                                <div class="web-oc-desc">
+                                    Rattacher chaque facture au bon projet demande une correction manuelle.
+                                    Les erreurs de saisie faussent l'imputation analytique et rendent
+                                    le reporting inexploitable pour les managers.
+                                </div>
+                                <ul class="web-oc-list">
+                                    <li>✓ Erreurs de saisie récurrentes</li>
+                                    <li>✓ Projets mal imputés</li>
+                                    <li>✓ Reporting peu fiable</li>
+                                    <li>✓ Aucune visibilité budgétaire en temps réel</li>
+                                </ul>
+                            </div>
+
+                            <div class="web-off-card web-oc-violet web-oc-featured">
+                                <div class="web-oc-badge">⚙️ Cœur du module</div>
+                                <div class="web-oc-ico">🧩</div>
+                                <div class="web-oc-title">La Solution</div>
+                                <div class="web-oc-desc">
+                                    Un sélecteur <strong>Source Project</strong> rattache chaque facture
+                                    au bon projet dès la saisie. Les champs Type d'achat et Mois garantissent
+                                    une imputation analytique précise, tandis qu'un indicateur détecte
+                                    automatiquement les articles de type service.
+                                </div>
+                                <ul class="web-oc-list">
+                                    <li>✓ Sélecteur « Source Project » sur facture</li>
+                                    <li>✓ Champs Type d'achat + Mois</li>
+                                    <li>✓ Détection auto « article de type service »</li>
+                                    <li>✓ Imputation analytique fiabilisée</li>
+                                </ul>
+                            </div>
+
+                            <div class="web-off-card web-oc-blue">
+                                <div class="web-oc-ico">✅</div>
+                                <div class="web-oc-title">Les Bénéfices</div>
+                                <div class="web-oc-desc">
+                                    Moins de corrections pour les équipes, un reporting enfin exploitable
+                                    pour les managers, et une donnée analytique fiable à chaque saisie.
+                                </div>
+                                <ul class="web-oc-list">
+                                    <li>✓ Utilisateurs : gain de temps, données fiabilisées</li>
+                                    <li>✓ Managers : reporting exploitable, contrôle budgétaire renforcé</li>
+                                    <li>✓ Conformité : Source Projet obligatoire à la saisie</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ═══ CTA FINAL ═══ -->
+                <section class="web-cta-final">
+                    <div class="dp-inner web-cta-inner">
+                        <h2 class="web-cta-title">
+                            Votre prochain site web ?<br/>
+                            <span class="web-cta-em">On commence par un audit gratuit.</span>
+                        </h2>
+                        <p class="web-cta-sub">Devis sous 24h · Design sur mesure</p>
+                        <div class="web-cta-btns">
+                            <button class="web-cta-btn-p" onclick="window.location='/contact'">🌐 Devis site gratuit</button>
+                            <button class="web-cta-btn-g" onclick="window.open('https://wa.me/21698631289','_blank')">💬 WhatsApp direct</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─── FOOTER ─── -->
+                <t t-call="datapro_website.dp_footer"/>
+
+            </div><!-- /.dp-page -->
+        </t>
+    </template>
+
+    <record id="website_page_sites_web" model="website.page">
+        <field name="name">Data Pro — Sites Web &amp; E-commerce Odoo</field>
+        <field name="url">/sites-web</field>
+        <field name="view_id" ref="datapro_website.page_sites_web"/>
+        <field name="website_indexed" eval="True"/>
+        <field name="is_published" eval="True"/>
+    </record>
+
+</odoo>

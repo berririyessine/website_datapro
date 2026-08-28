@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════
+         PAGE CONTACT
+         URL : /contact
+    ══════════════════════════════════════════════════ -->
+    <template id="page_contact" name="Data Pro — Contact">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'contact'"/>
+
+            <div class="dp-page">
+
+                <!-- ─── TOPBAR ─── -->
+                <div class="dp-topbar">
+                    <span>📞 <strong>Réponse garantie sous 24h</strong> · Audit gratuit · Sans engagement</span>
+                    <button class="dp-tb-cta" onclick="window.open('https://wa.me/21698631289','_blank')">
+                        💬 WhatsApp →
+                    </button>
+                </div>
+
+                <!-- ─── HEADER ─── -->
+                <header class="dp-header">
+                    <a href="/datapro-home" class="dp-logo">
+                        <t t-call="datapro_website.dp_logo_img"/>
+                    </a>
+                    <nav class="dp-hnav">
+                        <a class="dp-hn-link" href="/datapro-home">Accueil</a>
+                        <a class="dp-hn-link" href="/services">Services</a>
+                        <a class="dp-hn-link" href="/odoo-consultant">Odoo</a>
+                        <a class="dp-hn-link" href="/ia-automation">IA &amp; Auto</a>
+                        <a class="dp-hn-link" href="/developpement">Dev</a>
+                        <a class="dp-hn-link" href="/sites-web">Sites Web</a>
+                        <a class="dp-hn-link" href="/projets-clients">Projets</a>
+                        <a class="dp-hn-link" href="/recrutement">Recrutement</a>
+                        <!-- ─────────────────────────────────────
+                             SÉLECTEUR DE LANGUE (FR / EN / AR)
+                             Convention Odoo website_multilang : la langue par
+                             défaut (fr) n'a pas de préfixe d'URL, les autres
+                             langues sont préfixées par leur url_code (/en/…, /ar/…).
+                             Ces liens ne basculeront réellement de langue qu'une
+                             fois en_US et ar activées et assignées au site dans
+                             Réglages > Traductions.
+                        ───────────────────────────────────── -->
+                        <t t-set="dp_lang_current" t-value="request.env.context.get('lang', 'fr_FR')"/>
+                        <t t-set="dp_lang_path" t-value="request.httprequest.path"/>
+                        <t t-set="dp_lang_base" t-value="dp_lang_path"/>
+                        <t t-foreach="['en', 'ar']" t-as="dp_pref">
+                            <t t-if="dp_lang_path == '/%s' % dp_pref">
+                                <t t-set="dp_lang_base" t-value="'/'"/>
+                            </t>
+                            <t t-elif="dp_lang_path.startswith('/%s/' % dp_pref)">
+                                <t t-set="dp_lang_base" t-value="dp_lang_path[len(dp_pref) + 1:]"/>
+                            </t>
+                        </t>
+                        <div class="dp-lang-switch" role="group" aria-label="Sélecteur de langue">
+                            <a t-att-href="dp_lang_base"
+                               hreflang="fr"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('fr') else ''}">FR</a>
+                            <a t-att-href="'/en' + dp_lang_base"
+                               hreflang="en"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('en') else ''}">EN</a>
+                            <a t-att-href="'/ar' + dp_lang_base"
+                               hreflang="ar"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('ar') else ''}">AR</a>
+                        </div>
+
+                    </nav>
+                </header>
+
+                <!-- ─── BARRE FLOTTANTE — WhatsApp + Formulaire ─── -->
+                <div class="dp-float-bar">
+                    <button class="dp-float-wa" onclick="window.open('https://wa.me/21698631289','_blank')">
+                        <span>💬</span> +216 98 631 289
+                    </button>
+                    <button class="dp-float-cta" onclick="document.querySelector('.ct-form-section').scrollIntoView({behavior:'smooth'})">
+                        <span>📋</span> Formulaire de contact
+                    </button>
+                </div>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 1 — HERO CONTACT
+                ══════════════════════════════════════ -->
+                <section class="ct-hero">
+                    <div class="ct-hero-bg"/>
+                    <div class="dp-inner ct-hero-inner">
+                        <div class="ct-hero-left">
+                            <div class="dp-eyebrow">Contact &amp; Devis</div>
+                            <h1 class="ct-hero-title">
+                                Parlons de<br/>
+                                <span class="ct-em-teal">votre projet.</span>
+                            </h1>
+                            <p class="ct-hero-sub">
+                                Audit gratuit · Devis sous 24h · Aucun engagement.
+                            </p>
+                            <div class="ct-contact-cards">
+
+                                <a class="ct-cc ct-cc-wa" href="https://wa.me/21698631289" target="_blank">
+                                    <div class="ct-cc-ico">💬</div>
+                                    <div>
+                                        <div class="ct-cc-t">WhatsApp</div>
+                                        <div class="ct-cc-s">+216 98 631 289 — Réponse immédiate</div>
+                                    </div>
+                                    <div class="ct-cc-arr">→</div>
+                                </a>
+
+                                <a class="ct-cc ct-cc-mail" href="mailto:direction.datapro@gmail.com">
+                                    <div class="ct-cc-ico">📧</div>
+                                    <div>
+                                        <div class="ct-cc-t">Email</div>
+                                        <div class="ct-cc-s">direction.datapro@gmail.com — Sous 24h</div>
+                                    </div>
+                                    <div class="ct-cc-arr">→</div>
+                                </a>
+
+                                <a class="ct-cc ct-cc-ln" href="https://www.linkedin.com/in/yessine-berriri" target="_blank">
+                                    <div class="ct-cc-ico">💼</div>
+                                    <div>
+                                        <div class="ct-cc-t">LinkedIn</div>
+                                        <div class="ct-cc-s">Yessine Berriri — Data Pro Technologie</div>
+                                    </div>
+                                    <div class="ct-cc-arr">→</div>
+                                </a>
+
+                                <div class="ct-cc ct-cc-loc">
+                                    <div class="ct-cc-ico">📍</div>
+                                    <div>
+                                        <div class="ct-cc-t">Basé à Sousse, Tunisie</div>
+                                        <div class="ct-cc-s">UTC+1/+2 · Déplacement possible</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- ─── PANEL INFOS RAPIDES ─── -->
+                        <div class="ct-info-panel">
+                            <div class="ct-ip-title">🚀 Audit gratuit</div>
+                            <div class="ct-ip-sub">Sans engagement · Réponse sous 24h</div>
+                            <div class="ct-ip-items">
+                                <div class="ct-ip-item">
+                                    <div class="ct-ip-ico">🔍</div>
+                                    <div>
+                                        <div class="ct-ip-t">Audit Odoo offert</div>
+                                        <div class="ct-ip-s">Analyse de votre installation existante, identification des points de friction</div>
+                                    </div>
+                                </div>
+                                <div class="ct-ip-item">
+                                    <div class="ct-ip-ico">📋</div>
+                                    <div>
+                                        <div class="ct-ip-t">Devis précis sous 24h</div>
+                                        <div class="ct-ip-s">Chiffrage par sprint, pas de mauvaises surprises</div>
+                                    </div>
+                                </div>
+                                <div class="ct-ip-item">
+                                    <div class="ct-ip-ico">🤝</div>
+                                    <div>
+                                        <div class="ct-ip-t">Sans engagement</div>
+                                        <div class="ct-ip-s">Vous restez libre. Pas de contrat avant votre validation</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ct-ip-trust">
+                                <span>✅ PMP Certifié</span>
+                                <span>✅ Odoo 18 en prod</span>
+                                <span>✅ 50+ projets</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 2 — FORMULAIRE COMPLET
+                ══════════════════════════════════════ -->
+                <section class="ct-form-section">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Formulaire de contact</div>
+                        <div class="dp-sec-title">Décrivez votre projet</div>
+                        <div class="dp-sec-sub">
+                            Plus vous êtes précis, plus notre réponse sera pertinente et rapide.
+                        </div>
+
+                        <div class="ct-form-wrap">
+                            <form class="ct-form dp-contact-form" action="#" method="post">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                <div class="ct-form-row">
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Prénom &amp; Nom *</label>
+                                        <input class="ct-inp" name="name" placeholder="Jean Dupont" autocomplete="name" required="required"/>
+                                    </div>
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Société</label>
+                                        <input class="ct-inp" name="company" placeholder="Ma Société SAS"/>
+                                    </div>
+                                </div>
+
+                                <div class="ct-form-row">
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Email *</label>
+                                        <input class="ct-inp" name="email" type="email" placeholder="jean@masociete.fr" required="required"/>
+                                    </div>
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Téléphone / WhatsApp</label>
+                                        <input class="ct-inp" name="phone" placeholder="+33 6 XX XX XX XX"/>
+                                    </div>
+                                </div>
+
+                                <div class="ct-form-row ct-row-full">
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Service souhaité *</label>
+                                        <select class="ct-sel" name="service" required="required">
+                                            <option value="">— Choisir un service —</option>
+                                            <option value="odoo_impl">🧩 Implémentation Odoo</option>
+                                            <option value="odoo_dev">🔧 Développement modules custom</option>
+                                            <option value="odoo_migration">📊 Migration Odoo (changement de version)</option>
+                                            <option value="odoo_audit">🔍 Audit de l'existant Odoo</option>
+                                            <option value="ia_auto">🤖 Automatisation &amp; IA (n8n, Zapier)</option>
+                                            <option value="analytics">📈 Analytics BigQuery + Looker Studio</option>
+                                            <option value="dev_web">💻 Application / API sur mesure</option>
+                                            <option value="site_web">🌐 Site web / E-commerce</option>
+                                            <option value="autre">❓ Autre (je décris ci-dessous)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="ct-form-row ct-row-half">
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Secteur d'activité</label>
+                                        <select class="ct-sel" name="secteur">
+                                            <option value="">— Votre secteur —</option>
+                                            <option>🛒 Commerce &amp; Distribution</option>
+                                            <option>🏭 Industrie &amp; Manufacturing</option>
+                                            <option>🚚 Transport &amp; Logistique</option>
+                                            <option>🔧 Services &amp; Consulting</option>
+                                            <option>🏗 BTP &amp; Construction</option>
+                                            <option>🌾 Agroalimentaire</option>
+                                            <option>🏥 Santé &amp; RH</option>
+                                            <option>💻 Tech &amp; SaaS</option>
+                                        </select>
+                                    </div>
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Budget estimé</label>
+                                        <select class="ct-sel" name="budget">
+                                            <option value="">— Fourchette budget —</option>
+                                            <option>Moins de 2 000 €</option>
+                                            <option>2 000 – 5 000 €</option>
+                                            <option>5 000 – 15 000 €</option>
+                                            <option>15 000 – 50 000 €</option>
+                                            <option>Plus de 50 000 €</option>
+                                            <option>À définir ensemble</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="ct-form-row ct-row-full">
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Description du projet *</label>
+                                        <textarea class="ct-textarea" name="description"
+                                                  rows="5"
+                                                  placeholder="Décrivez votre besoin : contexte, fonctionnalités souhaitées, délais, contraintes techniques..."
+                                                  required="required"/>
+                                    </div>
+                                </div>
+
+                                <div class="ct-form-row ct-row-full">
+                                    <div class="ct-field">
+                                        <label class="ct-lbl">Vous utilisez déjà Odoo ?</label>
+                                        <div class="ct-radio-row">
+                                            <label class="ct-radio-lbl">
+                                                <input type="radio" name="odoo_existing" value="oui"/> Oui — version :
+                                                <input class="ct-inp-inline" name="odoo_version" placeholder="ex: Odoo 16"/>
+                                            </label>
+                                            <label class="ct-radio-lbl">
+                                                <input type="radio" name="odoo_existing" value="non"/> Non
+                                            </label>
+                                            <label class="ct-radio-lbl">
+                                                <input type="radio" name="odoo_existing" value="autre_erp"/> Autre ERP :
+                                                <input class="ct-inp-inline" name="other_erp" placeholder="ex: Sage X3"/>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="ct-form-footer">
+                                    <div class="ct-rgpd">
+                                        🔒 Vos données sont confidentielles et ne seront jamais partagées.
+                                        Réponse sous 24h garantie.
+                                    </div>
+                                    <button class="ct-submit-btn" data-action="dp-submit" type="button">
+                                        🚀 Envoyer ma demande
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 3 — RÉASSURANCE
+                ══════════════════════════════════════ -->
+                <div class="dp-rea">
+                    <div class="dp-rea-inner">
+                        <div class="dp-rea-item">
+                            <div class="dp-rea-ico">🏆</div>
+                            <div>
+                                <div class="dp-rea-title">PMP Certifié</div>
+                                <div class="dp-rea-sub">Gestion de projet professionnelle</div>
+                            </div>
+                        </div>
+                        <div class="dp-rea-item">
+                            <div class="dp-rea-ico">🔧</div>
+                            <div>
+                                <div class="dp-rea-title">Odoo v12 → v19</div>
+                                <div class="dp-rea-sub">Toutes versions maîtrisées</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ─── FOOTER ─── -->
+                <t t-call="datapro_website.dp_footer"/>
+
+            </div><!-- /.dp-page -->
+        </t>
+    </template>
+
+    <record id="website_page_contact" model="website.page">
+        <field name="name">Data Pro — Contact &amp; Devis</field>
+        <field name="url">/contact</field>
+        <field name="view_id" ref="datapro_website.page_contact"/>
+        <field name="website_indexed" eval="True"/>
+        <field name="is_published" eval="True"/>
+    </record>
+
+</odoo>

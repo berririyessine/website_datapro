@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════
+         PAGE SERVICES
+         URL : /services
+    ══════════════════════════════════════════════════ -->
+    <template id="page_services" name="Data Pro — Services">
+        <t t-call="website.layout">
+            <t t-set="pageName" t-value="'services'"/>
+
+            <div class="dp-page">
+
+                <!-- ─── TOPBAR ─── -->
+                <div class="dp-topbar">
+                    <span><strong>50+ projets livrés</strong> · Réponse sous 24h</span>
+                    <button class="dp-tb-cta" onclick="window.location='/contact'">Devis gratuit →</button>
+                </div>
+
+                <!-- ─── HEADER ─── -->
+                <header class="dp-header">
+                    <a href="/datapro-home" class="dp-logo">
+                        <t t-call="datapro_website.dp_logo_img"/>
+                    </a>
+                    <nav class="dp-hnav">
+                        <a class="dp-hn-link" href="/datapro-home">Accueil</a>
+                        <a class="dp-hn-link active" href="/services">Services</a>
+                        <a class="dp-hn-link" href="/odoo-consultant">Odoo</a>
+                        <a class="dp-hn-link" href="/ia-automation">IA &amp; Auto</a>
+                        <a class="dp-hn-link" href="/developpement">Dev</a>
+                        <a class="dp-hn-link" href="/sites-web">Sites Web</a>
+                        <a class="dp-hn-link" href="/projets-clients">Projets</a>
+                        <a class="dp-hn-link" href="/recrutement">Recrutement</a>
+                        <!-- ─────────────────────────────────────
+                             SÉLECTEUR DE LANGUE (FR / EN / AR)
+                             Convention Odoo website_multilang : la langue par
+                             défaut (fr) n'a pas de préfixe d'URL, les autres
+                             langues sont préfixées par leur url_code (/en/…, /ar/…).
+                             Ces liens ne basculeront réellement de langue qu'une
+                             fois en_US et ar activées et assignées au site dans
+                             Réglages > Traductions.
+                        ───────────────────────────────────── -->
+                        <t t-set="dp_lang_current" t-value="request.env.context.get('lang', 'fr_FR')"/>
+                        <t t-set="dp_lang_path" t-value="request.httprequest.path"/>
+                        <t t-set="dp_lang_base" t-value="dp_lang_path"/>
+                        <t t-foreach="['en', 'ar']" t-as="dp_pref">
+                            <t t-if="dp_lang_path == '/%s' % dp_pref">
+                                <t t-set="dp_lang_base" t-value="'/'"/>
+                            </t>
+                            <t t-elif="dp_lang_path.startswith('/%s/' % dp_pref)">
+                                <t t-set="dp_lang_base" t-value="dp_lang_path[len(dp_pref) + 1:]"/>
+                            </t>
+                        </t>
+                        <div class="dp-lang-switch" role="group" aria-label="Sélecteur de langue">
+                            <a t-att-href="dp_lang_base"
+                               hreflang="fr"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('fr') else ''}">FR</a>
+                            <a t-att-href="'/en' + dp_lang_base"
+                               hreflang="en"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('en') else ''}">EN</a>
+                            <a t-att-href="'/ar' + dp_lang_base"
+                               hreflang="ar"
+                               t-attf-class="dp-lang-btn #{'dp-lang-active' if dp_lang_current.startswith('ar') else ''}">AR</a>
+                        </div>
+
+                    </nav>
+                </header>
+
+                <!-- ─── BARRE FLOTTANTE — WhatsApp + Devis gratuit ─── -->
+                <div class="dp-float-bar">
+                    <button class="dp-float-wa" onclick="window.open('https://wa.me/21698631289','_blank')">
+                        <span>💬</span> WhatsApp
+                    </button>
+                    <button class="dp-float-cta" onclick="window.location='/contact'">
+                        <span>🚀</span> Devis gratuit
+                    </button>
+                </div>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 1 — HERO
+                ══════════════════════════════════════ -->
+                <section class="svc-hero">
+                    <div class="dp-inner svc-hero-inner">
+                        <div class="svc-hero-left">
+                            <div class="dp-eyebrow">Nos services</div>
+                            <h1 class="svc-hero-title">
+                                Des solutions digitales<br/>
+                                qui font vraiment<br/>
+                                <span class="svc-em-teal">la différence</span>
+                            </h1>
+                            <p class="svc-hero-sub">
+                                Chaque service est conçu pour résoudre un vrai problème business —
+                                pas du digital pour faire du digital.
+                            </p>
+                            <div class="svc-hero-badges">
+                                <span class="svc-hbadge">✅ 100% personnalisé</span>
+                                <span class="svc-hbadge">🏆 Expertise prouvée</span>
+                                <span class="svc-hbadge">📊 ROI mesurable</span>
+                            </div>
+                        </div>
+                        <div class="svc-hero-right">
+                            <div class="svc-kpi">
+                                <div class="svc-kpi-val">50+</div>
+                                <div>
+                                    <div class="svc-kpi-t">Projets livrés</div>
+                                    <div class="svc-kpi-s">ERP, Odoo, IA, Web</div>
+                                </div>
+                            </div>
+                            <div class="svc-kpi">
+                                <div class="svc-kpi-val">95%</div>
+                                <div>
+                                    <div class="svc-kpi-t">Clients satisfaits</div>
+                                    <div class="svc-kpi-s">Note moyenne 4.9/5</div>
+                                </div>
+                            </div>
+                            <div class="svc-kpi">
+                                <div class="svc-kpi-val">24h</div>
+                                <div>
+                                    <div class="svc-kpi-t">Délai de réponse</div>
+                                    <div class="svc-kpi-s">Support garanti</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 2 — FILTRE SERVICES
+                ══════════════════════════════════════ -->
+                <div class="svc-filter-bar">
+                    <button class="svc-ftab svc-on" data-filter="all">Tous</button>
+                    <button class="svc-ftab" data-filter="erp">🧩 ERP &amp; Odoo</button>
+                    <button class="svc-ftab" data-filter="ia">🤖 IA &amp; Automation</button>
+                    <button class="svc-ftab" data-filter="dev">💻 Développement</button>
+                    <button class="svc-ftab" data-filter="web">🌐 Web &amp; Apps</button>
+                </div>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 3 — CARTES SERVICES
+                ══════════════════════════════════════ -->
+                <section class="svc-cards-section">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Ce que nous faisons</div>
+                        <div class="dp-sec-title">Nos 4 expertises principales</div>
+
+                        <div class="svc-cards-grid">
+
+                            <!-- ERP -->
+                            <div class="svc-big-card dp-reveal" data-cat="erp">
+                                <div class="svc-bc-strip svc-s-teal"/>
+                                <div class="svc-bc-top">
+                                    <div class="svc-bc-ico svc-ico-teal">🧩</div>
+                                    <span class="svc-bc-badge svc-b-teal">⭐ Best-seller</span>
+                                </div>
+                                <div class="svc-bc-body">
+                                    <div class="svc-bc-title">Solution ERP Personnalisée</div>
+                                    <div class="svc-bc-desc">
+                                        Un ERP conçu pour votre métier, pas un logiciel générique qu'on vous impose.
+                                        Finance, CRM, RH, GPAO, GMAO — chaque module s'adapte à vos vrais processus.
+                                    </div>
+                                    <ul class="svc-bc-list">
+                                        <li><span class="svc-check">✓</span>Analyse approfondie de vos besoins métier</li>
+                                        <li><span class="svc-check">✓</span>Développement sur mesure, aucun compromis</li>
+                                        <li><span class="svc-check">✓</span>Formation complète de vos équipes</li>
+                                        <li><span class="svc-check">✓</span>Support &amp; maintenance inclus 3 mois</li>
+                                    </ul>
+                                    <div class="svc-bc-tags">
+                                        <span class="svc-bc-tag">ERP</span>
+                                        <span class="svc-bc-tag">Python</span>
+                                        <span class="svc-bc-tag">PostgreSQL</span>
+                                        <span class="svc-bc-tag">Odoo</span>
+                                    </div>
+                                    <a class="svc-bc-cta svc-cta-teal" href="/contact">Demander un devis →</a>
+                                </div>
+                            </div>
+
+                            <!-- ODOO -->
+                            <div class="svc-big-card dp-reveal" data-cat="erp">
+                                <div class="svc-bc-strip svc-s-violet"/>
+                                <div class="svc-bc-top">
+                                    <div class="svc-bc-ico svc-ico-violet">🔧</div>
+                                    <span class="svc-bc-badge svc-b-violet">Expert Certifié</span>
+                                </div>
+                                <div class="svc-bc-body">
+                                    <div class="svc-bc-title">Consultant &amp; Intégrateur Odoo</div>
+                                    <div class="svc-bc-desc">
+                                        Expert Odoo v12 à v19. Votre Odoo existant sous-exploité ? On l'optimise.
+                                        Pas encore d'Odoo ? On l'implémente de A à Z sans perte de données.
+                                    </div>
+                                    <ul class="svc-bc-list">
+                                        <li><span class="svc-check">✓</span>Audit gratuit de l'existant offert</li>
+                                        <li><span class="svc-check">✓</span>Migration sans perte de données garantie</li>
+                                        <li><span class="svc-check">✓</span>Modules custom selon vos spécificités</li>
+                                        <li><span class="svc-check">✓</span>Formation &amp; support post-déploiement</li>
+                                    </ul>
+                                    <div class="svc-bc-tags">
+                                        <span class="svc-bc-tag">Odoo 17/18</span>
+                                        <span class="svc-bc-tag">Migration</span>
+                                        <span class="svc-bc-tag">Odoo.sh</span>
+                                        <span class="svc-bc-tag">Docker</span>
+                                    </div>
+                                    <a class="svc-bc-cta svc-cta-violet" href="/odoo-consultant">Audit gratuit →</a>
+                                </div>
+                            </div>
+
+                            <!-- IA -->
+                            <div class="svc-big-card dp-reveal" data-cat="ia">
+                                <div class="svc-bc-strip svc-s-blue"/>
+                                <div class="svc-bc-top">
+                                    <div class="svc-bc-ico svc-ico-blue">🤖</div>
+                                    <span class="svc-bc-badge svc-b-new">🔥 Nouveau</span>
+                                </div>
+                                <div class="svc-bc-body">
+                                    <div class="svc-bc-title">IA &amp; Automatisation</div>
+                                    <div class="svc-bc-desc">
+                                        Vos tâches répétitives gérées automatiquement. Vos données transformées en insights.
+                                        Vos équipes libérées pour ce qui crée vraiment de la valeur.
+                                    </div>
+                                    <ul class="svc-bc-list">
+                                        <li><span class="svc-check">✓</span>Agents IA personnalisés pour votre métier</li>
+                                        <li><span class="svc-check">✓</span>Automatisation workflows n8n / Zapier</li>
+                                        <li><span class="svc-check">✓</span>Analytics BigQuery + Looker Studio</li>
+                                        <li><span class="svc-check">✓</span>POC en 2 semaines, ROI dès le 1er mois</li>
+                                    </ul>
+                                    <div class="svc-bc-tags">
+                                        <span class="svc-bc-tag">n8n</span>
+                                        <span class="svc-bc-tag">Claude API</span>
+                                        <span class="svc-bc-tag">BigQuery</span>
+                                        <span class="svc-bc-tag">Looker Studio</span>
+                                    </div>
+                                    <a class="svc-bc-cta svc-cta-blue" href="/ia-automation">Démo IA gratuite →</a>
+                                </div>
+                            </div>
+
+                            <!-- DEV -->
+                            <div class="svc-big-card dp-reveal" data-cat="dev">
+                                <div class="svc-bc-strip svc-s-navy"/>
+                                <div class="svc-bc-top">
+                                    <div class="svc-bc-ico svc-ico-navy">💻</div>
+                                    <span class="svc-bc-badge svc-b-navy">Développement</span>
+                                </div>
+                                <div class="svc-bc-body">
+                                    <div class="svc-bc-title">Développement Spécifique</div>
+                                    <div class="svc-bc-desc">
+                                        Quand aucun logiciel du marché ne répond exactement à votre besoin —
+                                        on construit la solution sur mesure, qu'il s'agisse d'une app web, d'une API ou d'un connecteur ERP.
+                                    </div>
+                                    <ul class="svc-bc-list">
+                                        <li><span class="svc-check">✓</span>Applications web &amp; mobile métier</li>
+                                        <li><span class="svc-check">✓</span>Connecteurs &amp; APIs REST entre systèmes</li>
+                                        <li><span class="svc-check">✓</span>Modules Odoo sur mesure</li>
+                                        <li><span class="svc-check">✓</span>Intégrations tiers (Stripe, GLS, Amazon...)</li>
+                                    </ul>
+                                    <div class="svc-bc-tags">
+                                        <span class="svc-bc-tag">Python</span>
+                                        <span class="svc-bc-tag">REST API</span>
+                                        <span class="svc-bc-tag">React</span>
+                                        <span class="svc-bc-tag">PostgreSQL</span>
+                                    </div>
+                                    <a class="svc-bc-cta svc-cta-navy" href="/developpement">En savoir plus →</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 4 — MÉTHODOLOGIE
+                ══════════════════════════════════════ -->
+                <section class="svc-method">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Notre approche</div>
+                        <div class="dp-sec-title">5 étapes pour réussir votre projet</div>
+                        <div class="svc-method-row dp-reveal">
+                            <div class="svc-mstep">
+                                <div class="svc-ms-ico">🔍</div>
+                                <div class="svc-ms-t">Analyse</div>
+                                <div class="svc-ms-s">Audit gratuit, compréhension de votre métier</div>
+                            </div>
+                            <div class="svc-ms-arrow">→</div>
+                            <div class="svc-mstep">
+                                <div class="svc-ms-ico">🗂</div>
+                                <div class="svc-ms-t">Conception</div>
+                                <div class="svc-ms-s">Maquettes, architecture, devis transparent</div>
+                            </div>
+                            <div class="svc-ms-arrow">→</div>
+                            <div class="svc-mstep">
+                                <div class="svc-ms-ico">⚙️</div>
+                                <div class="svc-ms-t">Développement</div>
+                                <div class="svc-ms-s">Cycles agiles avec validation régulière</div>
+                            </div>
+                            <div class="svc-ms-arrow">→</div>
+                            <div class="svc-mstep">
+                                <div class="svc-ms-ico">🚀</div>
+                                <div class="svc-ms-t">Déploiement</div>
+                                <div class="svc-ms-s">Mise en prod sans interruption</div>
+                            </div>
+                            <div class="svc-ms-arrow">→</div>
+                            <div class="svc-mstep">
+                                <div class="svc-ms-ico">🎓</div>
+                                <div class="svc-ms-t">Formation</div>
+                                <div class="svc-ms-s">Équipes autonomes, support continu</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ══════════════════════════════════════
+                     ZONE 5 — STACK TECHNOLOGIQUE
+                ══════════════════════════════════════ -->
+                <section class="svc-tech">
+                    <div class="dp-inner">
+                        <div class="dp-eyebrow">Stack technologique</div>
+                        <div class="dp-sec-title">Nos outils maîtrisés</div>
+                        <div class="svc-tech-grid dp-reveal">
+                            <div class="svc-tc"><div class="svc-tc-ico">🐍</div><div class="svc-tc-name">Python</div><div class="svc-tc-cat">Backend</div></div>
+                            <div class="svc-tc"><div class="svc-tc-ico">🧩</div><div class="svc-tc-name">Odoo</div><div class="svc-tc-cat">v12–v19</div></div>
+                            <div class="svc-tc"><div class="svc-tc-ico">🐘</div><div class="svc-tc-name">PostgreSQL</div><div class="svc-tc-cat">Base de données</div></div>
+                            <div class="svc-tc"><div class="svc-tc-ico">⚙️</div><div class="svc-tc-name">n8n</div><div class="svc-tc-cat">Automation</div></div>
+                            <div class="svc-tc"><div class="svc-tc-ico">📊</div><div class="svc-tc-name">BigQuery</div><div class="svc-tc-cat">Analytics</div></div>
+                            <div class="svc-tc"><div class="svc-tc-ico">🤖</div><div class="svc-tc-name">Claude API</div><div class="svc-tc-cat">IA Générative</div></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ─── FOOTER ─── -->
+                <t t-call="datapro_website.dp_footer"/>
+
+            </div><!-- /.dp-page -->
+        </t>
+    </template>
+
+    <record id="website_page_services" model="website.page">
+        <field name="name">Data Pro — Nos Services</field>
+        <field name="url">/services</field>
+        <field name="view_id" ref="datapro_website.page_services"/>
+        <field name="website_indexed" eval="True"/>
+        <field name="is_published" eval="True"/>
+    </record>
+
+</odoo>
